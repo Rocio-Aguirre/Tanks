@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1635983293 source:c:\desktop\roescritorio\segundo cuatrimestre 2021\programación 2\tanks\main.cpp
+1636080371 source:c:\desktop\roescritorio\segundo cuatrimestre 2021\programación 2\tanks\main.cpp
 	<SFML/Graphics.hpp>
 	<iostream>
 	"gameplay.h"
@@ -417,7 +417,7 @@
 	"tanque.h"
 	"bloque.h"
 
-1635985728 c:\desktop\roescritorio\segundo cuatrimestre 2021\programación 2\tanks\tanque.h
+1636080277 c:\desktop\roescritorio\segundo cuatrimestre 2021\programación 2\tanks\tanque.h
 
 1635904046 c:\desktop\roescritorio\segundo cuatrimestre 2021\programación 2\tanks\bloque.h
 
