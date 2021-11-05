@@ -14,6 +14,7 @@ int main()
     ///gameloop
     while(window.isOpen()){
             /// a la bu rar
+            ///holis
         //cmd(): eventos o comandos (dato de entrada)
         //update(): donde procesa la info (proceso)
         //draw(): dibujado de lo que procesó (dato de salida)
