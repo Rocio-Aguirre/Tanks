@@ -38,7 +38,14 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
+			<Add directory="SFML/include" />
 		</Compiler>
+		<Linker>
+			<Add library="sfml-graphics" />
+			<Add library="sfml-window" />
+			<Add library="sfml-system" />
+			<Add directory="SFML/lib" />
+		</Linker>
 		<Unit filename="bloque.h" />
 		<Unit filename="gameplay.h" />
 		<Unit filename="main.cpp" />

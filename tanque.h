@@ -6,7 +6,7 @@ enum ESTADOS_TANQUE {
         CAMINANDO_ADELANTE,
         CAMINANDO_ATRAS,
         CAMINANDO_ARRIBA,
-        CAMINANDO_ABAJO
+        CAMINANDO_ABAJO,
 };
 
 class Tanque{
