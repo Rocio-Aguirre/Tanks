@@ -50,6 +50,8 @@
 		<Unit filename="bullet.h" />
 		<Unit filename="gameplay.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="object.h" />
+		<Unit filename="spriteconfig.h" />
 		<Unit filename="tanque.h" />
 		<Extensions>
 			<code_completion />

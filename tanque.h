@@ -1,95 +1,81 @@
 #ifndef TANQUE_H_INCLUDED
 #define TANQUE_H_INCLUDED
 
-enum ESTADOS_TANQUE {
-        QUIETO,
-        CAMINANDO_ADELANTE,
-        CAMINANDO_ATRAS,
-        CAMINANDO_ARRIBA,
-        CAMINANDO_ABAJO,
-};
+#include <SFML/Graphics.hpp>
 
 class Tanque{
 private:
-    //sf::CircleShape _tank;
-    ESTADOS_TANQUE _estado;
-    sf::Texture _texture;
-    sf::Sprite _tank;
+    enum ESTADOS_TANK{
+        QUIETO,
+        DERECHA,
+        IZQUIERDA,
+        ABAJO,
+        ARRIBA,
+        DISPARO,
+    };
+    sf::RectangleShape _shape;
+    sf::Texture * texture_;
+    sf::Sprite * sprite_;
+    int _estado;
 public:
-    void cmd();
-    void update();
-    //sf::CircleShape& getDraw();
-    Tanque();
-    void quieto(float x, float y);
-    sf::Texture& getTexture();
-    sf::Sprite& getDraw();
-};
 
+    tank(){
 
-void Tanque::cmd(){
+        texture_ = new sf::Texture;
+        texture_->loadFromFile("recursos/enemy_a.png");
+
+        ///_shape.setSize(sf::Vector2f(40.f, 40.f));
+        ///_shape.setPosition(10,10);
+        ///_shape.setTexture(&TANK_A);
+
+        sprite_ = new sf::Sprite(*texture_);
+
+        sprite_->setPosition(200,200);
+
+        sprite_->setOrigin(sprite_->getGlobalBounds().height/2,sprite_->getGlobalBounds().width/2);
+    }
+    void cmd(){
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)){
-                _estado = ESTADOS_TANQUE::CAMINANDO_ADELANTE;
+            _estado = DERECHA;
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)){
-                _estado = ESTADOS_TANQUE::CAMINANDO_ATRAS;
+            _estado = IZQUIERDA;
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)){
-                _estado = ESTADOS_TANQUE::CAMINANDO_ARRIBA;
+            _estado = ARRIBA;
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::S)){
-            _estado = ESTADOS_TANQUE::CAMINANDO_ABAJO;
+           _estado = ABAJO;
         }
-}
-
-void Tanque::update(){
-    switch(_estado){
+    }
+    void update(){
+        switch(_estado){
     case QUIETO:
         break;
-    case CAMINANDO_ADELANTE:
-        _tank.move(2,0);
-        _estado = ESTADOS_TANQUE::QUIETO;
+    case DERECHA:
+        sprite_->setRotation(90);
+        sprite_->move(1,0);
+        _estado = QUIETO;
         break;
-    case CAMINANDO_ATRAS:
-        _tank.move(-2,0);
-        _estado = ESTADOS_TANQUE::QUIETO;
+    case IZQUIERDA:
+        sprite_->setRotation(-90);
+        sprite_->move(-1,0);
+        _estado = QUIETO;
         break;
-    case CAMINANDO_ARRIBA:
-        _tank.move(0,-2);
-        _estado = ESTADOS_TANQUE::QUIETO;
+    case ARRIBA:
+        sprite_->setRotation(0);
+        sprite_->move(0,-1);
+        _estado = QUIETO;
         break;
-    case CAMINANDO_ABAJO:
-        _tank.move(0,2);
-        _estado = ESTADOS_TANQUE::QUIETO;
+    case ABAJO:
+        sprite_->setRotation(180);
+        sprite_->move(0,1);
+        _estado = QUIETO;
+        break;
     default:
         break;
+        }
     }
-}
-/*
-sf::CircleShape& Tanque::getDraw(){
-    return _tank;
-}
-*/
-sf::Sprite& Tanque::getDraw(){
-    return _tank;
-}
-
-sf::Texture& Tanque::getTexture(){
-    return _texture;
-}
-
-Tanque::Tanque(){
-    //_tank.setFillColor(sf::Color::Green);
-    //_tank.setRadius(30);
-    _tank.setPosition(20,500);
-    _estado = ESTADOS_TANQUE::QUIETO;
-    _texture.loadFromFile("tanque.jpg");
-    _tank.setTexture(_texture);
-    _tank.setScale(0.3, 0.3);
-}
-
-void Tanque::quieto(float x, float y){
-    _estado = ESTADOS_TANQUE::QUIETO;
-    _tank.setPosition(x,y);
-}
-
+    sf::Sprite& getDraw(){return * sprite_;}
+};
 #endif // TANQUE_H_INCLUDED
