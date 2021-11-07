@@ -6,7 +6,7 @@
 
 class Gameplay{
 private:
-    Tanque tan;
+    Tanque tan[2];
     Bloque b;
 public:
     void cmd();
@@ -16,28 +16,36 @@ public:
 };
 
 void Gameplay::cmd(){
-    tan.cmd();
+    tan[0].cmd();
+    tan[1].cmd();
     b.cmd();
 }
 
 void Gameplay::update(){
-    tan.update();
-    if(tan.getDraw().getPosition().y > 500){
-        tan.quieto(tan.getDraw().getPosition().x, 500);
+    for(int i=0; i<2;i++){
+        tan[i].update();
+        if(tan[i].getDraw().getPosition().y > 500){
+            tan[i].quieto(tan[i].getDraw().getPosition().x, 500);
+        }
+        b.update();
+        checkCollision();
     }
-    b.update();
-    checkCollision();
+
 }
 
 void Gameplay::draw(sf::RenderWindow & window){
-    window.draw(tan.getDraw());
+    window.draw(tan[0].getDraw());
+    window.draw(tan[1].getDraw());
     window.draw(b.getDraw());
 }
 
 void Gameplay::checkCollision(){
-    if(tan.getDraw().getGlobalBounds().intersects(b.getDraw().getGlobalBounds())){
-        tan.quieto(tan.getDraw().getPosition().x, tan.getDraw().getPosition().y);
+    for(int i=0; i<2; i++){
+        if(tan[i].getDraw().getGlobalBounds().intersects(b.getDraw().getGlobalBounds())){
+            tan[i].quieto(tan[i].getDraw().getPosition().x, tan[i].getDraw().getPosition().y);
+        }
     }
+
 }
 
 #endif // GAMEPLAY_H_INCLUDED
