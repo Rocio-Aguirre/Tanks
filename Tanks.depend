@@ -413,11 +413,14 @@
 	<SFML/Graphics/Drawable.hpp>
 	<SFML/Window/GlResource.hpp>
 
-1636315746 c:\desktop\roescritorio\segundo cuatrimestre 2021\programación 2\tanks\gameplay.h
+1636328752 c:\desktop\roescritorio\segundo cuatrimestre 2021\programación 2\tanks\gameplay.h
 	"tanque.h"
 	"bloque.h"
 
-1636314828 c:\desktop\roescritorio\segundo cuatrimestre 2021\programación 2\tanks\tanque.h
+1636329853 c:\desktop\roescritorio\segundo cuatrimestre 2021\programación 2\tanks\tanque.h
+	"bullet.h"
 
 1635904046 c:\desktop\roescritorio\segundo cuatrimestre 2021\programación 2\tanks\bloque.h
+
+1636331303 c:\desktop\roescritorio\segundo cuatrimestre 2021\programación 2\tanks\bullet.h
 

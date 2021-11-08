@@ -1,21 +1,24 @@
 #ifndef TANQUE_H_INCLUDED
 #define TANQUE_H_INCLUDED
 
-enum ESTADOS_TANQUE {
+#include "bullet.h"
+
+class Tanque{
+private:
+    //sf::CircleShape _tank;
+    enum ESTADOS_TANQUE {
         QUIETO,
         CAMINANDO_ADELANTE,
         CAMINANDO_ATRAS,
         CAMINANDO_ARRIBA,
         CAMINANDO_ABAJO,
-};
-
-class Tanque{
-private:
-    //sf::CircleShape _tank;
+    };
     ESTADOS_TANQUE _estado;
     ESTADOS_TANQUE _estadoAnterior;
     sf::Texture _texture;
     sf::Sprite _tank;
+    Bullet _bullet;
+
 public:
     void cmd();
     void update();
@@ -40,6 +43,10 @@ void Tanque::cmd(){
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::S)){
             _estado = ESTADOS_TANQUE::CAMINANDO_ABAJO;
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::F)){
+            _bullet.setDisparando(true);
+            std::cout << "Disparando: " << _bullet.getDisparando() << std::endl;
         }
 }
 
@@ -76,6 +83,12 @@ void Tanque::update(){
         _estado = ESTADOS_TANQUE::QUIETO;
     default:
         break;
+    }
+
+    if(_bullet.getDisparando() == true){
+        std::cout << "disparooooo" << std::endl;
+        _bullet.getDraw();
+        _bullet.setDisparando(false);
     }
 }
 /*

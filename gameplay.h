@@ -27,10 +27,9 @@ void Gameplay::update(){
         if(tan[i].getDraw().getPosition().y > 500){
             tan[i].quieto(tan[i].getDraw().getPosition().x, 500);
         }
+    }
         b.update();
         checkCollision();
-    }
-
 }
 
 void Gameplay::draw(sf::RenderWindow & window){
