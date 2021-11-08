@@ -10,9 +10,9 @@ using namespace std;
 
 class object{
 private:
-    SpriteType ob_type;
+    SpriteType st_type;
 
-    const SpriteData* ob_sprite;
+    const SpriteData* sd_sprite;
 
     sf::Sprite * sp_sprite;
 
@@ -25,11 +25,9 @@ private:
     int rect_w;
 
 public:
-    /// incia todo en 0
     object();
-    /// crea el objeto con el sprite dado
-    // hacer una clase o forma para almacenar sprites
-    object(double x, double y, SpriteType s_type);
+    /// crea el objeto con el nombre del sprite dado
+    sf::Sprite * new_object(double x, double y, SpriteType s_type);
 
     void draw();
 
@@ -38,33 +36,37 @@ public:
 
 object::object(){
 
-    ob_type = ST_NONE;
+    st_type = ST_NONE;
 
 }
 
-object::object(double x, double y, SpriteType s_type){
+sf::Sprite * object::new_object(double x, double y, SpriteType s_type){
+    SpriteConfig config;
     sf::Texture * texture;
     texture->loadFromFile("resources/textures.png");
+
     /// establece donde colocar el objeto
 
     pos_x = x;
     pos_y = y;
 
-    /// obtenemos los datos del sprite dado por parametro
+    /// obtenemos los datos del sprite
 
-    ob_type = s_type;
-    ob_sprite = SpriteConfig().getData(s_type);
-    rect_x = SpriteConfig().getData(s_type)->d_sprite->getGlobalBounds().top;
-    rect_y = SpriteConfig().getData(s_type)->d_sprite->getGlobalBounds().left;
-    rect_w = SpriteConfig().getData(s_type)->d_sprite->getGlobalBounds().width;
-    rect_h = SpriteConfig().getData(s_type)->d_sprite->getGlobalBounds().height;
+    rect_x = SpriteConfig().getData(s_type)->x;
+    rect_y = SpriteConfig().getData(s_type)->y;
+    rect_w = SpriteConfig().getData(s_type)->w;
+    rect_h = SpriteConfig().getData(s_type)->h;
 
-    sp_sprite = new sf::Sprite(*texture,sf::IntRect(rect_x,rect_y,rect_w,rect_h));
+    //sp_sprite = new sf::Sprite(*texture,sf::IntRect(1,1,1,1));
+    //sp_sprite->setPosition(80,80);
+    cout << rect_x << " " << rect_y << " " << rect_w << " " << rect_h << " ";
+    //return sp_sprite;
 }
 
 void object::draw(){
-    //if(ob_type==ST_NONE) return;
-    //else{
-    //}
+    if(st_type==ST_NONE) return;
+    else{
+            /// Aún no terminado
+    }
 }
 #endif // OBJECT_H_INCLUDED

@@ -1,8 +1,6 @@
 #ifndef SPRITETYPES_H_INCLUDED
 #define SPRITETYPES_H_INCLUDED
 
-#include "gameplay.h"
-
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
@@ -18,22 +16,35 @@ enum SpriteType{
     ST_NONE,
 };
 
-struct SpriteData
-{
+class SpriteData{
+private:
+public:
+    int x;
+    int y;
+    int w;
+    int h;
     SpriteData(){
-        d_sprite->setTextureRect(sf::IntRect(0,0,0,0));
+         x=0; y=0; w=0; h=0;
         }
     SpriteData(int x, int y, int w, int h){
-        d_sprite->setTextureRect(sf::IntRect(x,y,w,h));
+        x=x; y=y; w=w; h=h;
     }
-    sf::Sprite * d_sprite = new sf::Sprite;
+    int getX(){return x;}
+    int getY(){return y;}
+    int getW(){return w;}
+    int getH(){return h;}
+
+    void setX(int x){this->x=x;}
+    void setY(int y){this->y=y;}
+    void setW(int w){this->w=w;}
+    void setH(int h){this->h=h;}
 };
 
 class SpriteConfig{
 private:
     //sf::Texture * texture;
     sf::Sprite * s_sprite;
-    std::map<SpriteType, ss_sprite> m_SpriteConfig;
+    std::map<SpriteType, SpriteData> m_SpriteConfig;
 
 public:
     SpriteConfig();
@@ -47,12 +58,13 @@ public:
 };
 
 void SpriteConfig::create(SpriteType sp_type, int x, int y, int w, int h){
-    sf::Texture * texture;
-    texture->loadFromFile("resources/textures.png");
-    sf::Sprite * map_sprite = new sf::Sprite(*texture,sf::IntRect(x,y,w,h));
-    m_SpriteConfig[sp_type] = map_sprite;
-    //m_SpriteConfig[sp_type] = SpriteData(x,y,w,h);
-
+    SpriteData datos;
+        datos.setX(x);
+        datos.setY(y);
+        datos.setW(w);
+        datos.setH(h);
+    ///m_SpriteConfig[sp_type] = SpriteData(x,y,w,h);
+    m_SpriteConfig[sp_type] = datos;
 
 }
 
@@ -61,7 +73,10 @@ const SpriteData* SpriteConfig::getData(SpriteType st){
 }
 
 SpriteConfig::SpriteConfig(){
-     /// creamos Sprites (nombre,x,y,alcho,alto)
+
+     /// creamos los Sprites (nombre,x,y,alcho,alto)
+
     create(ST_RED_BLOCK,3,5,15,13);
+    create(ST_YELLOW_TANK,3,208,20,28);
 }
 #endif // SPRITETYPES_H_INCLUDED

@@ -3,6 +3,7 @@
 
 #include "gameplay.h"
 #include "object.h"
+#include "spriteconfig.h"
 
 int main()
 {
@@ -13,17 +14,46 @@ int main()
     shape.setFillColor(sf::Color::Green);
 
     ///---
-    ///object Obj(20,20,ST_YELLOW_TANK);
+    object obj;
+
+    SpriteConfig * config = new SpriteConfig();
 
     sf::Texture * texture = new sf::Texture();
     texture->loadFromFile("resources/textures.png");
-    sf::Sprite * TANK_1 = new sf::Sprite(*texture,sf::IntRect(3,5,15,13));
 
-    std::cout << SpriteConfig().getData(ST_RED_BLOCK)->d_sprite->getGlobalBounds().height << std::endl;
+    sf::Sprite * TANK_1 = new sf::Sprite(*texture,sf::IntRect(70,5,15,13));
+
+    obj.new_object(3,3,ST_YELLOW_TANK);
+
+    ///
+    /*
+    /// establece donde colocar el objeto
+    const SpriteData* ob_sprite;
+    SpriteType s_type=ST_YELLOW_TANK;
+
+    int pos_x = 50;
+    int pos_y = 60;
+
+    /// obtenemos los datos del sprite dado por parametro
+
+    ob_sprite = SpriteConfig().getData(s_type);
+    int rect_x = SpriteConfig().getData(s_type)->x;
+    int rect_y = SpriteConfig().getData(s_type)->y;
+    int rect_w = SpriteConfig().getData(s_type)->w;
+    int rect_h = SpriteConfig().getData(s_type)->h;
+    cout << rect_x << " " << rect_y << " " << rect_w << " " << rect_h << " ";
+    sf::Sprite * TANK_1 = new sf::Sprite(*texture,sf::IntRect(rect_x,rect_y,rect_w,rect_h));
+    TANK_1->setPosition(80,100);
+    */
+    ///
+
+
+    //-- este da error
+    ///std::cout << SpriteConfig().getData(ST_RED_BLOCK)->d_sprite->getGlobalBounds().height << std::endl;
     //std::cout << TANK_1->getGlobalBounds().width << std::endl;
     //std::cout << TANK_1->getGlobalBounds().height << std::endl;
 
-    TANK_1->setPosition(30,30);
+
     //TANK_1->scale(32/TANK_1->getGlobalBounds().width,32/TANK_1->getGlobalBounds().height);
 
     //std::cout << TANK_1->getGlobalBounds().width << std::endl;

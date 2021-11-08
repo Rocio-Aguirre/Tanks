@@ -421,11 +421,12 @@
 
 1635904046 c:\desktop\roescritorio\segundo cuatrimestre 2021\programación 2\tanks\bloque.h
 
-1636163420 source:d:\prog\tanks\main.cpp
+1636402048 source:d:\prog\tanks\main.cpp
 	<SFML/Graphics.hpp>
 	<iostream>
 	"gameplay.h"
 	"object.h"
+	"spriteconfig.h"
 
 1636079676 d:\prog\tanks\sfml\include\sfml\graphics.hpp
 	<SFML/Window.hpp>
@@ -846,13 +847,12 @@
 
 1636079676 d:\prog\tanks\bloque.h
 
-1636163473 d:\prog\tanks\object.h
+1636402055 d:\prog\tanks\object.h
 	<SFML/Graphics.hpp>
 	<iostream>
 	"spriteconfig.h"
 
-1636164238 d:\prog\tanks\spriteconfig.h
-	"gameplay.h"
+1636401620 d:\prog\tanks\spriteconfig.h
 	<iostream>
 	<SFML/Graphics.hpp>
 
