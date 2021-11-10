@@ -18,6 +18,7 @@ enum SpriteType{
 
 class SpriteData{
 private:
+
 public:
     int x;
     int y;
@@ -42,7 +43,7 @@ public:
 
 class SpriteConfig{
 private:
-    //sf::Texture * texture;
+    sf::Texture * texture = new sf::Texture;
     sf::Sprite * s_sprite;
     std::map<SpriteType, SpriteData> m_SpriteConfig;
 
@@ -54,16 +55,22 @@ public:
     void create(SpriteType sp_type, int x, int y, int w, int h);
 
     /// Funcion que recibe nombre del sprite y devuelve los valores del sprite (pos x, pos y, ancho, alto)
+
     const SpriteData* getData(SpriteType st);
+
+    void Sprite_draw(sf::RenderWindow & window);
+
+    sf::Texture * getTexture(){return texture;}
 };
 
-void SpriteConfig::create(SpriteType sp_type, int x, int y, int w, int h){
+void SpriteConfig::create(SpriteType sp_type, int x, int y, int h, int w){
+
     SpriteData datos;
         datos.setX(x);
         datos.setY(y);
         datos.setW(w);
         datos.setH(h);
-    ///m_SpriteConfig[sp_type] = SpriteData(x,y,w,h);
+
     m_SpriteConfig[sp_type] = datos;
 
 }
@@ -74,9 +81,9 @@ const SpriteData* SpriteConfig::getData(SpriteType st){
 
 SpriteConfig::SpriteConfig(){
 
+    texture->loadFromFile("resources/400.png");
      /// creamos los Sprites (nombre,x,y,alcho,alto)
-
-    create(ST_RED_BLOCK,3,5,15,13);
-    create(ST_YELLOW_TANK,3,208,20,28);
+    create(ST_RED_BLOCK,4,4,16,16);
+    create(ST_YELLOW_TANK,4,240,22,32);
 }
 #endif // SPRITETYPES_H_INCLUDED

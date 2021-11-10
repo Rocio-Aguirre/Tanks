@@ -5,16 +5,20 @@
 #include <iostream>
 
 #include "spriteconfig.h"
+#include "gameplay.h"
+#include "app.h"
 
 using namespace std;
 
-class object{
+class object :: public Gameplay{
 private:
     SpriteType st_type;
 
     const SpriteData* sd_sprite;
 
-    sf::Sprite * sp_sprite;
+    SpriteConfig * config = new SpriteConfig();
+
+    sf::Sprite s_sprite;
 
     double pos_x;
     double pos_y;
@@ -26,12 +30,18 @@ private:
 
 public:
     object();
-    /// crea el objeto con el nombre del sprite dado
-    sf::Sprite * new_object(double x, double y, SpriteType s_type);
+    ~object();
 
-    void draw();
+    /// crea el objeto con el nombre del sprite dado
+    object(double x, double y, SpriteType s_type);
+
+    sf::Sprite& getDraw();
 
     void update();
+
+    const SpriteData * getObjData(){return sd_sprite;}
+
+    sf::FloatRect getBounds() const override;
 };
 
 object::object(){
@@ -39,11 +49,15 @@ object::object(){
     st_type = ST_NONE;
 
 }
+object::~object(){
+    delete sd_sprite;
+    delete config;
+}
 
-sf::Sprite * object::new_object(double x, double y, SpriteType s_type){
+object::object(double x, double y, SpriteType s_type){
     SpriteConfig config;
-    sf::Texture * texture;
-    texture->loadFromFile("resources/textures.png");
+
+    s_sprite.setTexture(*config.getTexture());
 
     /// establece donde colocar el objeto
 
@@ -51,22 +65,19 @@ sf::Sprite * object::new_object(double x, double y, SpriteType s_type){
     pos_y = y;
 
     /// obtenemos los datos del sprite
+    sd_sprite = SpriteConfig().getData(s_type);
 
-    rect_x = SpriteConfig().getData(s_type)->x;
-    rect_y = SpriteConfig().getData(s_type)->y;
-    rect_w = SpriteConfig().getData(s_type)->w;
-    rect_h = SpriteConfig().getData(s_type)->h;
-
-    //sp_sprite = new sf::Sprite(*texture,sf::IntRect(1,1,1,1));
-    //sp_sprite->setPosition(80,80);
-    cout << rect_x << " " << rect_y << " " << rect_w << " " << rect_h << " ";
-    //return sp_sprite;
 }
 
-void object::draw(){
-    if(st_type==ST_NONE) return;
-    else{
-            /// Aún no terminado
-    }
+sf::Sprite& object::getDraw(){
+
+    s_sprite.setTextureRect(sf::IntRect(sd_sprite->x,sd_sprite->y,sd_sprite->h,sd_sprite->w));
+
+    s_sprite.setPosition(pos_x,pos_y);
+    return s_sprite;
+}
+
+sf::FloatRect object::getBounds() const override{
+    return s_sprite.getGlobalBounds();
 }
 #endif // OBJECT_H_INCLUDED

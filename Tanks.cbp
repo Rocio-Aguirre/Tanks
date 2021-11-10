@@ -46,6 +46,8 @@
 			<Add library="sfml-system" />
 			<Add directory="SFML/lib" />
 		</Linker>
+		<Unit filename="TileMap.h" />
+		<Unit filename="app.h" />
 		<Unit filename="bloque.h" />
 		<Unit filename="bullet.h" />
 		<Unit filename="gameplay.h" />

@@ -421,12 +421,13 @@
 
 1635904046 c:\desktop\roescritorio\segundo cuatrimestre 2021\programación 2\tanks\bloque.h
 
-1636402048 source:d:\prog\tanks\main.cpp
+1636512622 source:d:\prog\tanks\main.cpp
 	<SFML/Graphics.hpp>
 	<iostream>
-	"gameplay.h"
+	"app.h"
 	"object.h"
 	"spriteconfig.h"
+	"TileMap.h"
 
 1636079676 d:\prog\tanks\sfml\include\sfml\graphics.hpp
 	<SFML/Window.hpp>
@@ -837,22 +838,35 @@
 	<SFML/Graphics/Drawable.hpp>
 	<SFML/Window/GlResource.hpp>
 
-1636162884 d:\prog\tanks\gameplay.h
+1636522012 d:\prog\tanks\gameplay.h
 	"tanque.h"
 	"bloque.h"
 	"object.h"
 
-1636145189 d:\prog\tanks\tanque.h
+1636521865 d:\prog\tanks\tanque.h
 	<SFML/Graphics.hpp>
+	"object.h"
 
 1636079676 d:\prog\tanks\bloque.h
 
-1636402055 d:\prog\tanks\object.h
+1636521865 d:\prog\tanks\object.h
 	<SFML/Graphics.hpp>
 	<iostream>
 	"spriteconfig.h"
+	"gameplay.h"
+	"app.h"
 
-1636401620 d:\prog\tanks\spriteconfig.h
+1636515676 d:\prog\tanks\spriteconfig.h
 	<iostream>
 	<SFML/Graphics.hpp>
+
+1636521865 d:\prog\tanks\app.h
+	<SFML/Graphics.hpp>
+	"tanque.h"
+	"TileMap.h"
+	"object.h"
+	"gameplay.h"
+
+1636520701 d:\prog\tanks\tilemap.h
+	"object.h"
 

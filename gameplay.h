@@ -7,9 +7,6 @@
 
 class Gameplay{
 private:
-    Tanque tan;
-    Bloque b;
-    object ob;
 public:
     void cmd();
     void update();
@@ -17,10 +14,11 @@ public:
     /// - Pruebas
 
     /// -
-    void checkCollision();
+    virtual sf::FloatRect getBounds() const = 0;
+    bool checkCollision(Gameplay& obj) const;
 };
 
-void Gameplay::cmd(){
+/*void Gameplay::cmd(){
     tan.cmd();
     b.cmd();
 }
@@ -29,7 +27,7 @@ void Gameplay::update(){
     tan.update();
     /*if(tan.getDraw().getPosition().y > 500){
         tan.quieto(tan.getDraw().getPosition().x, 500);
-    }*/
+    }*//*
     b.update();
     checkCollision();
 }
@@ -37,14 +35,10 @@ void Gameplay::update(){
 void Gameplay::draw(sf::RenderWindow & window){
     window.draw(tan.getDraw());
     window.draw(b.getDraw());
-}
+}*/
 
-
-
-void Gameplay::checkCollision(){
-    /*if(tan.getDraw().getGlobalBounds().intersects(b.getDraw().getGlobalBounds())){
-        tan.quieto(tan.getDraw().getPosition().x, tan.getDraw().getPosition().y);
-    }*/
+bool Gameplay::checkCollision(Gameplay& obj) const{
+    return getBounds().intersects(obj.getBounds()) const;
 }
 
 #endif // GAMEPLAY_H_INCLUDED
