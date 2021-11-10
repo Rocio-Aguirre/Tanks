@@ -47,6 +47,7 @@
 			<Add directory="SFML/lib" />
 		</Linker>
 		<Unit filename="bloque.h" />
+		<Unit filename="bullet.h" />
 		<Unit filename="gameplay.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="object.h" />

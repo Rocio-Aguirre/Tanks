@@ -42,6 +42,7 @@ void Bullet::update(){
 
 Bullet::Bullet(){
     std::cout << "holi" << std::endl;
+    /*
     _sprite.setPosition(50,450);
     _texture.loadFromFile("tanque.png");
     _sprite.setTexture(_texture);
@@ -50,10 +51,18 @@ Bullet::Bullet(){
     _sprite.setTextureRect(posicion);
     _sprite.setOrigin(_sprite.getLocalBounds().width/2,_sprite.getLocalBounds().height/2);
     //_disparando = false;
+    */
 }
 
 void Bullet::setDisparando(bool e){
     _disparando = e;
+    _sprite.setPosition(50,450);
+    _texture.loadFromFile("tanque.png");
+    _sprite.setTexture(_texture);
+    _sprite.setScale(5.0, 5.0);
+    sf::IntRect posicion(0, 110, 16.66 , 30);
+    _sprite.setTextureRect(posicion);
+    _sprite.setOrigin(_sprite.getLocalBounds().width/2,_sprite.getLocalBounds().height/2);
 }
 
 bool Bullet::getDisparando(){

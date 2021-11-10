@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <map>
 
 #include "gameplay.h"
 
@@ -28,6 +29,12 @@ int main()
         gp.update();
 
         window.clear(); //borra el dibujo anterior
+        /*
+        std::map<int, Bloque> blockPositions;
+        Bloque amarillo;
+        blockPositions.insert(std::make_pair(1, amarillo));
+        blockPositions.at(amarillo&);
+    */
         gp.draw(window);
         window.display(); //muestra en pantalla
     }

@@ -1,7 +1,8 @@
 # depslib dependency file v1.0
-1636080371 source:c:\desktop\roescritorio\segundo cuatrimestre 2021\programación 2\tanks\main.cpp
+1636502975 source:c:\desktop\roescritorio\segundo cuatrimestre 2021\programación 2\tanks\main.cpp
 	<SFML/Graphics.hpp>
 	<iostream>
+	<map>
 	"gameplay.h"
 
 1525812018 c:\desktop\roescritorio\segundo cuatrimestre 2021\programación 2\tanks\sfml\include\sfml\graphics.hpp
@@ -417,10 +418,10 @@
 	"tanque.h"
 	"bloque.h"
 
-1636329853 c:\desktop\roescritorio\segundo cuatrimestre 2021\programación 2\tanks\tanque.h
+1636333148 c:\desktop\roescritorio\segundo cuatrimestre 2021\programación 2\tanks\tanque.h
 	"bullet.h"
 
 1635904046 c:\desktop\roescritorio\segundo cuatrimestre 2021\programación 2\tanks\bloque.h
 
-1636331303 c:\desktop\roescritorio\segundo cuatrimestre 2021\programación 2\tanks\bullet.h
+1636333148 c:\desktop\roescritorio\segundo cuatrimestre 2021\programación 2\tanks\bullet.h
 

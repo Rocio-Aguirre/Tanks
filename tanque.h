@@ -30,7 +30,6 @@ public:
     sf::FloatRect getBounds() const;
 };
 
-
 void Tanque::cmd(){
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)){
                 _estado = ESTADOS_TANQUE::CAMINANDO_ADELANTE;
@@ -118,6 +117,7 @@ Tanque::Tanque(){
     _tank.setOrigin(_tank.getLocalBounds().width/2,_tank.getLocalBounds().height/2);
     //cada cuadradito se llama frame
 }
+
 
 void Tanque::quieto(float x, float y){
     _estado = ESTADOS_TANQUE::QUIETO;
