@@ -102,6 +102,8 @@ TileMap::~TileMap(){
 
 void TileMap::cargar_mapa(sf::RenderWindow & window){
 
+    /// void TileMap::cargar_mapa(nivel)
+
     texture = new sf::Texture();
     texture->loadFromFile("resources/400.png");
 

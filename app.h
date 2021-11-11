@@ -54,7 +54,7 @@ void app::gameloop(){
     Tanque t1(1);
     Tanque t2(2);
 
-    Bullet bullet;
+    ///Bullet bullet;
 
     TileMap mapa;
 

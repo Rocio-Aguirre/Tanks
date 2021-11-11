@@ -72,6 +72,7 @@ Tanque::Tanque(int player){
     _estado = QUIETO;
     _texture.loadFromFile("resources/400.png");
     _tank.setTexture(_texture);
+
     ///_tank.setScale(0.5,0.52);
 
         if(player==1){
@@ -81,7 +82,7 @@ Tanque::Tanque(int player){
         else{
             sf::IntRect posicion(4,282,22,32);
             _tank.setTextureRect(posicion);
-    }
+        }
 
     _null.setTexture(_texture);
     sf::IntRect posicion2(0,0,4,4);

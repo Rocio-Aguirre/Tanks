@@ -84,10 +84,14 @@ const SpriteData* SpriteConfig::getData(SpriteType st){
 SpriteConfig::SpriteConfig(){
 
     texture->loadFromFile("resources/400.png");
+
      /// creamos los Sprites (nombre,x,y,alcho,alto)
+
     create(ST_RED_BLOCK,4,4,16,16);
     create(ST_YELLOW_TANK,4,240,22,32);
     create(ST_RED_TANK,4,282,22,32);
     create(ST_BULLET,190,248,15,15);
+
+
 }
 #endif // SPRITETYPES_H_INCLUDED
