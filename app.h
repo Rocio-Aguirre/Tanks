@@ -2,21 +2,34 @@
 #define APP_H_INCLUDED
 
 #include <SFML/Graphics.hpp>
+
+#include "bullet.h"
 #include "tanque.h"
 #include "TileMap.h"
 #include "object.h"
-#include "gameplay.h"
 
 class app{
 private:
+
     sf::RenderWindow * ventana1;
+
     int fps;
+
     sf::Texture * texture_;
     sf::Sprite * sprite_;
+
 public:
+
+    app();
     app(int resolucion_x, int resolucion_y, std::string titulo);
+
     void dibujar();
+
+    void checkColission();
+
     void gameloop();
+
+    sf::RenderWindow * getWindow(){return ventana1;}
 };
 
 app::app(int resolucion_x, int resolucion_y, std::string titulo){
@@ -37,9 +50,11 @@ void app::dibujar(){
 }
 
 void app::gameloop(){
-    Gameplay g;
 
-    Tanque t;
+    Tanque t1(1);
+    Tanque t2(2);
+
+    Bullet bullet;
 
     TileMap mapa;
 
@@ -54,17 +69,45 @@ void app::gameloop(){
                 ventana1->close();
         }
 
-        t.cmd();
-        t.update();
-        //dibujar();
-        ventana1->clear();
-            /*if(t.getBounds().intersects(mapa.getMapObject()->getBounds().)){
-                std::cout << " ALTO!" << std::endl;
-            }*/
+        t1.cmd();
+        t1.update();
 
-        ventana1->draw(t.getDraw());
+        t2.cmd();
+        t2.update();
+
+        //bullet.update();
+
+        //dibujar();
+
+        ventana1->clear();
+
+        /// CHECK COLISSION
+
+                if(t1.getDraw().getGlobalBounds().intersects(t2.getDraw().getGlobalBounds())){
+                    t1.quieto(t1.getPos_ant().x,t1.getPos_ant().y);
+                }
+                if(t2.getDraw().getGlobalBounds().intersects(t1.getDraw().getGlobalBounds())){
+                    t2.quieto(t2.getPos_ant().x,t2.getPos_ant().y);
+                }
+
+                if(t1.getTankBullet().getDraw().getGlobalBounds().intersects(t2.getDraw().getGlobalBounds())){
+                    t2.respawn();
+                }
+
+                if(t2.getTankBullet2().getDraw().getGlobalBounds().intersects(t1.getDraw().getGlobalBounds())){
+                    t1.respawn();
+                }
+
+
+        /// -------------
+
+        ventana1->draw(t1.getDraw());
+        ventana1->draw(t2.getDraw());
+        ventana1->draw(t1.getBulletDraw());
+        ventana1->draw(t2.getBulletDraw());
         //ventana1->draw(obj.getDraw());
         mapa.cargar_mapa(*ventana1);
+
         ventana1->display();
 
 

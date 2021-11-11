@@ -13,6 +13,7 @@ enum SpriteType{
     ST_BLUE_BLOCK,
     ST_GREEN_BLOCK,
     ST_YELLOW_BLOCK,
+    ST_BULLET,
     ST_NONE,
 };
 
@@ -85,5 +86,7 @@ SpriteConfig::SpriteConfig(){
      /// creamos los Sprites (nombre,x,y,alcho,alto)
     create(ST_RED_BLOCK,4,4,16,16);
     create(ST_YELLOW_TANK,4,240,22,32);
+    create(ST_RED_TANK,4,282,22,32);
+    create(ST_BULLET,190,248,15,15);
 }
 #endif // SPRITETYPES_H_INCLUDED

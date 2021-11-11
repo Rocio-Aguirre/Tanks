@@ -4,13 +4,13 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
+#include "app.h"
 #include "spriteconfig.h"
 #include "gameplay.h"
-#include "app.h"
 
 using namespace std;
 
-class object :: public Gameplay{
+class object{
 private:
     SpriteType st_type;
 
@@ -41,7 +41,7 @@ public:
 
     const SpriteData * getObjData(){return sd_sprite;}
 
-    sf::FloatRect getBounds() const override;
+    ///sf::FloatRect getBounds() const override;
 };
 
 object::object(){
@@ -55,6 +55,7 @@ object::~object(){
 }
 
 object::object(double x, double y, SpriteType s_type){
+
     SpriteConfig config;
 
     s_sprite.setTexture(*config.getTexture());
@@ -67,6 +68,11 @@ object::object(double x, double y, SpriteType s_type){
     /// obtenemos los datos del sprite
     sd_sprite = SpriteConfig().getData(s_type);
 
+    s_sprite.setTextureRect(sf::IntRect(sd_sprite->x,sd_sprite->y,sd_sprite->h,sd_sprite->w));
+
+    s_sprite.setPosition(pos_x,pos_y);
+
+    ///window.draw(s_sprite);
 }
 
 sf::Sprite& object::getDraw(){
@@ -77,7 +83,7 @@ sf::Sprite& object::getDraw(){
     return s_sprite;
 }
 
-sf::FloatRect object::getBounds() const override{
-    return s_sprite.getGlobalBounds();
-}
+/*sf::FloatRect object::getBounds() const override{
+    eturn s_sprite.getGlobalBounds();
+}*/
 #endif // OBJECT_H_INCLUDED

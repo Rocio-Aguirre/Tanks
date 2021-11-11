@@ -5,34 +5,100 @@
 
 #include "object.h"
 
-class Tanque :: public Gameplay{
+class Tanque {
 private:
     //sf::CircleShape _tank;
-    enum ESTADOS_TANQUE {
-        QUIETO,
-        CAMINANDO_ADELANTE,
-        CAMINANDO_ATRAS,
-        CAMINANDO_ARRIBA,
-        CAMINANDO_ABAJO,
-    };
+
     ESTADOS_TANQUE _estado;
-    ESTADOS_TANQUE _estadoAnterior;
+    ESTADOS_TANQUE _mirando;
+
     sf::Texture _texture;
     sf::Sprite _tank;
-    ///Bullet _bullet;
+    sf::Sprite _null;
+
+    Bullet _bullet;
+    Bullet _bullet2;
+
+    object * obj;
+
+    int player;
+
+    int vida;
+
+    sf::Vector2i pos_ant;
 
 public:
+    Tanque(int player);
+
+    void setPlayer(int p){this->player=p;}
+
+    object * getTankObject(){return obj;}
+    sf::Vector2i getPos_ant(){return pos_ant;}
+
     void cmd();
     void update();
+
     //sf::CircleShape& getDraw();
-    Tanque();
+
+    void respawn();
+
     void quieto(float x, float y);
+
     sf::Texture& getTexture();
     sf::Sprite& getDraw();
     sf::FloatRect getBounds() const;
+    sf::Sprite& getBulletDraw();
+
+    Bullet getTankBullet(){return _bullet;}
+    Bullet getTankBullet2(){return _bullet2;}
+
 };
 
+//////////////////////////////////////////////////////////////////////
+
+Tanque::Tanque(int player){
+
+    this->player = player;
+
+    vida = 4;
+
+        if(player==1){
+        _tank.setPosition(10,10);
+        }
+        else {
+            _tank.setPosition(210,210);
+        }
+
+    _estado = QUIETO;
+    _texture.loadFromFile("resources/400.png");
+    _tank.setTexture(_texture);
+    ///_tank.setScale(0.5,0.52);
+
+        if(player==1){
+            sf::IntRect posicion(4,240,22,32);
+            _tank.setTextureRect(posicion);
+        }
+        else{
+            sf::IntRect posicion(4,282,22,32);
+            _tank.setTextureRect(posicion);
+    }
+
+    _null.setTexture(_texture);
+    sf::IntRect posicion2(0,0,4,4);
+    _null.setTextureRect(posicion2);
+
+    _tank.setOrigin(_tank.getLocalBounds().width/2,_tank.getLocalBounds().height/2);
+    ///cada cuadradito se llama frame
+}
+
+/*Tanque::Tanque(int player){
+    setPlayer(player);
+    obj = new object(0,0,ST_YELLOW_TANK);
+}*/
+
 void Tanque::cmd(){
+
+    if(player==1){
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)){
                 _estado = CAMINANDO_ADELANTE;
         }
@@ -46,12 +112,38 @@ void Tanque::cmd(){
             _estado = CAMINANDO_ABAJO;
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::F)){
-            ///_bullet.setDisparando(true);
-            ///std::cout << "Disparando: " << _bullet.getDisparando() << std::endl;
+            _bullet.setDisparando(_tank.getPosition().x,_tank.getPosition().y, _mirando);
+
         }
+    }
+
+    if(player==2){
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
+                _estado = CAMINANDO_ADELANTE;
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
+                _estado = CAMINANDO_ATRAS;
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
+                _estado = CAMINANDO_ARRIBA;
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
+            _estado = CAMINANDO_ABAJO;
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::M)){
+            _bullet2.setDisparando(_tank.getPosition().x,_tank.getPosition().y, _mirando);
+        }
+    }
 }
 
 void Tanque::update(){
+
+    _bullet.update();
+    _bullet2.update();
+
+    pos_ant.x = _tank.getPosition().x;
+    pos_ant.y = _tank.getPosition().y;
+
     switch(_estado){
     case QUIETO:
         break;
@@ -59,28 +151,28 @@ void Tanque::update(){
         _tank.setRotation(90);
         _tank.move(1,0);
 
-        _estadoAnterior = _estado;
+        _mirando = MIRANDO_ADELANTE;
         _estado = QUIETO;
         break;
     case CAMINANDO_ATRAS:
         _tank.setRotation(-90);
         _tank.move(-1,0);
 
-        _estadoAnterior = _estado;
+        _mirando = MIRANDO_ATRAS;
         _estado = QUIETO;
         break;
     case CAMINANDO_ARRIBA:
         _tank.setRotation(0);
         _tank.move(0,-1);
 
-        _estadoAnterior = _estado;
+        _mirando = MIRANDO_ARRIBA;
         _estado = QUIETO;
         break;
     case CAMINANDO_ABAJO:
         _tank.setRotation(180);
         _tank.move(0,1);
 
-        _estadoAnterior = _estado;
+        _mirando = MIRANDO_ABAJO;
         _estado = QUIETO;
     default:
         break;
@@ -105,27 +197,45 @@ sf::Texture& Tanque::getTexture(){
     return _texture;
 }
 
-Tanque::Tanque(){
-    _tank.setPosition(10,10);
-    _estado = QUIETO;
-    _texture.loadFromFile("resources/400.png");
-    _tank.setTexture(_texture);
-    ///_tank.setScale(0.5,0.52);
-    sf::IntRect posicion(4,240,22,32);
-    _tank.setTextureRect(posicion);
-
-
-    _tank.setOrigin(_tank.getLocalBounds().width/2,_tank.getLocalBounds().height/2);
-    ///cada cuadradito se llama frame
-}
-
 void Tanque::quieto(float x, float y){
     _estado = QUIETO;
     _tank.setPosition(x,y);
 }
 
-sf::FloatRect Tanque::getBounds() const override{
+/*sf::FloatRect Tanque::getBounds() const override{
     return _tank.getGlobalBounds();
+}*/
+
+sf::Sprite& Tanque::getBulletDraw(){
+    if(player==1){
+        return _bullet.getDraw();
+    }
+    else if(player==2){
+        return _bullet2.getDraw();
+    }
+        return _null;
+
+}
+
+void Tanque::respawn(){
+    int pos = rand() % 4;
+
+        switch(pos){
+    case 0: vida--;
+            _tank.setPosition(10,10);
+
+        break;
+    case 1: vida--;
+            _tank.setPosition(400,10);
+        break;
+    case 2: vida--;
+            _tank.setPosition(10,400);
+        break;
+    case 3: vida--;
+            _tank.setPosition(400,400);
+        break;
+
+        }
 }
 
 

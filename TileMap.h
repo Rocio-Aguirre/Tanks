@@ -2,8 +2,9 @@
 #define TILEMAP_H_INCLUDED
 
 #include "object.h"
+#include "app.h"
 
-const int LVL_3[] =
+const int LVL_1[] =
     {
         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -65,7 +66,6 @@ const int LVL_2[] =
 };
 class TileMap{
 private:
-
     sf::Sprite * map_sprite;
     sf::Texture * texture;
     object * obj;
@@ -101,6 +101,7 @@ TileMap::~TileMap(){
 }
 
 void TileMap::cargar_mapa(sf::RenderWindow & window){
+
     texture = new sf::Texture();
     texture->loadFromFile("resources/400.png");
     int escala=16;
@@ -108,18 +109,18 @@ void TileMap::cargar_mapa(sf::RenderWindow & window){
 
         for(int j=0;j<26;j++){
 
-            int actual = LVL_2[x * 26 + j];
+            int actual = LVL_1[x * 26 + j];
 
             switch(actual){
                 case 1:
-                    obj =  new object(j * 16 ,x * 16,ST_RED_BLOCK);
-                    window.draw(obj->getDraw());
+                    /*obj =  new object(j * 16 ,x * 16,ST_RED_BLOCK);
+                    window.draw(obj->getDraw());*/
 
-                    /*map_sprite = new sf::Sprite(*texture,sf::IntRect(4,4,16,16));
+                    map_sprite = new sf::Sprite(*texture,sf::IntRect(4,4,16,16));
 
                     map_sprite->setPosition(j*escala,x*escala);
 
-                    window.draw(*map_sprite);*/
+                    window.draw(*map_sprite);
 
                     break;
                 case 2:

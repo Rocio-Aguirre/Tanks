@@ -38,7 +38,7 @@ void Gameplay::draw(sf::RenderWindow & window){
 }*/
 
 bool Gameplay::checkCollision(Gameplay& obj) const{
-    return getBounds().intersects(obj.getBounds()) const;
+    ///return getBounds().intersects(obj.getBounds()) const;
 }
 
 #endif // GAMEPLAY_H_INCLUDED

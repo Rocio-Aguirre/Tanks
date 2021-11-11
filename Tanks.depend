@@ -838,35 +838,38 @@
 	<SFML/Graphics/Drawable.hpp>
 	<SFML/Window/GlResource.hpp>
 
-1636522012 d:\prog\tanks\gameplay.h
+1636591537 d:\prog\tanks\gameplay.h
 	"tanque.h"
 	"bloque.h"
 	"object.h"
 
-1636521865 d:\prog\tanks\tanque.h
+1636609738 d:\prog\tanks\tanque.h
 	<SFML/Graphics.hpp>
 	"object.h"
 
 1636079676 d:\prog\tanks\bloque.h
 
-1636521865 d:\prog\tanks\object.h
+1636595981 d:\prog\tanks\object.h
 	<SFML/Graphics.hpp>
 	<iostream>
+	"app.h"
 	"spriteconfig.h"
 	"gameplay.h"
-	"app.h"
 
-1636515676 d:\prog\tanks\spriteconfig.h
+1636608378 d:\prog\tanks\spriteconfig.h
 	<iostream>
 	<SFML/Graphics.hpp>
 
-1636521865 d:\prog\tanks\app.h
+1636609385 d:\prog\tanks\app.h
 	<SFML/Graphics.hpp>
+	"bullet.h"
 	"tanque.h"
 	"TileMap.h"
 	"object.h"
-	"gameplay.h"
 
-1636520701 d:\prog\tanks\tilemap.h
+1636609716 d:\prog\tanks\tilemap.h
 	"object.h"
+	"app.h"
+
+1636607507 d:\prog\tanks\bullet.h
 
