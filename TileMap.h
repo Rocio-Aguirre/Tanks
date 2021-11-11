@@ -68,7 +68,7 @@ class TileMap{
 private:
     sf::Sprite * map_sprite;
     sf::Texture * texture;
-    object * obj;
+    object * obj = NULL;
 
     int nivel;
     int matriz[26][26];
@@ -104,6 +104,7 @@ void TileMap::cargar_mapa(sf::RenderWindow & window){
 
     texture = new sf::Texture();
     texture->loadFromFile("resources/400.png");
+
     int escala=16;
     for(int x=0;x<26;x++){
 
@@ -113,8 +114,10 @@ void TileMap::cargar_mapa(sf::RenderWindow & window){
 
             switch(actual){
                 case 1:
-                    /*obj =  new object(j * 16 ,x * 16,ST_RED_BLOCK);
+                    /*if(obj!=NULL)delete obj;
+                    obj =  new object(j * 16 ,x * 16,ST_RED_BLOCK);
                     window.draw(obj->getDraw());*/
+
 
                     map_sprite = new sf::Sprite(*texture,sf::IntRect(4,4,16,16));
 
@@ -142,8 +145,11 @@ void TileMap::cargar_mapa(sf::RenderWindow & window){
                 default:
                     break;
             }
+
         }
     }
+
+    delete texture;
 }
 
 #endif // TILEMAP_H_INCLUDED

@@ -8,6 +8,6 @@
 
 int main()
 {
-    app app(800,800,"TANQUESITOS");
+    app app(416,416,"TANQUESITOS");
 
 }

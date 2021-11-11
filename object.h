@@ -56,9 +56,9 @@ object::~object(){
 
 object::object(double x, double y, SpriteType s_type){
 
-    SpriteConfig config;
+    ///SpriteConfig config;
 
-    s_sprite.setTexture(*config.getTexture());
+    s_sprite.setTexture(*config->getTexture());
 
     /// establece donde colocar el objeto
 

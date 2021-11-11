@@ -64,6 +64,7 @@ public:
     sf::Texture * getTexture(){return texture;}
 };
 
+
 void SpriteConfig::create(SpriteType sp_type, int x, int y, int h, int w){
 
     SpriteData datos;

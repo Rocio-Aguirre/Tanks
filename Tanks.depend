@@ -421,7 +421,7 @@
 
 1635904046 c:\desktop\roescritorio\segundo cuatrimestre 2021\programación 2\tanks\bloque.h
 
-1636512622 source:d:\prog\tanks\main.cpp
+1636635131 source:d:\prog\tanks\main.cpp
 	<SFML/Graphics.hpp>
 	<iostream>
 	"app.h"
@@ -849,14 +849,14 @@
 
 1636079676 d:\prog\tanks\bloque.h
 
-1636595981 d:\prog\tanks\object.h
+1636636069 d:\prog\tanks\object.h
 	<SFML/Graphics.hpp>
 	<iostream>
 	"app.h"
 	"spriteconfig.h"
 	"gameplay.h"
 
-1636608378 d:\prog\tanks\spriteconfig.h
+1636636418 d:\prog\tanks\spriteconfig.h
 	<iostream>
 	<SFML/Graphics.hpp>
 
@@ -867,7 +867,7 @@
 	"TileMap.h"
 	"object.h"
 
-1636609716 d:\prog\tanks\tilemap.h
+1636637002 d:\prog\tanks\tilemap.h
 	"object.h"
 	"app.h"
 
