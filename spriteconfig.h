@@ -83,7 +83,7 @@ const SpriteData* SpriteConfig::getData(SpriteType st){
 
 SpriteConfig::SpriteConfig(){
 
-    texture->loadFromFile("resources/400.png");
+    ///texture->loadFromFile("resources/400.png");
 
      /// creamos los Sprites (nombre,x,y,alcho,alto)
 
