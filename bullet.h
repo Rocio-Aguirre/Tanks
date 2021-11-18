@@ -19,11 +19,12 @@ private:
 
     ///object  bullet;
     sf::Sprite _sprite;
+
     sf::Texture _texture;
 
     sf::Sprite _null;
 
-    bool disparar;
+    bool estadoBala; /// 7 sig
 
     bool destruir;
 
@@ -41,10 +42,15 @@ public:
 
     void setDisparando(int pos_x, int pos_y, enum ESTADOS_TANQUE &estado);
 
-    void Disparar(){disparar=false;}
+    void setEstado(bool d){estadoBala=d;}
+    bool getEstado(){return estadoBala;}
 
     sf::Sprite getDraw();
 };
+
+sf::Sprite Bullet::getDraw(){
+        return _sprite;
+}
 
 Bullet::Bullet(){
     _texture.loadFromFile("resources/400.png");
@@ -57,82 +63,75 @@ Bullet::Bullet(){
     sf::IntRect posicion2(0,0,4,4);
     _null.setTextureRect(posicion2);
 
-    disparar = false;
+    _sprite.setPosition(900,900);
+    _null.setPosition(900,900);
+
+    estadoBala=true;
 }
 
 void Bullet::setDisparando(int pos_x, int pos_y, enum ESTADOS_TANQUE &estado){
 
-    if(disparar==false){
-    switch(estado){
-        case MIRANDO_ADELANTE:  _estado=MIRANDO_ADELANTE;
-            break;
-        case MIRANDO_ABAJO: _estado=MIRANDO_ABAJO;
-            break;
-        case MIRANDO_ARRIBA:    _estado=MIRANDO_ARRIBA;
-            break;
-        case MIRANDO_ATRAS: _estado=MIRANDO_ATRAS;
-            break;
-        default:
-            break;
+        if(estadoBala==true){
+            switch(estado){
+                case MIRANDO_ADELANTE:  _estado=MIRANDO_ADELANTE;
+                    break;
+                case MIRANDO_ABAJO: _estado=MIRANDO_ABAJO;
+                    break;
+                case MIRANDO_ARRIBA:    _estado=MIRANDO_ARRIBA;
+                    break;
+                case MIRANDO_ATRAS: _estado=MIRANDO_ATRAS;
+                    break;
+                default:
+                    break;
+                }
+
+            _sprite.setPosition(pos_x,pos_y);
+
+            std::cout << " setdisparando " << estadoBala;
         }
-
-    _sprite.setPosition(pos_x,pos_y);
-
-    std::cout << " setdisparando ";
-
-    disparar = true;
-    }
 
 }
 
 void Bullet::update(){
 
-    if(disparar==true){
-        switch(_estado){
-        case MIRANDO_ADELANTE:
-            /*bullet = new object(pos_x,pos_y,ST_YELLOW_BULLET);
-            bullet.getDraw().setRotation(90);
-            bullet.move(3,0);*/
-            _sprite.setRotation(90);
-            _sprite.move(3,0);
+    std::cout << " " <<estadoBala;
 
-            break;
-        case MIRANDO_ABAJO:
-            /*bullet = new object(pos_x,pos_y,ST_YELLOW_BULLET);
-            bullet.getDraw().setRotation(180);
-            bullet.move(0,3);*/
-            _sprite.setRotation(180);
-            _sprite.move(0,3);
+    switch(_estado){
+    case MIRANDO_ADELANTE:
+        /*bullet = new object(pos_x,pos_y,ST_YELLOW_BULLET);
+        bullet.getDraw().setRotation(90);
+        bullet.move(3,0);*/
+        _sprite.setRotation(90);
+        _sprite.move(3,0);
 
-            break;
-        case MIRANDO_ARRIBA:
-            /*bullet = new object(pos_x,pos_y,ST_YELLOW_BULLET);
-            bullet.getDraw().setRotation(0);
-            bullet.move(0,-3);*/
-            _sprite.setRotation(0);
-            _sprite.move(0,-3);
-            break;
-        case MIRANDO_ATRAS:
-            /*bullet = new object(pos_x,pos_y,ST_YELLOW_BULLET);
-            bullet.getDraw().setRotation(-90);
-            bullet.move(-3,0);*/
-            _sprite.setRotation(-90);
-            _sprite.move(-3,0);
-            break;
-        default:
-            break;
-        }
-    }
-}
+        break;
+    case MIRANDO_ABAJO:
+        /*bullet = new object(pos_x,pos_y,ST_YELLOW_BULLET);
+        bullet.getDraw().setRotation(180);
+        bullet.move(0,3);*/
+        _sprite.setRotation(180);
+        _sprite.move(0,3);
 
-sf::Sprite Bullet::getDraw(){
-    if(disparar==true){
-        return _sprite;
-    }else{
-        return _null;
+        break;
+    case MIRANDO_ARRIBA:
+        /*bullet = new object(pos_x,pos_y,ST_YELLOW_BULLET);
+        bullet.getDraw().setRotation(0);
+        bullet.move(0,-3);*/
+        _sprite.setRotation(0);
+        _sprite.move(0,-3);
+        break;
+    case MIRANDO_ATRAS:
+        /*bullet = new object(pos_x,pos_y,ST_YELLOW_BULLET);
+        bullet.getDraw().setRotation(-90);
+        bullet.move(-3,0);*/
+        _sprite.setRotation(-90);
+        _sprite.move(-3,0);
+        break;
+    default:
+        break;
     }
 
-
 }
+
 
 #endif // BULLET_H_INCLUDED

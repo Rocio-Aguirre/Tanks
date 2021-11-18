@@ -30,8 +30,8 @@ const int LVL_1[] =
         0,0,1,1,0,0,1,1,0,0,0,0,0,0,0,0,0,0,1,1,0,0,1,1,0,0,
         0,0,1,1,0,0,1,1,0,0,0,0,0,0,0,0,0,0,1,1,0,0,1,1,0,0,
         0,0,1,1,0,0,1,1,0,0,0,1,1,1,1,0,0,0,1,1,0,0,1,1,0,0,
-        0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,
-        0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,0,0,0,1,9,9,1,0,0,0,0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,0,0,0,1,9,9,1,0,0,0,0,0,0,0,0,0,0,0,
 
 };
 const int LVL_2[] =
@@ -90,7 +90,7 @@ public:
     sf::Sprite & getMapa(int x, int i){return  * mapa[x][i];}
 
 
-    void cargar_mapa(sf::RenderWindow & window);
+    void cargar_mapa();
 
     bool leerDisco(int pos){
         FILE *p;
@@ -114,7 +114,7 @@ TileMap::TileMap(){
 
 }
 
-void TileMap::cargar_mapa(sf::RenderWindow & window){
+void TileMap::cargar_mapa(){
 
     /// void TileMap::cargar_mapa(nivel)
 
@@ -144,7 +144,7 @@ void TileMap::cargar_mapa(sf::RenderWindow & window){
 
                     mapa[x][j] = map_sprite;
 
-                    window.draw(*map_sprite);
+                    ///window.draw(*map_sprite);
                     break;
                 case 2:
                     break;
@@ -161,6 +161,11 @@ void TileMap::cargar_mapa(sf::RenderWindow & window){
                 case 8:
                     break;
                 case 9:
+                    map_sprite = new sf::Sprite(*texture,sf::IntRect(207,14,16,16));
+
+                    map_sprite->setPosition(j*escala,x*escala);
+
+                    mapa[x][j] = map_sprite;
                     break;
                 default:
                     /*obj =  new object(1,1,ST_NONE);
@@ -226,8 +231,6 @@ bool TileMap::collision(sf::Sprite sprite){
                     std::cout << " ajsas ";
                     return true;
                 }
-
-
         }
     }
     return false;

@@ -57,7 +57,7 @@ void app::gameloop(){
     ///Bullet bullet;
 
     TileMap mapa;
-    mapa.cargar_mapa(*ventana1);
+    mapa.cargar_mapa();
 
     ///map.load("recursos/graphics.png", sf::Vector2u(16, 16), LVL_2, 26, 26);
 
@@ -99,6 +99,7 @@ void app::gameloop(){
                 }
 
                 if(t2.getDraw().getPosition().y > 416 - t1.getDraw().getGlobalBounds().height/2){
+
                     t2.quieto(t1.getPos_ant().x,t1.getPos_ant().y);
                 }
                 if(t2.getDraw().getPosition().y < 0 + t1.getDraw().getGlobalBounds().height/2){
@@ -121,7 +122,11 @@ void app::gameloop(){
                 }
 
                 if(t1.getTankBullet().getDraw().getGlobalBounds().intersects(t2.getDraw().getGlobalBounds())){
-                    t1.getTankBullet().Disparar();
+                    t1.getTankBullet().setEstado(true);
+                    if(t1.getTankBullet().getEstado()==true){ cout << " ES VERDADERO ";}
+                    else{
+                            cout << "ES FALSO ";
+                    }
                     t2.respawn();
                 }
 

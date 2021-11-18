@@ -2,9 +2,7 @@
 #include <iostream>
 
 #include "app.h"
-/*#include "object.h"
-#include "spriteconfig.h"
-#include "TileMap.h"*/
+
 
 int main()
 {

@@ -114,6 +114,7 @@ void Tanque::cmd(){
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::F)){
             _bullet.setDisparando(_tank.getPosition().x,_tank.getPosition().y, _mirando);
+            _bullet.setEstado(0);
 
         }
     }
