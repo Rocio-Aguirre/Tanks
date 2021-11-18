@@ -835,12 +835,11 @@
 	<SFML/Graphics/Drawable.hpp>
 	<SFML/Window/GlResource.hpp>
 
-1636858025 d:\prog\tanks\gameplay.h
+1637238002 d:\prog\tanks\gameplay.h
 	"tanque.h"
-	"bloque.h"
 	"object.h"
 
-1637205557 d:\prog\tanks\tanque.h
+1637238134 d:\prog\tanks\tanque.h
 	<SFML/Graphics.hpp>
 	"object.h"
 
@@ -853,20 +852,20 @@
 	"spriteconfig.h"
 	"gameplay.h"
 
-1636864840 d:\prog\tanks\spriteconfig.h
+1637239412 d:\prog\tanks\spriteconfig.h
 	<SFML/Graphics.hpp>
 
-1637206060 d:\prog\tanks\app.h
+1637238993 d:\prog\tanks\app.h
 	<SFML/Graphics.hpp>
 	"bullet.h"
 	"tanque.h"
 	"TileMap.h"
 	"object.h"
 
-1637206060 d:\prog\tanks\tilemap.h
+1637237993 d:\prog\tanks\tilemap.h
 	"app.h"
 
-1637205557 d:\prog\tanks\bullet.h
+1637239490 d:\prog\tanks\bullet.h
 
 1636864840 source:c:\users\schma\downloads\tanks-roman\main.cpp
 	<SFML/Graphics.hpp>

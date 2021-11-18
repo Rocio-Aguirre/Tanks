@@ -103,7 +103,7 @@ public:
         return res;
     }
 
-    ///object * getMapObject(){return obj;}
+    ///object * getMapObjecdddt(){return obj;}
 
     void mostrar_mapa(sf::RenderWindow & window);
 

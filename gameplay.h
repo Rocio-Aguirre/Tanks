@@ -2,7 +2,6 @@
 #define GAMEPLAY_H_INCLUDED
 
 #include "tanque.h"
-#include "bloque.h"
 #include "object.h"
 
 class Gameplay{

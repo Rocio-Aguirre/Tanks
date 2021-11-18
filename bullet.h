@@ -94,7 +94,7 @@ void Bullet::setDisparando(int pos_x, int pos_y, enum ESTADOS_TANQUE &estado){
 
 void Bullet::update(){
 
-    std::cout << " " <<estadoBala;
+    ///std::cout << " " <<estadoBala;
 
     switch(_estado){
     case MIRANDO_ADELANTE:

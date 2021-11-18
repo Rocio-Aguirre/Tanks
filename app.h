@@ -130,7 +130,7 @@ void app::gameloop(){
                     t2.respawn();
                 }
 
-                if(t2.getTankBullet2().getDraw().getGlobalBounds().intersects(t1.getDraw().getGlobalBounds())){
+                if(t2.getTankBullet().getDraw().getGlobalBounds().intersects(t1.getDraw().getGlobalBounds())){
                     t1.respawn();
                 }
 

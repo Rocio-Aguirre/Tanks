@@ -133,7 +133,7 @@ void Tanque::cmd(){
             _estado = CAMINANDO_ABAJO;
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::M)){
-            _bullet2.setDisparando(_tank.getPosition().x,_tank.getPosition().y, _mirando);
+            _bullet.setDisparando(_tank.getPosition().x,_tank.getPosition().y, _mirando);
         }
     }
 }
@@ -213,7 +213,7 @@ sf::Sprite Tanque::getBulletDraw(){
         return _bullet.getDraw();
     }
     else if(player==2){
-        return _bullet2.getDraw();
+        return _bullet.getDraw();
     }
     return _null;
 

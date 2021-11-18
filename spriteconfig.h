@@ -47,12 +47,13 @@ public:
 
 class SpriteConfig{
 private:
-    sf::Texture * texture = new sf::Texture;
+    sf::Texture * texture;
     sf::Sprite * s_sprite;
     std::map<SpriteType, SpriteData> m_SpriteConfig;
 
 public:
     SpriteConfig();
+    ~SpriteConfig();
 
     /// Funcion que crea Sprites (nombre,x,y,alcho,alto)
 
@@ -67,6 +68,10 @@ public:
     sf::Texture * getTexture(){return texture;}
 };
 
+SpriteConfig::~SpriteConfig(){
+    delete texture;
+    delete s_sprite;
+}
 
 void SpriteConfig::create(SpriteType sp_type, int x, int y, int h, int w){
 
@@ -96,7 +101,6 @@ SpriteConfig::SpriteConfig(){
     create(ST_BULLET,190,248,15,15);
     create(ST_NONE,0,0,0,0);
     create(ST_YELLOW_BULLET,208,250,10,12);
-
 
 }
 #endif // SPRITETYPES_H_INCLUDED
