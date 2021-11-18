@@ -6,7 +6,6 @@
 #include "bullet.h"
 #include "tanque.h"
 #include "TileMap.h"
-#include "object.h"
 
 class app{
 private:
@@ -54,12 +53,8 @@ void app::gameloop(){
     Tanque t1(1);
     Tanque t2(2);
 
-    ///Bullet bullet;
-
     TileMap mapa;
     mapa.cargar_mapa();
-
-    ///map.load("recursos/graphics.png", sf::Vector2u(16, 16), LVL_2, 26, 26);
 
     while(ventana1->isOpen()){
         sf::Event event;
@@ -74,10 +69,6 @@ void app::gameloop(){
 
         t2.cmd();
         t2.update();
-
-        //bullet.update();
-
-        //dibujar();
 
         ventana1->clear();
 
@@ -122,11 +113,6 @@ void app::gameloop(){
                 }
 
                 if(t1.getTankBullet().getDraw().getGlobalBounds().intersects(t2.getDraw().getGlobalBounds())){
-                    t1.getTankBullet().setEstado(true);
-                    if(t1.getTankBullet().getEstado()==true){ cout << " ES VERDADERO ";}
-                    else{
-                            cout << "ES FALSO ";
-                    }
                     t2.respawn();
                 }
 
@@ -155,10 +141,10 @@ void app::gameloop(){
 
         ventana1->draw(t1.getDraw());
         ventana1->draw(t2.getDraw());
+
         ventana1->draw(t1.getBulletDraw());
         ventana1->draw(t2.getBulletDraw());
-        //ventana1->draw(obj.getDraw());
-        //mapa.cargar_mapa(*ventana1);
+
         mapa.mostrar_mapa(*ventana1);
 
         ventana1->display();

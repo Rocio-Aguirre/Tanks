@@ -68,24 +68,13 @@ class TileMap{
 private:
     sf::Sprite * map_sprite;
     sf::Texture * texture;
-
-    ///object * mapa[26][26];
     sf::Sprite  * mapa[26][26];
-
-    object * obj;
-
-    int nivel;
-    int matriz[26][26];
 
 public:
 
     TileMap();
 
     sf::Sprite getMap_sprite(){ return * map_sprite;}
-
-    ///sf::Sprite getVec_Map_sprite(){ return * * * mapa;}
-
-    ///object * getMapa(int x, int i){return  mapa[x][i];}
 
     sf::Sprite & getMapa(int x, int i){return  * mapa[x][i];}
 
@@ -95,15 +84,13 @@ public:
     bool leerDisco(int pos){
         FILE *p;
         bool res;
-        p = fopen("interpretes.dir", "rb");
+        p = fopen("TileMap.dat", "rb");
         if(p == NULL) return false;
         fseek(p, pos * sizeof *this, 0);
         res = fread(this, sizeof *this, 1, p);
         fclose(p);
         return res;
     }
-
-    ///object * getMapObjecdddt(){return obj;}
 
     void mostrar_mapa(sf::RenderWindow & window);
 
@@ -115,8 +102,6 @@ TileMap::TileMap(){
 }
 
 void TileMap::cargar_mapa(){
-
-    /// void TileMap::cargar_mapa(nivel)
 
     texture = new sf::Texture();
     texture->loadFromFile("resources/400.png");
@@ -130,21 +115,11 @@ void TileMap::cargar_mapa(){
 
             switch(actual){
                 case 1:
-                    ///if(obj!=NULL)delete obj;
-                    ///obj =  new object(j * 16 ,x * 16,ST_RED_BLOCK);
-                    ///window.draw(obj->getDraw());
-
-                    /*mapa[x][j] = obj;
-
-                    window.draw(mapa[x][j]->getDraw());*/
-
                     map_sprite = new sf::Sprite(*texture,sf::IntRect(4,4,16,16));
 
                     map_sprite->setPosition(j*escala,x*escala);
 
                     mapa[x][j] = map_sprite;
-
-                    ///window.draw(*map_sprite);
                     break;
                 case 2:
                     break;
@@ -168,33 +143,16 @@ void TileMap::cargar_mapa(){
                     mapa[x][j] = map_sprite;
                     break;
                 default:
-                    /*obj =  new object(1,1,ST_NONE);
-                    mapa[x][j] = obj;*/
-
                     map_sprite = new sf::Sprite(*texture,sf::IntRect(0,0,0,0));
 
                     map_sprite->setPosition(j*escala,x*escala);
 
                     mapa[x][j] = map_sprite;
-
                     break;
             }
-
         }
     }
-
-    ///delete texture;
 }
-
-/*void TileMap::mostrar_mapa(sf::RenderWindow & window){
-
-    for(int x=0;x<26;x++){
-
-        for(int j=0;j<26;j++){
-                    window.draw(mapa[x][j]->getDraw());
-        }
-    }
-}*/
 
 void TileMap::mostrar_mapa(sf::RenderWindow & window){
 
@@ -205,22 +163,6 @@ void TileMap::mostrar_mapa(sf::RenderWindow & window){
         }
     }
 }
-
-/*bool TileMap::collision(sf::Sprite sprite){
-    for(int x=0;x<26;x++){
-
-        for(int j=0;j<26;j++){
-
-                if(sprite.getGlobalBounds().intersects(mapa[x][j]->getDraw().getGlobalBounds())){
-                    std::cout << " ajsas ";
-                    return true;
-                }
-
-
-        }
-    }
-    return false;
-}*/
 
 bool TileMap::collision(sf::Sprite sprite){
     for(int x=0;x<26;x++){

@@ -3,23 +3,16 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "object.h"
-
 class Tanque{
 private:
-    //sf::CircleShape _tank;
 
     ESTADOS_TANQUE _estado;
     ESTADOS_TANQUE _mirando;
 
     sf::Texture _texture;
     sf::Sprite _tank;
-    sf::Sprite _null;
 
     Bullet _bullet;
-    Bullet _bullet2;
-
-    object * obj;
 
     int player;
 
@@ -32,13 +25,10 @@ public:
 
     void setPlayer(int p){this->player=p;}
 
-    object * getTankObject(){return obj;}
     sf::Vector2i getPos_ant(){return pos_ant;}
 
     void cmd();
     void update();
-
-    //sf::CircleShape& getDraw();
 
     void respawn();
 
@@ -50,7 +40,6 @@ public:
     sf::Sprite getBulletDraw();
 
     Bullet getTankBullet(){return _bullet;}
-    Bullet getTankBullet2(){return _bullet2;}
 
 };
 
@@ -84,10 +73,6 @@ Tanque::Tanque(int player){
             _tank.setTextureRect(posicion);
         }
 
-    _null.setTexture(_texture);
-    sf::IntRect posicion2(0,0,4,4);
-    _null.setTextureRect(posicion2);
-
     _tank.setOrigin(_tank.getLocalBounds().width/2,_tank.getLocalBounds().height/2);
     ///cada cuadradito se llama frame
 }
@@ -114,7 +99,6 @@ void Tanque::cmd(){
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::F)){
             _bullet.setDisparando(_tank.getPosition().x,_tank.getPosition().y, _mirando);
-            _bullet.setEstado(0);
 
         }
     }
@@ -141,7 +125,6 @@ void Tanque::cmd(){
 void Tanque::update(){
 
     _bullet.update();
-    _bullet2.update();
 
     pos_ant.x = _tank.getPosition().x;
     pos_ant.y = _tank.getPosition().y;
@@ -209,14 +192,7 @@ void Tanque::quieto(float x, float y){
 }*/
 
 sf::Sprite Tanque::getBulletDraw(){
-    if(player==1){
         return _bullet.getDraw();
-    }
-    else if(player==2){
-        return _bullet.getDraw();
-    }
-    return _null;
-
 }
 
 void Tanque::respawn(){
@@ -225,7 +201,6 @@ void Tanque::respawn(){
         switch(pos){
     case 0: vida--;
             _tank.setPosition(20,20);
-
         break;
     case 1: vida--;
             _tank.setPosition(400,20);
