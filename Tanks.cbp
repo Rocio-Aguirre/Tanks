@@ -48,14 +48,8 @@
 		</Linker>
 		<Unit filename="TileMap.h" />
 		<Unit filename="app.h" />
-		<Unit filename="bloque.h" />
-		<Unit filename="gameplay.h" />
+		<Unit filename="bullet.h" />
 		<Unit filename="main.cpp" />
-		<Unit filename="object.h" />
-<<<<<<< HEAD
-		<Unit filename="spriteconfig.h" />
-=======
->>>>>>> main
 		<Unit filename="tanque.h" />
 		<Extensions>
 			<code_completion />
