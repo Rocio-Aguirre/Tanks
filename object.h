@@ -56,7 +56,6 @@ object::~object(){
 
 object::object(double x, double y, SpriteType s_type){
 
-    ///SpriteConfig config;
 
     s_sprite.setTexture(*config->getTexture());
 
@@ -64,6 +63,7 @@ object::object(double x, double y, SpriteType s_type){
 
     pos_x = x;
     pos_y = y;
+
 
     /// obtenemos los datos del sprite
     sd_sprite = SpriteConfig().getData(s_type);

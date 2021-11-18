@@ -57,7 +57,7 @@ void app::gameloop(){
     ///Bullet bullet;
 
     TileMap mapa;
-
+    mapa.cargar_mapa(*ventana1);
 
     ///map.load("recursos/graphics.png", sf::Vector2u(16, 16), LVL_2, 26, 26);
 
@@ -83,6 +83,36 @@ void app::gameloop(){
 
         /// CHECK COLISSION
 
+            /// TANQUE Y BORDES DEL MAPA
+
+                if(t1.getDraw().getPosition().y > 416 - t1.getDraw().getGlobalBounds().height/2){
+                    t1.quieto(t1.getPos_ant().x,t1.getPos_ant().y);
+                }
+                if(t1.getDraw().getPosition().y < 0 + t1.getDraw().getGlobalBounds().height/2){
+                    t1.quieto(t1.getPos_ant().x,t1.getPos_ant().y);
+                }
+                if(t1.getDraw().getPosition().x < 0 + t1.getDraw().getGlobalBounds().width/2){
+                    t1.quieto(t1.getPos_ant().x,t1.getPos_ant().y);
+                }
+                if(t1.getDraw().getPosition().x > 416 - t1.getDraw().getGlobalBounds().width/2){
+                    t1.quieto(t1.getPos_ant().x,t1.getPos_ant().y);
+                }
+
+                if(t2.getDraw().getPosition().y > 416 - t1.getDraw().getGlobalBounds().height/2){
+                    t2.quieto(t1.getPos_ant().x,t1.getPos_ant().y);
+                }
+                if(t2.getDraw().getPosition().y < 0 + t1.getDraw().getGlobalBounds().height/2){
+                    t2.quieto(t1.getPos_ant().x,t1.getPos_ant().y);
+                }
+                if(t2.getDraw().getPosition().x < 0 + t1.getDraw().getGlobalBounds().width/2){
+                    t2.quieto(t1.getPos_ant().x,t1.getPos_ant().y);
+                }
+                if(t2.getDraw().getPosition().x > 416 - t1.getDraw().getGlobalBounds().width/2){
+                    t2.quieto(t1.getPos_ant().x,t1.getPos_ant().y);
+                }
+
+            /// ENTRE TANQUES
+
                 if(t1.getDraw().getGlobalBounds().intersects(t2.getDraw().getGlobalBounds())){
                     t1.quieto(t1.getPos_ant().x,t1.getPos_ant().y);
                 }
@@ -91,12 +121,29 @@ void app::gameloop(){
                 }
 
                 if(t1.getTankBullet().getDraw().getGlobalBounds().intersects(t2.getDraw().getGlobalBounds())){
+                    t1.getTankBullet().Disparar();
                     t2.respawn();
                 }
 
                 if(t2.getTankBullet2().getDraw().getGlobalBounds().intersects(t1.getDraw().getGlobalBounds())){
                     t1.respawn();
                 }
+
+            /// CON EL MAPA
+
+                for(int x=0; x<26; x++){
+
+                    for(int i=0; i<26; i++){
+                        if(t1.getDraw().getGlobalBounds().intersects(mapa.getMapa(x,i).getGlobalBounds())){
+                            t1.quieto(t1.getPos_ant().x,t1.getPos_ant().y);
+                        }
+                        if(t2.getDraw().getGlobalBounds().intersects(mapa.getMapa(x,i).getGlobalBounds())){
+                            t2.quieto(t2.getPos_ant().x,t2.getPos_ant().y);
+                        }
+                    }
+                }
+
+            /// BALAS CON EL ENTORNO
 
 
         /// -------------
@@ -106,7 +153,8 @@ void app::gameloop(){
         ventana1->draw(t1.getBulletDraw());
         ventana1->draw(t2.getBulletDraw());
         //ventana1->draw(obj.getDraw());
-        mapa.cargar_mapa(*ventana1);
+        //mapa.cargar_mapa(*ventana1);
+        mapa.mostrar_mapa(*ventana1);
 
         ventana1->display();
 

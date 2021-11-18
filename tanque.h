@@ -5,7 +5,7 @@
 
 #include "object.h"
 
-class Tanque {
+class Tanque{
 private:
     //sf::CircleShape _tank;
 
@@ -47,7 +47,7 @@ public:
     sf::Texture& getTexture();
     sf::Sprite& getDraw();
     sf::FloatRect getBounds() const;
-    sf::Sprite& getBulletDraw();
+    sf::Sprite getBulletDraw();
 
     Bullet getTankBullet(){return _bullet;}
     Bullet getTankBullet2(){return _bullet2;}
@@ -63,10 +63,10 @@ Tanque::Tanque(int player){
     vida = 4;
 
         if(player==1){
-        _tank.setPosition(10,10);
+        _tank.setPosition(20,20);
         }
         else {
-            _tank.setPosition(210,210);
+            _tank.setPosition(208,352);
         }
 
     _estado = QUIETO;
@@ -207,14 +207,14 @@ void Tanque::quieto(float x, float y){
     return _tank.getGlobalBounds();
 }*/
 
-sf::Sprite& Tanque::getBulletDraw(){
+sf::Sprite Tanque::getBulletDraw(){
     if(player==1){
         return _bullet.getDraw();
     }
     else if(player==2){
         return _bullet2.getDraw();
     }
-        return _null;
+    return _null;
 
 }
 
@@ -223,14 +223,14 @@ void Tanque::respawn(){
 
         switch(pos){
     case 0: vida--;
-            _tank.setPosition(10,10);
+            _tank.setPosition(20,20);
 
         break;
     case 1: vida--;
-            _tank.setPosition(400,10);
+            _tank.setPosition(400,20);
         break;
     case 2: vida--;
-            _tank.setPosition(10,400);
+            _tank.setPosition(20,400);
         break;
     case 3: vida--;
             _tank.setPosition(400,400);

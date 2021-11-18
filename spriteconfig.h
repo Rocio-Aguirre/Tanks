@@ -1,8 +1,8 @@
 #ifndef SPRITETYPES_H_INCLUDED
 #define SPRITETYPES_H_INCLUDED
 
-#include <iostream>
-#include <SFML/Graphics.hpp>
+/*#include <iostream>
+#include <SFML/Graphics.hpp>*/
 
 enum SpriteType{
     ST_YELLOW_TANK,
@@ -15,18 +15,20 @@ enum SpriteType{
     ST_YELLOW_BLOCK,
     ST_BULLET,
     ST_NONE,
+    ST_YELLOW_BULLET,
 };
 
 class SpriteData{
 private:
 
 public:
+    SpriteType type;
     int x;
     int y;
     int w;
     int h;
     SpriteData(){
-         x=0; y=0; w=0; h=0;
+         x=0; y=0; w=0; h=0; type = ST_NONE;
         }
     SpriteData(int x, int y, int w, int h){
         x=x; y=y; w=w; h=h;
@@ -35,6 +37,7 @@ public:
     int getY(){return y;}
     int getW(){return w;}
     int getH(){return h;}
+    SpriteType getType(){return type;}
 
     void setX(int x){this->x=x;}
     void setY(int y){this->y=y;}
@@ -91,6 +94,8 @@ SpriteConfig::SpriteConfig(){
     create(ST_YELLOW_TANK,4,240,22,32);
     create(ST_RED_TANK,4,282,22,32);
     create(ST_BULLET,190,248,15,15);
+    create(ST_NONE,0,0,0,0);
+    create(ST_YELLOW_BULLET,208,250,10,12);
 
 
 }
