@@ -46,10 +46,19 @@
 			<Add library="sfml-system" />
 			<Add directory="SFML/lib" />
 		</Linker>
+		<Unit filename="TileMap.h" />
+		<Unit filename="app.h" />
 		<Unit filename="bloque.h" />
 		<Unit filename="gameplay.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="object.h" />
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+		<Unit filename="spriteconfig.h" />
+=======
+>>>>>>> main
+>>>>>>> Roman
 		<Unit filename="tanque.h" />
 		<Extensions>
 			<code_completion />
