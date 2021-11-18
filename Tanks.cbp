@@ -48,8 +48,12 @@
 		</Linker>
 		<Unit filename="TileMap.h" />
 		<Unit filename="app.h" />
+<<<<<<< HEAD
 		<Unit filename="bloque.h" />
 		<Unit filename="gameplay.h" />
+=======
+		<Unit filename="bullet.h" />
+>>>>>>> Roman
 		<Unit filename="main.cpp" />
 		<Unit filename="object.h" />
 <<<<<<< HEAD
