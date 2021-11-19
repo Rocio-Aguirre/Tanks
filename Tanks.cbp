@@ -49,6 +49,7 @@
 		<Unit filename="TileMap.h" />
 		<Unit filename="app.h" />
 <<<<<<< HEAD
+<<<<<<< HEAD
 		<Unit filename="bloque.h" />
 		<Unit filename="gameplay.h" />
 =======
@@ -58,10 +59,24 @@
 		<Unit filename="object.h" />
 <<<<<<< HEAD
 =======
+=======
+		<Unit filename="bullet.h" />
+		<Unit filename="main.cpp" />
+<<<<<<< HEAD
+		<Unit filename="object.h" />
+<<<<<<< HEAD
+>>>>>>> Roman
 <<<<<<< HEAD
 		<Unit filename="spriteconfig.h" />
 =======
 >>>>>>> main
+<<<<<<< HEAD
+>>>>>>> Roman
+=======
+=======
+>>>>>>> main
+=======
+>>>>>>> 16b411c5875b25fb28bb259d77bdcdbc1c9bc665
 >>>>>>> Roman
 		<Unit filename="tanque.h" />
 		<Extensions>

@@ -421,7 +421,11 @@
 
 1635904046 c:\desktop\roescritorio\segundo cuatrimestre 2021\programación 2\tanks\bloque.h
 
+<<<<<<< HEAD
 1637247956 source:d:\prog\tanks\main.cpp
+=======
+1637247375 source:d:\prog\tanks\main.cpp
+>>>>>>> Roman
 	<SFML/Graphics.hpp>
 	<iostream>
 	"app.h"
@@ -839,7 +843,11 @@
 	"tanque.h"
 	"object.h"
 
+<<<<<<< HEAD
 1637247956 d:\prog\tanks\tanque.h
+=======
+1637247375 d:\prog\tanks\tanque.h
+>>>>>>> Roman
 	<SFML/Graphics.hpp>
 
 1636858025 d:\prog\tanks\bloque.h
@@ -854,16 +862,27 @@
 1637239412 d:\prog\tanks\spriteconfig.h
 	<SFML/Graphics.hpp>
 
+<<<<<<< HEAD
 1637247956 d:\prog\tanks\app.h
+=======
+1637247375 d:\prog\tanks\app.h
+>>>>>>> Roman
 	<SFML/Graphics.hpp>
 	"bullet.h"
 	"tanque.h"
 	"TileMap.h"
 
+<<<<<<< HEAD
 1637247956 d:\prog\tanks\tilemap.h
 	"app.h"
 
 1637247956 d:\prog\tanks\bullet.h
+=======
+1637247375 d:\prog\tanks\tilemap.h
+	"app.h"
+
+1637247375 d:\prog\tanks\bullet.h
+>>>>>>> Roman
 
 1636864840 source:c:\users\schma\downloads\tanks-roman\main.cpp
 	<SFML/Graphics.hpp>
