@@ -1,67 +1,53 @@
 #ifndef APP_H_INCLUDED
 #define APP_H_INCLUDED
 
-#include <SFML/Graphics.hpp>
-
 #include "bullet.h"
-#include "tanque.h"
+#include "tank.h"
 #include "TileMap.h"
 
 class app{
 private:
 
-    sf::RenderWindow * ventana1;
+    sf::RenderWindow *_ventana1;
 
-    int fps;
+    int _fps;
 
-    sf::Texture * texture_;
-    sf::Sprite * sprite_;
+    sf::Texture *_texture;
+    sf::Sprite *_sprite;
 
 public:
 
-    app();
     app(int resolucion_x, int resolucion_y, std::string titulo);
 
-    void dibujar();
-
-    void checkColission();
-
+    void checkCollision();
     void gameloop();
 
-    sf::RenderWindow * getWindow(){return ventana1;}
+    sf::RenderWindow * getWindow(){return _ventana1;}
 };
 
 app::app(int resolucion_x, int resolucion_y, std::string titulo){
 
-    fps = 60;
+    _fps = 60;
 
-    ventana1 = new sf::RenderWindow(sf::VideoMode(resolucion_x, resolucion_y), titulo);
-    ventana1->setFramerateLimit(fps);
+    _ventana1 = new sf::RenderWindow(sf::VideoMode(resolucion_x, resolucion_y), titulo);
+    _ventana1->setFramerateLimit(_fps);
 
     gameloop();
 }
 
-void app::dibujar(){
-
-    ventana1->clear();
-    ventana1->draw(*sprite_);
-    ventana1->display();
-}
-
 void app::gameloop(){
 
-    Tanque t1(1);
-    Tanque t2(2);
+    Tank t2(2);
+    Tank t1(1);
 
     TileMap mapa;
-    mapa.cargar_mapa();
 
-    while(ventana1->isOpen()){
+    while(_ventana1->isOpen()){
         sf::Event event;
-        while (ventana1->pollEvent(event))
+        while (_ventana1->pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
-                ventana1->close();
+                _ventana1->close();
         }
 
         t1.cmd();
@@ -70,49 +56,54 @@ void app::gameloop(){
         t2.cmd();
         t2.update();
 
-        ventana1->clear();
+        _ventana1->clear();
 
         /// CHECK COLISSION
 
             /// TANQUE Y BORDES DEL MAPA
 
                 if(t1.getDraw().getPosition().y > 416 - t1.getDraw().getGlobalBounds().height/2){
-                    t1.quieto(t1.getPos_ant().x,t1.getPos_ant().y);
+                    t1.quieto(t1.getPosAnt().x,t1.getPosAnt().y);
                 }
                 if(t1.getDraw().getPosition().y < 0 + t1.getDraw().getGlobalBounds().height/2){
-                    t1.quieto(t1.getPos_ant().x,t1.getPos_ant().y);
+                    t1.quieto(t1.getPosAnt().x,t1.getPosAnt().y);
                 }
                 if(t1.getDraw().getPosition().x < 0 + t1.getDraw().getGlobalBounds().width/2){
-                    t1.quieto(t1.getPos_ant().x,t1.getPos_ant().y);
+                    t1.quieto(t1.getPosAnt().x,t1.getPosAnt().y);
                 }
                 if(t1.getDraw().getPosition().x > 416 - t1.getDraw().getGlobalBounds().width/2){
-                    t1.quieto(t1.getPos_ant().x,t1.getPos_ant().y);
+                    t1.quieto(t1.getPosAnt().x,t1.getPosAnt().y);
                 }
 
                 if(t2.getDraw().getPosition().y > 416 - t1.getDraw().getGlobalBounds().height/2){
-
-                    t2.quieto(t1.getPos_ant().x,t1.getPos_ant().y);
+                    t2.quieto(t1.getPosAnt().x,t1.getPosAnt().y);
                 }
                 if(t2.getDraw().getPosition().y < 0 + t1.getDraw().getGlobalBounds().height/2){
-                    t2.quieto(t1.getPos_ant().x,t1.getPos_ant().y);
+                    t2.quieto(t1.getPosAnt().x,t1.getPosAnt().y);
                 }
                 if(t2.getDraw().getPosition().x < 0 + t1.getDraw().getGlobalBounds().width/2){
-                    t2.quieto(t1.getPos_ant().x,t1.getPos_ant().y);
+                    t2.quieto(t1.getPosAnt().x,t1.getPosAnt().y);
                 }
                 if(t2.getDraw().getPosition().x > 416 - t1.getDraw().getGlobalBounds().width/2){
-                    t2.quieto(t1.getPos_ant().x,t1.getPos_ant().y);
+                    t2.quieto(t1.getPosAnt().x,t1.getPosAnt().y);
                 }
 
             /// ENTRE TANQUES
 
                 if(t1.getDraw().getGlobalBounds().intersects(t2.getDraw().getGlobalBounds())){
-                    t1.quieto(t1.getPos_ant().x,t1.getPos_ant().y);
+                    t1.quieto(t1.getPosAnt().x,t1.getPosAnt().y);
                 }
                 if(t2.getDraw().getGlobalBounds().intersects(t1.getDraw().getGlobalBounds())){
-                    t2.quieto(t2.getPos_ant().x,t2.getPos_ant().y);
+                    t2.quieto(t2.getPosAnt().x,t2.getPosAnt().y);
                 }
 
                 if(t1.getTankBullet().getDraw().getGlobalBounds().intersects(t2.getDraw().getGlobalBounds())){
+                    t1.getTankBullet().setEstado(true);
+                    if(t1.getTankBullet().getEstado()==true){ std::cout << " ES VERDADERO ";}
+                    else{
+                            std::cout << "ES FALSO ";
+                    }
+                    t1.getTankBullet().deleteBullet();
                     t2.respawn();
                 }
 
@@ -126,10 +117,10 @@ void app::gameloop(){
 
                     for(int i=0; i<26; i++){
                         if(t1.getDraw().getGlobalBounds().intersects(mapa.getMapa(x,i).getGlobalBounds())){
-                            t1.quieto(t1.getPos_ant().x,t1.getPos_ant().y);
+                            t1.quieto(t1.getPosAnt().x,t1.getPosAnt().y);
                         }
                         if(t2.getDraw().getGlobalBounds().intersects(mapa.getMapa(x,i).getGlobalBounds())){
-                            t2.quieto(t2.getPos_ant().x,t2.getPos_ant().y);
+                            t2.quieto(t2.getPosAnt().x,t2.getPosAnt().y);
                         }
                     }
                 }
@@ -139,17 +130,14 @@ void app::gameloop(){
 
         /// -------------
 
-        ventana1->draw(t1.getDraw());
-        ventana1->draw(t2.getDraw());
+        _ventana1->draw(t1.getDraw());
+        _ventana1->draw(t2.getDraw());
+        _ventana1->draw(t1.getBulletDraw());
+        _ventana1->draw(t2.getBulletDraw());
 
-        ventana1->draw(t1.getBulletDraw());
-        ventana1->draw(t2.getBulletDraw());
+        mapa.mostrarMapa(*_ventana1);
 
-        mapa.mostrar_mapa(*ventana1);
-
-        ventana1->display();
-
-
+        _ventana1->display();
     }
 }
 
