@@ -9,7 +9,7 @@ private:
     sf::Texture *_texture;
     sf::Sprite *_sprite;
 
-    Bullet _bullet;
+    Bullet *_bullet;
 
     int _player;
 
@@ -34,7 +34,7 @@ public:
     sf::Sprite getDraw();
     sf::Sprite getBulletDraw();
 
-    Bullet getTankBullet(){return _bullet;}
+    Bullet getTankBullet(){return *_bullet;}
 
 };
 
@@ -92,9 +92,11 @@ void Tank::cmd(){
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::S)){
             _estado = CAMINANDO_ABAJO;
         }
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::F)){
-            _bullet.setDisparando(_sprite->getPosition().x,_sprite->getPosition().y, _mirando);
-            _bullet.setEstado(0);
+       if(sf::Keyboard::isKeyPressed(sf::Keyboard::F)){
+            _bullet = new Bullet;
+            _bullet->setDisparando(_sprite->getPosition().x,_sprite->getPosition().y, _mirando);
+            _bullet->setEstado(0);
+            _bullet->update();
 
         }
     }
@@ -112,16 +114,14 @@ void Tank::cmd(){
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
             _estado = CAMINANDO_ABAJO;
         }
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){
-            _bullet.setDisparando(_sprite->getPosition().x,_sprite->getPosition().y, _mirando);
-            _bullet.setEstado(0);
-        }
+//        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){
+//            _bullet.setDisparando(_sprite->getPosition().x,_sprite->getPosition().y, _mirando);
+//            _bullet.setEstado(0);
+//        }
     }
 }
 
 void Tank::update(){
-
-    _bullet.update();
 
     _posAnt.x = _sprite->getPosition().x;
     _posAnt.y = _sprite->getPosition().y;
@@ -160,19 +160,20 @@ void Tank::update(){
         break;
     }
 
+
 }
 
 sf::Sprite Tank::getDraw(){
     return *_sprite;
 }
 
+sf::Sprite Tank::getBulletDraw(){
+    return _bullet->getDraw();
+}
+
 void Tank::quieto(float x, float y){
     _estado = QUIETO;
     _sprite->setPosition(x,y);
-}
-
-sf::Sprite Tank::getBulletDraw(){
-    return _bullet.getDraw();
 }
 
 void Tank::respawn(){
