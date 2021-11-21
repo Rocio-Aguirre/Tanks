@@ -97,19 +97,19 @@ void app::gameloop(){
                     t2.quieto(t2.getPosAnt().x,t2.getPosAnt().y);
                 }
 
-                if(t1.getTankBullet().getDraw().getGlobalBounds().intersects(t2.getDraw().getGlobalBounds())){
-                    t1.getTankBullet().setEstado(true);
-                    if(t1.getTankBullet().getEstado()==true){ std::cout << " ES VERDADERO ";}
-                    else{
-                            std::cout << "ES FALSO ";
-                    }
-                    t1.getTankBullet().deleteBullet();
-                    t2.respawn();
-                }
+//                if(t1.getTankBullet().getDraw().getGlobalBounds().intersects(t2.getDraw().getGlobalBounds())){
+//                    t1.getTankBullet().deleteBullet();
+//                    t1.getTankBullet().setEstado(true);
+////                    if(t1.getTankBullet().getEstado()==true){ std::cout << " ES VERDADERO ";}
+////                    else{
+////                            std::cout << "ES FALSO ";
+////                    }
+//                    t2.respawn();
+//                }
 
-                if(t2.getTankBullet().getDraw().getGlobalBounds().intersects(t1.getDraw().getGlobalBounds())){
-                    t1.respawn();
-                }
+//                if(t2.getTankBullet().getDraw().getGlobalBounds().intersects(t1.getDraw().getGlobalBounds())){
+//                    t1.respawn();
+//                }
 
             /// CON EL MAPA
 
@@ -132,8 +132,11 @@ void app::gameloop(){
 
         _ventana1->draw(t1.getDraw());
         _ventana1->draw(t2.getDraw());
-        _ventana1->draw(t1.getBulletDraw());
-        _ventana1->draw(t2.getBulletDraw());
+        if(t1.getTankBullet().getEstado()==0){
+           _ventana1->draw(t1.getBulletDraw());
+        }
+
+//        _ventana1->draw(t2.getBulletDraw());
 
         mapa.mostrarMapa(*_ventana1);
 

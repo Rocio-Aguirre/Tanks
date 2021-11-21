@@ -27,6 +27,7 @@ private:
 public:
 
     Bullet();
+    ~Bullet();
 
     void cmd();
 
@@ -37,14 +38,8 @@ public:
     void setEstado(bool d){_estadoBala=d;}
     bool getEstado(){return _estadoBala;}
 
-    void deleteBullet();
-
     sf::Sprite getDraw();
 };
-
-sf::Sprite Bullet::getDraw(){
-        return *_sprite;
-}
 
 Bullet::Bullet(){
     _texture = new sf::Texture;
@@ -60,14 +55,18 @@ Bullet::Bullet(){
     _estadoBala=true;
 }
 
-void Bullet::deleteBullet(){
-        delete _texture;
-        delete _sprite;
+Bullet::~Bullet(){
+    delete _sprite;
+    delete _texture;
+}
+
+sf::Sprite Bullet::getDraw(){
+        return *_sprite;
 }
 
 void Bullet::setDisparando(int pos_x, int pos_y, enum ESTADOS_TANQUE &estado){
 
-        if(_estadoBala==true){
+        //if(_estadoBala==true){
             switch(estado){
                 case MIRANDO_ADELANTE:  _estado=MIRANDO_ADELANTE;
                     break;
@@ -81,11 +80,10 @@ void Bullet::setDisparando(int pos_x, int pos_y, enum ESTADOS_TANQUE &estado){
                     break;
                 }
             _sprite->setPosition(pos_x,pos_y);
-        }
+       // }
 }
 
 void Bullet::update(){
-
     switch(_estado){
     case MIRANDO_ADELANTE:
         _sprite->setRotation(90);
