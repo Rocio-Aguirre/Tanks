@@ -36,6 +36,10 @@ public:
 
     Bullet getTankBullet(){return *_bullet;}
 
+    void deleteBullet(){delete _bullet;}
+
+    int bulletNULL();
+
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -121,7 +125,20 @@ void Tank::cmd(){
     }
 }
 
+int Tank::bulletNULL(){
+    if(_bullet == NULL){
+        return 1;
+    }
+    else{
+        return 0;
+    }
+}
+
 void Tank::update(){
+
+    if(_bullet != NULL){
+        _bullet->update();
+    }
 
     _posAnt.x = _sprite->getPosition().x;
     _posAnt.y = _sprite->getPosition().y;

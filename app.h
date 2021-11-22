@@ -53,8 +53,8 @@ void app::gameloop(){
         t1.cmd();
         t1.update();
 
-        t2.cmd();
-        t2.update();
+//        t2.cmd();
+//        t2.update();
 
         _ventana1->clear();
 
@@ -97,25 +97,34 @@ void app::gameloop(){
                     t2.quieto(t2.getPosAnt().x,t2.getPosAnt().y);
                 }
 
-//                if(t1.getTankBullet().getDraw().getGlobalBounds().intersects(t2.getDraw().getGlobalBounds())){
-//                    t1.getTankBullet().deleteBullet();
-//                    t1.getTankBullet().setEstado(true);
-////                    if(t1.getTankBullet().getEstado()==true){ std::cout << " ES VERDADERO ";}
-////                    else{
-////                            std::cout << "ES FALSO ";
-////                    }
-//                    t2.respawn();
-//                }
 
-//                if(t2.getTankBullet().getDraw().getGlobalBounds().intersects(t1.getDraw().getGlobalBounds())){
-//                    t1.respawn();
-//                }
+                /// SI COLISIONA LA BALA
+
+                    if(t1.bulletNULL() != 1){
+
+//                    if(t1.getTankBullet().getDraw().getGlobalBounds().intersects(t2.getDraw().getGlobalBounds())){
+//                        t1.deleteBullet();
+//                        t2.respawn();
+//                    }
+                    }
+
+
+//                    if(t2.getTankBullet().getDraw().getGlobalBounds().intersects(t1.getDraw().getGlobalBounds())){
+//                        t1.respawn();
+//                    }
 
             /// CON EL MAPA
 
                 for(int x=0; x<26; x++){
 
                     for(int i=0; i<26; i++){
+
+                        if(t1.bulletNULL() != 1){
+//                            if(t1.getBulletDraw().getGlobalBounds().intersects(mapa.getMapa(x,i).getGlobalBounds())){
+//
+//                            }
+                        }
+
                         if(t1.getDraw().getGlobalBounds().intersects(mapa.getMapa(x,i).getGlobalBounds())){
                             t1.quieto(t1.getPosAnt().x,t1.getPosAnt().y);
                         }
@@ -132,8 +141,9 @@ void app::gameloop(){
 
         _ventana1->draw(t1.getDraw());
         _ventana1->draw(t2.getDraw());
-        if(t1.getTankBullet().getEstado()==0){
-           _ventana1->draw(t1.getBulletDraw());
+
+        if(t1.bulletNULL() != 1){
+            _ventana1->draw(t1.getBulletDraw());
         }
 
 //        _ventana1->draw(t2.getBulletDraw());
