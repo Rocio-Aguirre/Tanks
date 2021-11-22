@@ -23,7 +23,20 @@ public:
     void gameloop();
 
     sf::RenderWindow * getWindow(){return _ventana1;}
+
+    void checkCollisionTwoTanks(Tank *t1, Tank *t2);
+    void checkCollisionTankToMap();
+    void checkCollisionBulletToTank();
+    void checkCollisionBulletToMap();
 };
+
+void app::checkCollisionTwoTanks(Tank *t1, Tank *t2){
+
+    if(t1->getDraw().getGlobalBounds().intersects(t2->getDraw().getGlobalBounds())){
+
+        t1->quieto(t1->getPosAnt().x,t1->getPosAnt().y);
+    }
+}
 
 app::app(int resolucion_x, int resolucion_y, std::string titulo){
 
@@ -90,12 +103,15 @@ void app::gameloop(){
 
             /// ENTRE TANQUES
 
-                if(t1.getDraw().getGlobalBounds().intersects(t2.getDraw().getGlobalBounds())){
-                    t1.quieto(t1.getPosAnt().x,t1.getPosAnt().y);
-                }
-                if(t2.getDraw().getGlobalBounds().intersects(t1.getDraw().getGlobalBounds())){
-                    t2.quieto(t2.getPosAnt().x,t2.getPosAnt().y);
-                }
+//                if(t1.getDraw().getGlobalBounds().intersects(t2.getDraw().getGlobalBounds())){
+//                    t1.quieto(t1.getPosAnt().x,t1.getPosAnt().y);
+//                }
+//                if(t2.getDraw().getGlobalBounds().intersects(t1.getDraw().getGlobalBounds())){
+//                    t2.quieto(t2.getPosAnt().x,t2.getPosAnt().y);
+//                }
+
+                checkCollisionTwoTanks(&t1,&t2);
+                checkCollisionTwoTanks(&t2,&t1);
 
 
                 /// SI COLISIONA LA BALA
@@ -120,9 +136,9 @@ void app::gameloop(){
                     for(int i=0; i<26; i++){
 
                         if(t1.bulletNULL() != 1){
-//                            if(t1.getBulletDraw().getGlobalBounds().intersects(mapa.getMapa(x,i).getGlobalBounds())){
-//
-//                            }
+                            if(t1.getBulletDraw().getGlobalBounds().intersects(mapa.getMapa(x,i).getGlobalBounds())){
+
+                            }
                         }
 
                         if(t1.getDraw().getGlobalBounds().intersects(mapa.getMapa(x,i).getGlobalBounds())){
