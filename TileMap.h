@@ -96,6 +96,7 @@ TileMap::TileMap(){
     _texture->loadFromFile("resources/400.png");
 
     int escala=16;
+
     for(int x=0;x<26;x++){
         for(int j=0;j<26;j++){
             int actual = LVL_1[x * 26 + j];
@@ -104,7 +105,7 @@ TileMap::TileMap(){
                 case 1:
                     _sprite = new sf::Sprite(*_texture,sf::IntRect(4,4,16,16));
 
-                    _sprite->setPosition(j*escala,x*escala);
+                    _sprite->setPosition(128+j*escala,32+x*escala);
 
                     _mapa[x][j] = _sprite;
                     break;
@@ -125,7 +126,7 @@ TileMap::TileMap(){
                 case 9:
                     _sprite = new sf::Sprite(*_texture,sf::IntRect(207,14,16,16));
 
-                    _sprite->setPosition(j*escala,x*escala);
+                    _sprite->setPosition(128+j*escala,32+x*escala);
 
                     _mapa[x][j] = _sprite;
                     break;

@@ -5,5 +5,5 @@
 
 int main()
 {
-    app app(416,416,"TANQUESITOS");
+    app app(672,480,"TANQUESITOS");
 }

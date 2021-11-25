@@ -39,6 +39,7 @@ public:
     bool getEstado(){return _estadoBala;}
 
     sf::Sprite getDraw();
+    void getDraw(sf::RenderWindow &window);
 };
 
 Bullet::Bullet(){
@@ -52,12 +53,18 @@ Bullet::Bullet(){
 
     _sprite->setPosition(900,900);
 
+    _estado = MIRANDO_ARRIBA;
+
     _estadoBala=true;
 }
 
 Bullet::~Bullet(){
     delete _sprite;
     delete _texture;
+}
+
+void Bullet::getDraw(sf::RenderWindow &window){
+    window.draw(*_sprite);
 }
 
 sf::Sprite Bullet::getDraw(){

@@ -13,7 +13,11 @@ private:
 
     int _player;
 
-    int _vida;
+    int _life;
+    sf::Sprite _lifeSprite;
+
+    int ShotTime;
+    bool Shot;
 
     sf::Vector2i _posAnt;
 public:
@@ -25,7 +29,7 @@ public:
     sf::Vector2i getPosAnt(){return _posAnt;}
 
     void cmd();
-    void update();
+    void update(sf::RenderWindow &window);
 
     void respawn();
 
@@ -36,9 +40,9 @@ public:
 
     Bullet getTankBullet(){return *_bullet;}
 
-    void deleteBullet(){delete _bullet;}
+    void deleteBullet(){delete _bullet; _bullet = NULL;}
 
-    int bulletNULL();
+    bool bulletNULL();
 
 };
 
@@ -51,10 +55,10 @@ Tank::Tank(int player){
 
     _player = player;
 
-    _vida = 4;
+    _life = 4;
 
         if(_player==1){
-        _sprite->setPosition(20,20);
+        _sprite->setPosition(145,50);
         }
         else{
             _sprite->setPosition(208,352);
@@ -63,6 +67,9 @@ Tank::Tank(int player){
     _estado = QUIETO;
     _texture->loadFromFile("resources/400.png");
     _sprite->setTexture(*_texture);
+
+    _lifeSprite.setTexture(*_texture);
+
 
         if(player==1){
             sf::IntRect posicion(4,240,22,32);
@@ -74,6 +81,11 @@ Tank::Tank(int player){
         }
 
     _sprite->setOrigin(_sprite->getLocalBounds().width/2,_sprite->getLocalBounds().height/2);
+
+    _bullet = NULL;
+
+    ShotTime=0;
+    Shot=true;
 }
 
 Tank::~Tank(){
@@ -97,11 +109,15 @@ void Tank::cmd(){
             _estado = CAMINANDO_ABAJO;
         }
        if(sf::Keyboard::isKeyPressed(sf::Keyboard::F)){
-            _bullet = new Bullet;
-            _bullet->setDisparando(_sprite->getPosition().x,_sprite->getPosition().y, _mirando);
-            _bullet->setEstado(0);
-            _bullet->update();
 
+            if(Shot == true){
+                _bullet = new Bullet;
+                _bullet->setDisparando(_sprite->getPosition().x,_sprite->getPosition().y, _mirando);
+                _bullet->setEstado(0);
+                _bullet->update();
+                ShotTime = 0;
+                Shot=false;
+            }
         }
     }
 
@@ -118,27 +134,65 @@ void Tank::cmd(){
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
             _estado = CAMINANDO_ABAJO;
         }
-//        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){
-//            _bullet.setDisparando(_sprite->getPosition().x,_sprite->getPosition().y, _mirando);
-//            _bullet.setEstado(0);
-//        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){
+            if(Shot == true){
+                _bullet = new Bullet;
+                _bullet->setDisparando(_sprite->getPosition().x,_sprite->getPosition().y, _mirando);
+                _bullet->setEstado(0);
+                _bullet->update();
+                ShotTime = 0;
+                Shot=false;
+            }
+        }
     }
 }
 
-int Tank::bulletNULL(){
-    if(_bullet == NULL){
-        return 1;
+bool Tank::bulletNULL(){
+    if(_bullet != NULL){
+        return false;
     }
     else{
-        return 0;
+        return true;
     }
 }
 
-void Tank::update(){
+void Tank::update(sf::RenderWindow &window){
+
+    cmd();
+
+    ShotTime++;
+
+    if(ShotTime == 140){
+        Shot = true;
+    }
 
     if(_bullet != NULL){
         _bullet->update();
+        _bullet->getDraw(window);
     }
+
+    switch(_life){
+    case 1:
+            _lifeSprite.setTextureRect(sf::IntRect(312,278,86,12));
+        break;
+    case 2:
+            _lifeSprite.setTextureRect(sf::IntRect(312,264,86,12));
+        break;
+    case 3:
+            _lifeSprite.setTextureRect(sf::IntRect(312,250,86,12));
+            _lifeSprite.setPosition(4,59);
+        break;
+    case 4:
+            _lifeSprite.setTextureRect(sf::IntRect(312,236,86,12));
+            _lifeSprite.setPosition(4,41);
+        break;
+    default:
+        break;
+    }
+
+    window.draw(_lifeSprite);
+    _lifeSprite.setColor(sf::Color::Transparent);
+
 
     _posAnt.x = _sprite->getPosition().x;
     _posAnt.y = _sprite->getPosition().y;
@@ -197,17 +251,17 @@ void Tank::respawn(){
     int pos = rand() % 4;
 
         switch(pos){
-    case 0: _vida--;
-            _sprite->setPosition(20,20);
+    case 0: _life--;
+            _sprite->setPosition(145,50);
         break;
-    case 1: _vida--;
-            _sprite->setPosition(400,20);
+    case 1: _life--;
+            _sprite->setPosition(525,50);
         break;
-    case 2: _vida--;
-            _sprite->setPosition(20,400);
+    case 2: _life--;
+            _sprite->setPosition(524,427);
         break;
-    case 3: _vida--;
-            _sprite->setPosition(400,400);
+    case 3: _life--;
+            _sprite->setPosition(144,428);
         break;
         }
 }
