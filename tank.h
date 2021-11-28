@@ -16,6 +16,8 @@ private:
     int _life;
     sf::Sprite _lifeSprite;
 
+    int points;
+
     int ShotTime;
     bool Shot;
 
@@ -24,10 +26,6 @@ public:
     Tank(int player);
     ~Tank();
 
-    void setPlayer(int p){_player=p;}
-
-    sf::Vector2i getPosAnt(){return _posAnt;}
-
     void cmd();
     void update(sf::RenderWindow &window);
 
@@ -35,10 +33,15 @@ public:
 
     void quieto(float x, float y);
 
+    sf::Vector2i getPosAnt(){return _posAnt;}
     sf::Sprite getDraw();
     sf::Sprite getBulletDraw();
-
     Bullet getTankBullet(){return *_bullet;}
+    int getPoints(){return points;}
+
+    void setPlayer(int p){_player=p;}
+
+    void addPoints(int p){points += p;}
 
     void deleteBullet(){delete _bullet; _bullet = NULL;}
 
@@ -56,6 +59,8 @@ Tank::Tank(int player){
     _player = player;
 
     _life = 4;
+
+    points=0;
 
         if(_player==1){
         _sprite->setPosition(145,50);

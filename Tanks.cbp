@@ -46,11 +46,12 @@
 			<Add library="sfml-system" />
 			<Add directory="SFML/lib" />
 		</Linker>
+		<Unit filename="TileMap.h" />
 		<Unit filename="app.h" />
+		<Unit filename="bonus.h" />
 		<Unit filename="bullet.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="tank.h" />
-		<Unit filename="tileMap.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

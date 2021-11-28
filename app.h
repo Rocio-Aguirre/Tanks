@@ -4,6 +4,7 @@
 #include "bullet.h"
 #include "tank.h"
 #include "TileMap.h"
+#include "bonus.h"
 
 class app{
 private:
@@ -32,14 +33,24 @@ public:
     void checkCollisionTankToMap();
     void checkCollisionBulletToTank();
     void checkCollisionBulletToMap();
-    void checkCollisions(Tank &t1, Tank &t2, TileMap &mapa);
+    void checkCollisions(Tank &t1, Tank &t2, TileMap &mapa, Bonus &b);
 
     int mostrarMenu(sf::RenderWindow &window);
-    bool jugar(sf::RenderWindow &window, int nivel,TileMap &mapa,Tank &tank1,Tank &tank2);
+    bool jugar(sf::RenderWindow &window, int nivel,TileMap &mapa,Tank &tank1,Tank &tank2,Bonus &b);
 };
 
-void app::checkCollisions(Tank &t1, Tank &t2, TileMap &mapa){
+void app::checkCollisions(Tank &t1, Tank &t2, TileMap &mapa, Bonus &b){
 /// CHECK COLISSION
+
+        /// BONUS
+
+            if(t1.getDraw().getGlobalBounds().intersects(b.draw().getGlobalBounds())){
+                    t1.addPoints(b.getPoints());
+
+                }
+            if(t2.getDraw().getGlobalBounds().intersects(b.draw().getGlobalBounds())){
+                    t2.addPoints(b.getPoints());
+                }
 
         /// TANQUE Y BORDES DEL MAPA
             /// ABAJO
@@ -73,18 +84,18 @@ void app::checkCollisions(Tank &t1, Tank &t2, TileMap &mapa){
             }
 
             if(t1.bulletNULL()==false){
-                if(t1.getBulletDraw().getPosition().x < 128){
-                    t1.deleteBullet();
-                }
+//                if(t1.getBulletDraw().getPosition().x < 128){
+//                    t1.deleteBullet();
+//                } EL LADO IZQUIERDO ESTA CAUSANDO PROBLEMAS
                 if(t1.getBulletDraw().getPosition().x > resolucion.x - 128){
                     t1.deleteBullet();
                 }
             }
 
             if(t2.bulletNULL()==false){
-                if(t2.getBulletDraw().getPosition().x < 128){
-                    t2.deleteBullet();
-                }
+//                if(t2.getBulletDraw().getPosition().x < 128){
+//                    t2.deleteBullet();
+//                } EL LADO IZQUIERDO ESTA CAUSANDO PROBLEMAS
                 if(t2.getBulletDraw().getPosition().x > resolucion.x - 128){
                     t2.deleteBullet();
                 }
@@ -98,7 +109,7 @@ void app::checkCollisions(Tank &t1, Tank &t2, TileMap &mapa){
                     t2.quieto(t2.getPosAnt().x,t2.getPosAnt().y);
                 }
 
-            /// SI COLISIONA LA BALA
+            /// SI COLISIONA LA BALA CON EL TANQUE ADVERSARIO
 
                 if(t1.bulletNULL() == false){
                     if(t1.getBulletDraw().getGlobalBounds().intersects(t2.getDraw().getGlobalBounds())){
@@ -150,7 +161,7 @@ app::app(int resolucion_x, int resolucion_y, std::string titulo){
 
     _sprite = new sf::Sprite;
     _texture = new sf::Texture;
-    _texture->loadFromFile("resources/background.png");
+    _texture->loadFromFile("resources/background3.png");
     _sprite->setTexture(*_texture);
 
     resolucion.x=resolucion_x;
@@ -164,13 +175,15 @@ app::app(int resolucion_x, int resolucion_y, std::string titulo){
     gameloop();
 }
 
-bool app::jugar(sf::RenderWindow &window, int level, TileMap &mapa,Tank &tank1,Tank &tank2){
+bool app::jugar(sf::RenderWindow &window, int level, TileMap &mapa,Tank &tank1,Tank &tank2,Bonus &b){
 
-    checkCollisions(tank1,tank2,mapa);
+    checkCollisions(tank1,tank2,mapa,b);
 
     tank1.update(window);
 
     tank2.update(window);
+
+    ///std::cout << tank1.getPoints() << std::endl;
 
     window.draw(tank1.getDraw());
     window.draw(tank2.getDraw());
@@ -227,6 +240,10 @@ void app::gameloop(){
     Tank tank1(1);
     Tank tank2(2);
 
+    Bonus bonus;
+
+    bonus.bonusCreate(1,524,427);
+
     TileMap mapa;
 
     while(_ventana1->isOpen()){
@@ -244,7 +261,9 @@ void app::gameloop(){
             entrarMenu = false;
         }
 
-        jugar(*_ventana1,opc,mapa,tank1,tank2);
+        _ventana1->draw(bonus.draw());
+
+        jugar(*_ventana1,opc,mapa,tank1,tank2,bonus);
 
         _ventana1->display();
     }
