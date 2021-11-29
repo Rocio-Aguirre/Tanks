@@ -190,6 +190,8 @@ bool app::jugar(sf::RenderWindow &window, int level, TileMap &mapa,Tank &tank1,T
 
     window.draw(*_sprite);
     mapa.mostrarMapa(window);
+
+    /// HACER EL GET LIFE PARA QUE SE TERMINE EL JUEGO CUANDO ALGUN TANQUE SE QUEDE SIN VIDAS
 }
 
 int app::mostrarMenu(sf::RenderWindow &window){
@@ -263,7 +265,7 @@ void app::gameloop(){
 
         _ventana1->draw(bonus.draw());
 
-        jugar(*_ventana1,opc,mapa,tank1,tank2,bonus);
+        entrarMenu=jugar(*_ventana1,opc,mapa,tank1,tank2,bonus);
 
         _ventana1->display();
     }
