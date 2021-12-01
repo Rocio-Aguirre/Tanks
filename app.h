@@ -1,6 +1,7 @@
 #ifndef APP_H_INCLUDED
 #define APP_H_INCLUDED
 
+#include "menu.h"
 #include "bullet.h"
 #include "tank.h"
 #include "TileMap.h"
@@ -20,6 +21,9 @@ private:
     sf::Sprite *_sprite;
     sf::Sprite *_sprite1;
 
+    Menu *_menu;
+    bool _entrarMenu;
+
 public:
 
     app(int resolucion_x, int resolucion_y, std::string titulo);
@@ -35,7 +39,6 @@ public:
     void checkCollisionBulletToMap();
     void checkCollisions(Tank &t1, Tank &t2, TileMap &mapa, Bonus &b);
 
-    int mostrarMenu(sf::RenderWindow &window);
     bool jugar(sf::RenderWindow &window, int nivel,TileMap &mapa,Tank &tank1,Tank &tank2,Bonus &b);
 };
 
@@ -192,79 +195,85 @@ bool app::jugar(sf::RenderWindow &window, int level, TileMap &mapa,Tank &tank1,T
     mapa.mostrarMapa(window);
 }
 
-int app::mostrarMenu(sf::RenderWindow &window){
-    int opc;
-    sf::Text _text[30];
-    sf::Font _font;
-    int width = resolucion.x;
-    int heigth = resolucion.y;
-    int _maxNumItems = 4;
-
-    _font.loadFromFile("resources/game_over.ttf");
-    _text[0].setFont(_font);
-    _text[0].setColor(sf::Color::Red);
-    _text[0].setString("Start");
-    _text[0].setPosition(sf::Vector2f(width/2, heigth/(_maxNumItems+1)*2));
-    _text[0].setCharacterSize(50);
-
-    _font.loadFromFile("resources/game_over.ttf");
-    _text[1].setFont(_font);
-    _text[1].setColor(sf::Color::Red);
-    _text[1].setString("Exit");
-    _text[1].setPosition(sf::Vector2f(width/2, 40 + heigth/(_maxNumItems+1)*2));
-    _text[1].setCharacterSize(50);
-
-
-    for(int i=0; i<_maxNumItems; i++){
-        window.draw(_text[i]);
-    }
-    window.display();
-
-    std::cin >> opc;
-    switch(opc){
-    case 1: return 1;
-        break;
-    case 2: return 2;
-        break;
-    default:    return 3;
-        break;
-
-    }
-}
-
 void app::gameloop(){
 
     int opc;
-    bool entrarMenu = true;
+    bool _entrarMenu = false;
+    int width = resolucion.x;
+    int heigth = resolucion.y;
 
-    Tank tank1(1);
-    Tank tank2(2);
+    _menu = new Menu(width,heigth);
 
-    Bonus bonus;
 
-    bonus.bonusCreate(1,524,427);
+//    Tank tank1(1);
+//    Tank tank2(2);
+//
+//    Bonus bonus;
+//
+//    bonus.bonusCreate(1,524,427);
+//
+//    TileMap mapa;
 
-    TileMap mapa;
+
 
     while(_ventana1->isOpen()){
+     if(_entrarMenu == false){
+                Tank tank1(1);
+                Tank tank2(2);
+
+                Bonus bonus;
+
+                bonus.bonusCreate(1,524,427);
+
+                TileMap mapa;
+                _ventana1->draw(bonus.draw());
+
+                jugar(*_ventana1,opc,mapa,tank1,tank2,bonus);
+    }
         sf::Event event;
         while (_ventana1->pollEvent(event))
         {
-            if (event.type == sf::Event::Closed)
+            switch(event.type)
+            {
+            case sf::Event::Closed:
                 _ventana1->close();
-        }
+                break;
+            case sf::Event::KeyReleased:
+                switch(event.key.code)
+                {
+                case sf::Keyboard::Up:
+                    _menu->moveUp();
+                    std::cout << "UP";
+                    break;
+                case sf::Keyboard::Down:
+                    _menu->moveDown();
+                    std::cout << "DOWN";
+                    break;
+                case sf::Keyboard::Return:
+                    switch(_menu->getPressedItem()){
+                    case 0:
+                        _entrarMenu = false;
+                        break;
+                    case 1:
+                        std::cout << "Acá se elige nivel" << std::endl;
+                        opc=1;
+                        break;
+                    case 2:
+                        std::cout << "Score button pressed" << std::endl;
+                        break;
+                    case 3:
+                        _ventana1->close();
+                        break;
+                    }
 
+                    break;
+                }
+            }
+        }
         _ventana1->clear();
-
-        if(entrarMenu==true){
-            opc = mostrarMenu(*_ventana1);
-            entrarMenu = false;
+        if(_entrarMenu==true){
+            _menu->draw(*_ventana1);
         }
-
-        _ventana1->draw(bonus.draw());
-
-        jugar(*_ventana1,opc,mapa,tank1,tank2,bonus);
-
         _ventana1->display();
     }
 }

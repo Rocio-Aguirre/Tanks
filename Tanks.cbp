@@ -51,6 +51,7 @@
 		<Unit filename="bonus.h" />
 		<Unit filename="bullet.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="menu.h" />
 		<Unit filename="tank.h" />
 		<Extensions>
 			<code_completion />

@@ -5,5 +5,6 @@
 
 int main()
 {
+    setlocale(LC_ALL, "");
     app app(672,480,"TANQUESITOS");
 }
