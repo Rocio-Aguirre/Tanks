@@ -186,50 +186,39 @@ bool app::jugar(sf::RenderWindow &window, int level, TileMap &mapa,Tank &tank1,T
 
     tank2.update(window);
 
-    ///std::cout << tank1.getPoints() << std::endl;
+    std::cout << tank1.getLife() << std::endl;
 
     window.draw(tank1.getDraw());
     window.draw(tank2.getDraw());
 
     window.draw(*_sprite);
     mapa.mostrarMapa(window);
+
+    if(tank1.getLife() == 0 || tank2.getLife() == 0){
+        return true;
+    }
+    return false;
 }
 
 void app::gameloop(){
 
     int opc;
-    bool _entrarMenu = false;
+    bool _entrarMenu = true;
     int width = resolucion.x;
     int heigth = resolucion.y;
 
     _menu = new Menu(width,heigth);
 
+    Tank tank1(1);
+    Tank tank2(2);
 
-//    Tank tank1(1);
-//    Tank tank2(2);
-//
-//    Bonus bonus;
-//
-//    bonus.bonusCreate(1,524,427);
-//
-//    TileMap mapa;
+    Bonus bonus;
 
+    bonus.bonusCreate(1,524,427);
 
+    TileMap mapa;
 
     while(_ventana1->isOpen()){
-     if(_entrarMenu == false){
-                Tank tank1(1);
-                Tank tank2(2);
-
-                Bonus bonus;
-
-                bonus.bonusCreate(1,524,427);
-
-                TileMap mapa;
-                _ventana1->draw(bonus.draw());
-
-                jugar(*_ventana1,opc,mapa,tank1,tank2,bonus);
-    }
         sf::Event event;
         while (_ventana1->pollEvent(event))
         {
@@ -239,40 +228,50 @@ void app::gameloop(){
                 _ventana1->close();
                 break;
             case sf::Event::KeyReleased:
-                switch(event.key.code)
-                {
-                case sf::Keyboard::Up:
-                    _menu->moveUp();
-                    std::cout << "UP";
-                    break;
-                case sf::Keyboard::Down:
-                    _menu->moveDown();
-                    std::cout << "DOWN";
-                    break;
-                case sf::Keyboard::Return:
-                    switch(_menu->getPressedItem()){
-                    case 0:
-                        _entrarMenu = false;
+
+                if(_entrarMenu==true){
+                    switch(event.key.code){
+                    case sf::Keyboard::Up:
+                        _menu->moveUp();
+                        std::cout << "UP";
                         break;
-                    case 1:
-                        std::cout << "Acá se elige nivel" << std::endl;
-                        opc=1;
+                    case sf::Keyboard::Down:
+                        _menu->moveDown();
+                        std::cout << "DOWN";
                         break;
-                    case 2:
-                        std::cout << "Score button pressed" << std::endl;
-                        break;
-                    case 3:
-                        _ventana1->close();
+                    case sf::Keyboard::Return:
+                        switch(_menu->getPressedItem()){
+                        case 0:
+                            _entrarMenu = false;
+                            break;
+                        case 1:
+                            std::cout << "Acá se elige nivel" << std::endl;
+                            opc=1;
+                            break;
+                        case 2:
+                            std::cout << "Score button pressed" << std::endl;
+                            break;
+                        case 3:
+                            _ventana1->close();
+                            break;
+                        }
+
                         break;
                     }
-
-                    break;
                 }
+                break;
             }
         }
+
         _ventana1->clear();
+
         if(_entrarMenu==true){
             _menu->draw(*_ventana1);
+        }
+        else{
+        _ventana1->draw(bonus.draw());
+
+        _entrarMenu=jugar(*_ventana1,opc,mapa,tank1,tank2,bonus);
         }
         _ventana1->display();
     }

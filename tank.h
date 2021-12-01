@@ -39,6 +39,8 @@ public:
     Bullet getTankBullet(){return *_bullet;}
     int getPoints(){return points;}
 
+    int getLife(){return _life;}
+
     void setPlayer(int p){_player=p;}
 
     void addPoints(int p){points += p;}
@@ -58,9 +60,9 @@ Tank::Tank(int player){
 
     _player = player;
 
-    _life = 4;
 
-    points=0;
+    points = 0;
+    _life = 4;
 
         if(_player==1){
         _sprite->setPosition(145,50);
@@ -175,28 +177,6 @@ void Tank::update(sf::RenderWindow &window){
         _bullet->update();
         _bullet->getDraw(window);
     }
-
-    switch(_life){
-    case 1:
-            _lifeSprite.setTextureRect(sf::IntRect(312,278,86,12));
-        break;
-    case 2:
-            _lifeSprite.setTextureRect(sf::IntRect(312,264,86,12));
-        break;
-    case 3:
-            _lifeSprite.setTextureRect(sf::IntRect(312,250,86,12));
-            _lifeSprite.setPosition(4,59);
-        break;
-    case 4:
-            _lifeSprite.setTextureRect(sf::IntRect(312,236,86,12));
-            _lifeSprite.setPosition(4,41);
-        break;
-    default:
-        break;
-    }
-
-    window.draw(_lifeSprite);
-    _lifeSprite.setColor(sf::Color::Transparent);
 
 
     _posAnt.x = _sprite->getPosition().x;
