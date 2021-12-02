@@ -18,7 +18,7 @@ private:
 
     sf::Texture *_texture;
     sf::Texture *_texture1;
-    sf::Sprite *_sprite;
+    sf::Sprite *_background;
     sf::Sprite *_sprite1;
 
     Menu *_menu;
@@ -40,6 +40,9 @@ public:
     void checkCollisions(Tank &t1, Tank &t2, TileMap &mapa, Bonus &b);
 
     bool jugar(sf::RenderWindow &window, int nivel,TileMap &mapa,Tank &tank1,Tank &tank2,Bonus &b);
+
+    void setLevel(int lvl, TileMap &mapa);
+
 };
 
 void app::checkCollisions(Tank &t1, Tank &t2, TileMap &mapa, Bonus &b){
@@ -162,10 +165,10 @@ void app::checkCollisions(Tank &t1, Tank &t2, TileMap &mapa, Bonus &b){
 
 app::app(int resolucion_x, int resolucion_y, std::string titulo){
 
-    _sprite = new sf::Sprite;
+    _background = new sf::Sprite;
     _texture = new sf::Texture;
     _texture->loadFromFile("resources/background3.png");
-    _sprite->setTexture(*_texture);
+    _background->setTexture(*_texture);
 
     resolucion.x=resolucion_x;
     resolucion.y=resolucion_y;
@@ -186,12 +189,12 @@ bool app::jugar(sf::RenderWindow &window, int level, TileMap &mapa,Tank &tank1,T
 
     tank2.update(window);
 
-    std::cout << tank1.getLife() << std::endl;
-
     window.draw(tank1.getDraw());
     window.draw(tank2.getDraw());
 
-    window.draw(*_sprite);
+    /// DIBUJA INTERFAZ DEL JUEGO
+        window.draw(*_background);
+
     mapa.mostrarMapa(window);
 
     if(tank1.getLife() == 0 || tank2.getLife() == 0){
@@ -217,6 +220,7 @@ void app::gameloop(){
     bonus.bonusCreate(1,524,427);
 
     TileMap mapa;
+    setLevel(1, mapa);
 
     while(_ventana1->isOpen()){
         sf::Event event;
@@ -240,20 +244,22 @@ void app::gameloop(){
                         std::cout << "DOWN";
                         break;
                     case sf::Keyboard::Return:
-                        switch(_menu->getPressedItem()){
-                        case 0:
-                            _entrarMenu = false;
-                            break;
-                        case 1:
-                            std::cout << "Acá se elige nivel" << std::endl;
-                            opc=1;
-                            break;
-                        case 2:
-                            std::cout << "Score button pressed" << std::endl;
-                            break;
-                        case 3:
-                            _ventana1->close();
-                            break;
+                        if(_entrarMenu==true){
+                            switch(_menu->getPressedItem()){
+                            case 0:
+                                _entrarMenu = false;
+                                break;
+                            case 1:
+                                std::cout << "Acá se elige nivel" << std::endl;
+                                opc=1;
+                                break;
+                            case 2:
+                                std::cout << "Score button pressed" << std::endl;
+                                break;
+                            case 3:
+                                _ventana1->close();
+                                break;
+                            }
                         }
 
                         break;
@@ -277,127 +283,64 @@ void app::gameloop(){
     }
 }
 
-//void app::gameloop(){
-//
-//    Tank t2(2);
-//    Tank t1(1);
-//
-//    TileMap mapa;
-//
-//    while(_ventana1->isOpen()){
-//        sf::Event event;
-//        while (_ventana1->pollEvent(event))
-//        {
-//            if (event.type == sf::Event::Closed)
-//                _ventana1->close();
-//        }
-//
-//        t1.cmd();
-//        t1.update();
-//
-////        t2.cmd();
-////        t2.update();
-//
-//        _ventana1->clear();
-//
-//        /// CHECK COLISSION
-//
-//            /// TANQUE Y BORDES DEL MAPA
-//
-//                if(t1.getDraw().getPosition().y > 416 - t1.getDraw().getGlobalBounds().height/2){
-//                    t1.quieto(t1.getPosAnt().x,t1.getPosAnt().y);
-//                }
-//                if(t1.getDraw().getPosition().y < 0 + t1.getDraw().getGlobalBounds().height/2){
-//                    t1.quieto(t1.getPosAnt().x,t1.getPosAnt().y);
-//                }
-//                if(t1.getDraw().getPosition().x < 0 + t1.getDraw().getGlobalBounds().width/2){
-//                    t1.quieto(t1.getPosAnt().x,t1.getPosAnt().y);
-//                }
-//                if(t1.getDraw().getPosition().x > 416 - t1.getDraw().getGlobalBounds().width/2){
-//                    t1.quieto(t1.getPosAnt().x,t1.getPosAnt().y);
-//                }
-//
-//                if(t2.getDraw().getPosition().y > 416 - t1.getDraw().getGlobalBounds().height/2){
-//                    t2.quieto(t1.getPosAnt().x,t1.getPosAnt().y);
-//                }
-//                if(t2.getDraw().getPosition().y < 0 + t1.getDraw().getGlobalBounds().height/2){
-//                    t2.quieto(t1.getPosAnt().x,t1.getPosAnt().y);
-//                }
-//                if(t2.getDraw().getPosition().x < 0 + t1.getDraw().getGlobalBounds().width/2){
-//                    t2.quieto(t1.getPosAnt().x,t1.getPosAnt().y);
-//                }
-//                if(t2.getDraw().getPosition().x > 416 - t1.getDraw().getGlobalBounds().width/2){
-//                    t2.quieto(t1.getPosAnt().x,t1.getPosAnt().y);
-//                }
-//
-//            /// ENTRE TANQUES
-//
-////                if(t1.getDraw().getGlobalBounds().intersects(t2.getDraw().getGlobalBounds())){
-////                    t1.quieto(t1.getPosAnt().x,t1.getPosAnt().y);
-////                }
-////                if(t2.getDraw().getGlobalBounds().intersects(t1.getDraw().getGlobalBounds())){
-////                    t2.quieto(t2.getPosAnt().x,t2.getPosAnt().y);
-////                }
-//
-//                checkCollisionTwoTanks(&t1,&t2);
-//                checkCollisionTwoTanks(&t2,&t1);
-//
-//
-//                /// SI COLISIONA LA BALA
-//
-//                    if(t1.bulletNULL() != 1){
-//
-////                    if(t1.getTankBullet().getDraw().getGlobalBounds().intersects(t2.getDraw().getGlobalBounds())){
-////                        t1.deleteBullet();
-////                        t2.respawn();
-////                    }
-//                    }
-//
-//
-////                    if(t2.getTankBullet().getDraw().getGlobalBounds().intersects(t1.getDraw().getGlobalBounds())){
-////                        t1.respawn();
-////                    }
-//
-//            /// CON EL MAPA
-//
-//                for(int x=0; x<26; x++){
-//
-//                    for(int i=0; i<26; i++){
-//
-//                        if(t1.bulletNULL() != 1){
-//                            if(t1.getBulletDraw().getGlobalBounds().intersects(mapa.getMapa(x,i).getGlobalBounds())){
-//
-//                            }
-//                        }
-//
-//                        if(t1.getDraw().getGlobalBounds().intersects(mapa.getMapa(x,i).getGlobalBounds())){
-//                            t1.quieto(t1.getPosAnt().x,t1.getPosAnt().y);
-//                        }
-//                        if(t2.getDraw().getGlobalBounds().intersects(mapa.getMapa(x,i).getGlobalBounds())){
-//                            t2.quieto(t2.getPosAnt().x,t2.getPosAnt().y);
-//                        }
-//                    }
-//                }
-//
-//            /// BALAS CON EL ENTORNO
-//
-//
-//        /// -------------
-//
-//        _ventana1->draw(t1.getDraw());
-//        _ventana1->draw(t2.getDraw());
-//
-//        if(t1.bulletNULL() != 1){
-//            _ventana1->draw(t1.getBulletDraw());
-//        }
-//
-////        _ventana1->draw(t2.getBulletDraw());
-//
-//        mapa.mostrarMapa(*_ventana1);
-//
-//        _ventana1->display();
-//    }
-//}
+void app::setLevel(int lvl, TileMap &mapa){
+    int escala=16;
+    int pos=0;
 
+    sf::Sprite * _sprite;
+
+    while(mapa.leerDisco(pos)){
+//        std::cout << mapa.getLevel() << " == " << lvl << std::endl;
+//        if(mapa.getLevel() == lvl){
+//            for(int x=0;x<26;x++){
+//                for(int j=0;j<26;j++){
+//                    int actual = mapa.getMapDat(x,j);
+//                    switch(actual){
+//                        case 1:
+//                            std::cout << "asda s";
+//                            _sprite = new sf::Sprite(*_texture,sf::IntRect(4,4,16,16));
+//
+//                            _sprite->setPosition(128+j*escala,32+x*escala);
+//
+//                            /mapa.setMapSprite(_sprite,x,j);
+//                            break;
+//                        case 2:
+//                            break;
+//                        case 3:
+//                            break;
+//                        case 4:
+//                            break;
+//                        case 5:
+//                            break;
+//                        case 6:
+//                            break;
+//                        case 7:
+//                            break;
+//                        case 8:
+//                            break;
+//                        case 9:
+//                            _sprite = new sf::Sprite(*_texture,sf::IntRect(207,14,16,16));
+//
+//                            _sprite->setPosition(128+j*escala,32+x*escala);
+//
+//                            /mapa.setMapSprite(_sprite,x,j);
+//                            break;
+//                        default:
+//                            _sprite = new sf::Sprite(*_texture,sf::IntRect(0,0,0,0));
+//
+//                            _sprite->setPosition(j*escala,x*escala);
+//
+//                            /mapa.setMapSprite(_sprite,x,j);
+//                            break;
+//                    }
+//                }
+//            }
+//
+//        }else{
+//            std::cout << " NO SE PUDO ENCONTRAR EL MAPA" << std::endl;
+//        }
+        pos++;
+    }
+}
 
 #endif // APP_H_INCLUDED

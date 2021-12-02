@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "app.h"
+#include "TileMap.h"
 
 int main()
 {

@@ -423,10 +423,11 @@
 
 1637247375 D
 
-1638321437 source:d:\prog\tanks\main.cpp
+1638373060 source:d:\prog\tanks\main.cpp
 	<SFML/Graphics.hpp>
 	<iostream>
 	"app.h"
+	"TileMap.h"
 
 1637247375 an
 	<SFML/Graphics.hpp>
@@ -865,14 +866,15 @@
 1637239412 d:\prog\tanks\spriteconfig.h
 	<SFML/Graphics.hpp>
 
-1638323011 d:\prog\tanks\app.h
+1638375950 d:\prog\tanks\app.h
 	"menu.h"
 	"bullet.h"
 	"tank.h"
 	"TileMap.h"
 	"bonus.h"
 
-1638321437 d:\prog\tanks\tilemap.h
+1638375086 d:\prog\tanks\tilemap.h
+	<iostream>
 
 1638321437 d:\prog\tanks\bullet.h
 
@@ -1340,7 +1342,7 @@
 
 1637283291 ated upstream
 
-1638322697 d:\prog\tanks\tank.h
+1638325112 d:\prog\tanks\tank.h
 
 1638321437 d:\prog\tanks\bonus.h
 
@@ -1350,5 +1352,5 @@
 
 1638277320 c:\desktop\roescritorio\segundo cuatrimestre 2021\programación 2\tanks\bonus.h
 
-1638324804 d:\prog\tanks\menu.h
+1638368856 d:\prog\tanks\menu.h
 

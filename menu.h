@@ -13,6 +13,7 @@ public:
     void moveUp();
     void moveDown();
     int getPressedItem(){return _selectedItem;}
+
 };
 
 Menu::Menu(float width, float heigth){
