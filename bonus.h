@@ -40,4 +40,5 @@ sf::Sprite Bonus::draw(){
 
 
 
+
 #endif // BONUS_H_INCLUDED

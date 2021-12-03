@@ -41,8 +41,7 @@ public:
 
     bool jugar(sf::RenderWindow &window, int nivel,TileMap &mapa,Tank &tank1,Tank &tank2,Bonus &b);
 
-    void setLevel(int lvl, TileMap &mapa);
-
+    void mostrarScore();
 };
 
 void app::checkCollisions(Tank &t1, Tank &t2, TileMap &mapa, Bonus &b){
@@ -198,9 +197,24 @@ bool app::jugar(sf::RenderWindow &window, int level, TileMap &mapa,Tank &tank1,T
     mapa.mostrarMapa(window);
 
     if(tank1.getLife() == 0 || tank2.getLife() == 0){
+        if(tank1.getPoints()>tank2.getPoints()){
+            Tank aux(4);
+
+            aux.addPoints(tank1.getPoints());
+            aux.grabarDisco();
+        }
         return true;
     }
     return false;
+}
+
+void app::mostrarScore(){
+    Tank aux(3);
+    int pos=0;
+    while(aux.leerDisco(pos)){
+        aux.mostrar();
+        pos++;
+    }
 }
 
 void app::gameloop(){
@@ -220,7 +234,7 @@ void app::gameloop(){
     bonus.bonusCreate(1,524,427);
 
     TileMap mapa;
-    setLevel(1, mapa);
+    /// COMENTADO PARA Q NO CRASHEE
 
     while(_ventana1->isOpen()){
         sf::Event event;
@@ -251,13 +265,16 @@ void app::gameloop(){
                                 break;
                             case 1:
                                 std::cout << "Acá se elige nivel" << std::endl;
+                                ///mapa.setLevel(1, mapa);
                                 opc=1;
                                 break;
                             case 2:
-                                std::cout << "Score button pressed" << std::endl;
+                                ///mostrarScore();
                                 break;
                             case 3:
                                 _ventana1->close();
+                                break;
+                            default:
                                 break;
                             }
                         }
@@ -280,66 +297,6 @@ void app::gameloop(){
         _entrarMenu=jugar(*_ventana1,opc,mapa,tank1,tank2,bonus);
         }
         _ventana1->display();
-    }
-}
-
-void app::setLevel(int lvl, TileMap &mapa){
-    int escala=16;
-    int pos=0;
-
-    sf::Sprite * _sprite;
-
-    while(mapa.leerDisco(pos)){
-//        std::cout << mapa.getLevel() << " == " << lvl << std::endl;
-//        if(mapa.getLevel() == lvl){
-//            for(int x=0;x<26;x++){
-//                for(int j=0;j<26;j++){
-//                    int actual = mapa.getMapDat(x,j);
-//                    switch(actual){
-//                        case 1:
-//                            std::cout << "asda s";
-//                            _sprite = new sf::Sprite(*_texture,sf::IntRect(4,4,16,16));
-//
-//                            _sprite->setPosition(128+j*escala,32+x*escala);
-//
-//                            /mapa.setMapSprite(_sprite,x,j);
-//                            break;
-//                        case 2:
-//                            break;
-//                        case 3:
-//                            break;
-//                        case 4:
-//                            break;
-//                        case 5:
-//                            break;
-//                        case 6:
-//                            break;
-//                        case 7:
-//                            break;
-//                        case 8:
-//                            break;
-//                        case 9:
-//                            _sprite = new sf::Sprite(*_texture,sf::IntRect(207,14,16,16));
-//
-//                            _sprite->setPosition(128+j*escala,32+x*escala);
-//
-//                            /mapa.setMapSprite(_sprite,x,j);
-//                            break;
-//                        default:
-//                            _sprite = new sf::Sprite(*_texture,sf::IntRect(0,0,0,0));
-//
-//                            _sprite->setPosition(j*escala,x*escala);
-//
-//                            /mapa.setMapSprite(_sprite,x,j);
-//                            break;
-//                    }
-//                }
-//            }
-//
-//        }else{
-//            std::cout << " NO SE PUDO ENCONTRAR EL MAPA" << std::endl;
-//        }
-        pos++;
     }
 }
 

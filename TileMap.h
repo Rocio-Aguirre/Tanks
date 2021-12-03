@@ -138,6 +138,8 @@ public:
     void setMapSprite(sf::Sprite *sprite, int x, int y){_mapa[x][y]=sprite;}
 
     bool collision(sf::Sprite sprite);
+
+    void searchLevel(int matriz[][26], int lvl);
 };
 
 TileMap::TileMap(){
@@ -216,6 +218,74 @@ bool TileMap::collision(sf::Sprite sprite){
         }
     }
     return false;
+}
+
+//void TileMap::setLevel(int lvl, TileMap &mapa){
+//    int pos=0;
+//
+//    while(mapa.leerDisco(pos)){
+//        pos++;
+//    }
+//}
+
+void TileMap::searchLevel(int matriz[][26], int lvl){
+    int pos=0;
+    while(leerDisco(pos)){
+        std::cout << " sas";
+            pos++;
+    }
+}
+
+void TileMap::setLevel(int lvl, TileMap &mapa){
+    int escala=16;
+
+    int matriz[26][26];
+
+    searchLevel(matriz, lvl);
+
+    for(int x=0;x<26;x++){
+        for(int j=0;j<26;j++){
+            int actual = LVL_1[x * 26 + j];
+
+            switch(actual){
+                case 1:
+                    _sprite = new sf::Sprite(*_texture,sf::IntRect(4,4,16,16));
+
+                    _sprite->setPosition(128+j*escala,32+x*escala);
+
+                    _mapa[x][j] = _sprite;
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+                case 6:
+                    break;
+                case 7:
+                    break;
+                case 8:
+                    break;
+                case 9:
+                    _sprite = new sf::Sprite(*_texture,sf::IntRect(207,14,16,16));
+
+                    _sprite->setPosition(128+j*escala,32+x*escala);
+
+                    _mapa[x][j] = _sprite;
+                    break;
+                default:
+                    _sprite = new sf::Sprite(*_texture,sf::IntRect(0,0,0,0));
+
+                    _sprite->setPosition(j*escala,x*escala);
+
+                    _mapa[x][j] = _sprite;
+                    break;
+            }
+        }
+    }
 }
 
 #endif // TILEMAP_H_INCLUDED

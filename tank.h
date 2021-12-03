@@ -26,6 +26,31 @@ public:
     Tank(int player);
     ~Tank();
 
+    bool grabarDisco(){
+        FILE *p;
+        bool res;
+        p = fopen("scores.dat", "wb");
+        if(p == NULL) return false;
+        res = fwrite(this, sizeof *this, 1, p);
+        fclose(p);
+        return res;
+    }
+
+    bool leerDisco(int pos){
+        FILE *p;
+        bool res;
+        p = fopen("scores.dat", "rb");
+        if(p == NULL) return false;
+        fseek(p, pos * sizeof *this, 0);
+        res = fread(this, sizeof *this, 1, p);
+        fclose(p);
+        return res;
+    }
+
+    void mostrar(){
+        std::cout << "SCORE: " << points;
+    }
+
     void cmd();
     void update(sf::RenderWindow &window);
 
