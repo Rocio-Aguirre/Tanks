@@ -203,7 +203,6 @@ void Tank::update(sf::RenderWindow &window){
         _bullet->getDraw(window);
     }
 
-
     _posAnt.x = _sprite->getPosition().x;
     _posAnt.y = _sprite->getPosition().y;
 

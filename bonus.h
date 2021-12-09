@@ -3,25 +3,31 @@
 
 class Bonus{
 private:
+
     sf::Sprite * _sprite;
     sf::Texture * _texture;
 
-    int points;
+    bool _estado; /// TRUE EN MAPA, FALSE BORRADO
+
+    int _points;
 
 public:
-    bonus();
+    Bonus();
 
     bonusCreate(int opc, int posX, int posY);
 
     sf::Sprite draw();
 
-    void objDelete();
+    void objDelete(){delete _sprite; _sprite = NULL; _estado = false;}
 
-    int getPoints(){return points;}
+    int getPoints(){return _points;}
+    bool getEstado(){return _estado;}
+
+    void drawBonus(sf::RenderWindow & window);
 
 };
 
-Bonus::bonusCreate(int opc, int posX, int posY){
+Bonus::Bonus(){
     _texture = new sf::Texture;
     _texture->loadFromFile("resources/401.png");
 
@@ -29,13 +35,18 @@ Bonus::bonusCreate(int opc, int posX, int posY){
     _sprite->setTexture(*_texture);
     _sprite = new sf::Sprite(*_texture,sf::IntRect(115,76,32,32));
     _sprite->setOrigin(_sprite->getLocalBounds().width/2-5,_sprite->getLocalBounds().height/2);
-    _sprite->setPosition(posX,posY);
+    _sprite->setPosition(144,428);
 
-    points = 10;
+    _points = 10;
+    _estado = true;
 }
 
 sf::Sprite Bonus::draw(){
     return * _sprite;
+}
+
+void Bonus::drawBonus(sf::RenderWindow & window){
+    window.draw(*_sprite);
 }
 
 

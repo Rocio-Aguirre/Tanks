@@ -21,6 +21,10 @@ private:
     sf::Sprite *_background;
     sf::Sprite *_sprite1;
 
+    Bonus *_bonus;
+
+    bool check;
+
     Menu *_menu;
     bool _entrarMenu;
 
@@ -48,14 +52,19 @@ void app::checkCollisions(Tank &t1, Tank &t2, TileMap &mapa, Bonus &b){
 /// CHECK COLISSION
 
         /// BONUS
+            if(_bonus!=NULL){
+                if(t1.getDraw().getGlobalBounds().intersects(b.draw().getGlobalBounds())){
+                        delete _bonus;
+                        _bonus = NULL;
+                        t1.addPoints(b.getPoints());
 
-            if(t1.getDraw().getGlobalBounds().intersects(b.draw().getGlobalBounds())){
-                    t1.addPoints(b.getPoints());
-
-                }
-            if(t2.getDraw().getGlobalBounds().intersects(b.draw().getGlobalBounds())){
-                    t2.addPoints(b.getPoints());
-                }
+                    }
+                if(t2.getDraw().getGlobalBounds().intersects(b.draw().getGlobalBounds())){
+                         delete _bonus;
+                        _bonus = NULL;
+                        t2.addPoints(b.getPoints());
+                    }
+            }
 
         /// TANQUE Y BORDES DEL MAPA
             /// ABAJO
@@ -213,6 +222,7 @@ void app::mostrarScore(){
     int pos=0;
     while(aux.leerDisco(pos)){
         aux.mostrar();
+        system("pause");
         pos++;
     }
 }
@@ -229,12 +239,9 @@ void app::gameloop(){
     Tank tank1(1);
     Tank tank2(2);
 
-    Bonus bonus;
-
-    bonus.bonusCreate(1,524,427);
+    _bonus = new Bonus;
 
     TileMap mapa;
-    /// COMENTADO PARA Q NO CRASHEE
 
     while(_ventana1->isOpen()){
         sf::Event event;
@@ -265,11 +272,11 @@ void app::gameloop(){
                                 break;
                             case 1:
                                 std::cout << "Acá se elige nivel" << std::endl;
-                                ///mapa.setLevel(1, mapa);
+                                mapa.setLevel(1, mapa);
                                 opc=1;
                                 break;
                             case 2:
-                                ///mostrarScore();
+                                mostrarScore();
                                 break;
                             case 3:
                                 _ventana1->close();
@@ -292,9 +299,9 @@ void app::gameloop(){
             _menu->draw(*_ventana1);
         }
         else{
-        _ventana1->draw(bonus.draw());
+        if(_bonus != NULL){_bonus->drawBonus(*_ventana1);}
 
-        _entrarMenu=jugar(*_ventana1,opc,mapa,tank1,tank2,bonus);
+        _entrarMenu=jugar(*_ventana1,opc,mapa,tank1,tank2,*_bonus);
         }
         _ventana1->display();
     }
