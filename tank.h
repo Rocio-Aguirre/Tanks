@@ -100,14 +100,16 @@ Tank::Tank(int player){
     _texture->loadFromFile("resources/400.png");
     _sprite->setTexture(*_texture);
 
-    _lifeSprite.setTexture(*_texture);
+    _lifeSprite.setTexture("resources/400.png");
 
 
         if(player==1){
+            _lifeSprite.setPosition(10,20);
             sf::IntRect posicion(4,240,22,32);
             _sprite->setTextureRect(posicion);
         }
         else{
+            _lifeSprite.setPosition(10,600);
             sf::IntRect posicion(4,282,22,32);
             _sprite->setTextureRect(posicion);
         }
@@ -193,6 +195,8 @@ void Tank::update(sf::RenderWindow &window){
     cmd();
 
     ShotTime++;
+
+    window.draw(_lifeSprite);
 
     if(ShotTime == 140){
         Shot = true;

@@ -191,6 +191,9 @@ app::app(int resolucion_x, int resolucion_y, std::string titulo){
 
 bool app::jugar(sf::RenderWindow &window, int level, TileMap &mapa,Tank &tank1,Tank &tank2,Bonus &b){
 
+    /// DIBUJA INTERFAZ DEL JUEGO
+        window.draw(*_background);
+
     checkCollisions(tank1,tank2,mapa,b);
 
     tank1.update(window);
@@ -200,8 +203,6 @@ bool app::jugar(sf::RenderWindow &window, int level, TileMap &mapa,Tank &tank1,T
     window.draw(tank1.getDraw());
     window.draw(tank2.getDraw());
 
-    /// DIBUJA INTERFAZ DEL JUEGO
-        window.draw(*_background);
 
     mapa.mostrarMapa(window);
 

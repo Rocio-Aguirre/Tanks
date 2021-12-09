@@ -7,21 +7,18 @@ private:
     sf::Sprite * _sprite;
     sf::Texture * _texture;
 
-    bool _estado; /// TRUE EN MAPA, FALSE BORRADO
-
     int _points;
 
 public:
     Bonus();
 
-    bonusCreate(int opc, int posX, int posY);
+    void bonusCreate();
 
     sf::Sprite draw();
 
-    void objDelete(){delete _sprite; _sprite = NULL; _estado = false;}
+    void objDelete(){delete _sprite; _sprite = NULL;}
 
     int getPoints(){return _points;}
-    bool getEstado(){return _estado;}
 
     void drawBonus(sf::RenderWindow & window);
 
@@ -38,7 +35,10 @@ Bonus::Bonus(){
     _sprite->setPosition(144,428);
 
     _points = 10;
-    _estado = true;
+}
+
+void Bonus::bonusCreate(){
+
 }
 
 sf::Sprite Bonus::draw(){
@@ -48,8 +48,5 @@ sf::Sprite Bonus::draw(){
 void Bonus::drawBonus(sf::RenderWindow & window){
     window.draw(*_sprite);
 }
-
-
-
 
 #endif // BONUS_H_INCLUDED

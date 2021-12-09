@@ -48,6 +48,9 @@
 		</Linker>
 		<Unit filename="TileMap.h" />
 		<Unit filename="app.h" />
+		<Unit filename="archivos.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Unit filename="bonus.h" />
 		<Unit filename="bullet.h" />
 		<Unit filename="main.cpp" />
