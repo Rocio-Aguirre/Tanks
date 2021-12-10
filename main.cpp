@@ -9,6 +9,7 @@ int main()
 
     Levels aux;
     aux.ingresarMapa();
+    aux.grabarDisco();
     /*setlocale(LC_ALL, "");
     app app(672,480,"TANQUESITOS");*/
 }
