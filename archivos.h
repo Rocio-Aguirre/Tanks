@@ -9,9 +9,11 @@ public:
 class Levels{
 private:
     int _Level;
-    char _Map[26][26];
+    int _Map[26][26];
 public:
 
+    int getLevel(){return _Level;}
+    int getMap(int x, int y){return _Map[x][y];}
     bool grabarDisco(){
         FILE *p;
         bool res;
