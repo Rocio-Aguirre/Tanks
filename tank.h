@@ -100,8 +100,6 @@ Tank::Tank(int player){
     _texture->loadFromFile("resources/400.png");
     _sprite->setTexture(*_texture);
 
-    _lifeSprite.setTexture("resources/400.png");
-
 
         if(player==1){
             _lifeSprite.setPosition(10,20);

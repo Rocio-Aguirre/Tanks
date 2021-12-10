@@ -32,6 +32,9 @@ Bonus::Bonus(){
     _sprite->setTexture(*_texture);
     _sprite = new sf::Sprite(*_texture,sf::IntRect(115,76,32,32));
     _sprite->setOrigin(_sprite->getLocalBounds().width/2-5,_sprite->getLocalBounds().height/2);
+
+    /// GENERAR EL BONUS EN UNA POS RANDOM
+
     _sprite->setPosition(144,428);
 
     _points = 10;

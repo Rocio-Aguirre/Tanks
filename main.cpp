@@ -2,10 +2,13 @@
 #include <iostream>
 
 #include "app.h"
-#include "TileMap.h"
+#include "archivos.h"
 
 int main()
 {
-    setlocale(LC_ALL, "");
-    app app(672,480,"TANQUESITOS");
+
+    Levels aux;
+    aux.ingresarMapa();
+    /*setlocale(LC_ALL, "");
+    app app(672,480,"TANQUESITOS");*/
 }

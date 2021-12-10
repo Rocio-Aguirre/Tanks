@@ -16,10 +16,14 @@ private:
 
     sf::Vector2i resolucion;
 
+    Tank * tank1;
+    Tank * tank2;
+
     sf::Texture *_texture;
     sf::Texture *_texture1;
     sf::Sprite *_background;
-    sf::Sprite *_sprite1;
+    sf::Sprite _tank1LifeSprite;
+    sf::Sprite _tank2LifeSprite;
 
     Bonus *_bonus;
 
@@ -28,6 +32,7 @@ private:
     Menu *_menu;
     bool _entrarMenu;
 
+    int contador;
 public:
 
     app(int resolucion_x, int resolucion_y, std::string titulo);
@@ -98,18 +103,12 @@ void app::checkCollisions(Tank &t1, Tank &t2, TileMap &mapa, Bonus &b){
             }
 
             if(t1.bulletNULL()==false){
-//                if(t1.getBulletDraw().getPosition().x < 128){
-//                    t1.deleteBullet();
-//                } EL LADO IZQUIERDO ESTA CAUSANDO PROBLEMAS
                 if(t1.getBulletDraw().getPosition().x > resolucion.x - 128){
                     t1.deleteBullet();
                 }
             }
 
             if(t2.bulletNULL()==false){
-//                if(t2.getBulletDraw().getPosition().x < 128){
-//                    t2.deleteBullet();
-//                } EL LADO IZQUIERDO ESTA CAUSANDO PROBLEMAS
                 if(t2.getBulletDraw().getPosition().x > resolucion.x - 128){
                     t2.deleteBullet();
                 }
@@ -123,7 +122,7 @@ void app::checkCollisions(Tank &t1, Tank &t2, TileMap &mapa, Bonus &b){
                     t2.quieto(t2.getPosAnt().x,t2.getPosAnt().y);
                 }
 
-            /// SI COLISIONA LA BALA CON EL TANQUE ADVERSARIO
+            /// COLISION DE LA BALA CON EL TANQUE ADVERSARIO
 
                 if(t1.bulletNULL() == false){
                     if(t1.getBulletDraw().getGlobalBounds().intersects(t2.getDraw().getGlobalBounds())){
@@ -145,6 +144,7 @@ void app::checkCollisions(Tank &t1, Tank &t2, TileMap &mapa, Bonus &b){
 
                 for(int i=0; i<26; i++){
 
+                    /// BALA CON EL MAPA
                     if(t1.bulletNULL() != 1){
                         if(t1.getBulletDraw().getGlobalBounds().intersects(mapa.getMapa(x,i).getGlobalBounds())){
                             t1.deleteBullet();
@@ -156,6 +156,7 @@ void app::checkCollisions(Tank &t1, Tank &t2, TileMap &mapa, Bonus &b){
                         }
                     }
 
+                    /// TANQUES CON EL MAPA
                     if(t1.getDraw().getGlobalBounds().intersects(mapa.getMapa(x,i).getGlobalBounds())){
                         t1.quieto(t1.getPosAnt().x,t1.getPosAnt().y);
                     }
@@ -178,6 +179,16 @@ app::app(int resolucion_x, int resolucion_y, std::string titulo){
     _texture->loadFromFile("resources/background3.png");
     _background->setTexture(*_texture);
 
+    /// TEXTURAS Y SPRITES DE LAS VIDAS DE LOS TANQUES
+    _texture1 = new sf::Texture;
+    _texture1->loadFromFile("resources/400.png");
+    _tank1LifeSprite.setTexture(*_texture1);
+    _tank1LifeSprite.setPosition(10,40);
+
+    _tank2LifeSprite.setTexture(*_texture1);
+    _tank2LifeSprite.setPosition(575,40);
+
+
     resolucion.x=resolucion_x;
     resolucion.y=resolucion_y;
 
@@ -187,12 +198,11 @@ app::app(int resolucion_x, int resolucion_y, std::string titulo){
     _ventana1->setFramerateLimit(_fps);
 
     gameloop();
+
+    contador=0;
 }
 
 bool app::jugar(sf::RenderWindow &window, int level, TileMap &mapa,Tank &tank1,Tank &tank2,Bonus &b){
-
-    /// DIBUJA INTERFAZ DEL JUEGO
-        window.draw(*_background);
 
     checkCollisions(tank1,tank2,mapa,b);
 
@@ -203,13 +213,46 @@ bool app::jugar(sf::RenderWindow &window, int level, TileMap &mapa,Tank &tank1,T
     window.draw(tank1.getDraw());
     window.draw(tank2.getDraw());
 
+    /// DIBUJA INTERFAZ DEL JUEGO
+        window.draw(*_background);
+
+    /// PONER EL DIBUJADO DE LA VIDA EN UNA FUNCION?
+    switch(tank1.getLife()){
+        case 1: _tank1LifeSprite.setTextureRect(sf::IntRect(312,44,86,12));
+            break;
+        case 2: _tank1LifeSprite.setTextureRect(sf::IntRect(312,30,86,12));
+            break;
+        case 3: _tank1LifeSprite.setTextureRect(sf::IntRect(312,16,86,12));
+            break;
+        case 4: _tank1LifeSprite.setTextureRect(sf::IntRect(312,2,86,12));
+            break;
+    }
+    switch(tank2.getLife()){
+        case 1: _tank2LifeSprite.setTextureRect(sf::IntRect(312,124,86,12));
+            break;
+        case 2: _tank2LifeSprite.setTextureRect(sf::IntRect(312,110,86,12));
+            break;
+        case 3: _tank2LifeSprite.setTextureRect(sf::IntRect(312,96,86,12));
+            break;
+        case 4: _tank2LifeSprite.setTextureRect(sf::IntRect(312,82,86,12));
+            break;
+    }
+    window.draw(_tank1LifeSprite);
+    window.draw(_tank2LifeSprite);
+
+    if(_bonus==NULL){
+        contador++;
+        if(contador>=280){
+            _bonus = new Bonus;
+            contador=0;
+        }
+    }
 
     mapa.mostrarMapa(window);
 
     if(tank1.getLife() == 0 || tank2.getLife() == 0){
         if(tank1.getPoints()>tank2.getPoints()){
             Tank aux(4);
-
             aux.addPoints(tank1.getPoints());
             aux.grabarDisco();
         }
@@ -236,9 +279,6 @@ void app::gameloop(){
     int heigth = resolucion.y;
 
     _menu = new Menu(width,heigth);
-
-    Tank tank1(1);
-    Tank tank2(2);
 
     _bonus = new Bonus;
 
@@ -268,18 +308,19 @@ void app::gameloop(){
                     case sf::Keyboard::Return:
                         if(_entrarMenu==true){
                             switch(_menu->getPressedItem()){
-                            case 0:
-                                _entrarMenu = false;
+                            case 0: /// JUGAR
+                                    _entrarMenu = false;
+                                    tank1 = new Tank(1);
+                                    tank2 = new Tank(2);
                                 break;
-                            case 1:
-                                std::cout << "Acá se elige nivel" << std::endl;
-                                mapa.setLevel(1, mapa);
-                                opc=1;
+                            case 1: /// ELECCION DE NIVEL
+                                    //mapa.setLevel(1, mapa);
+                                    opc=1;
                                 break;
-                            case 2:
-                                mostrarScore();
+                            case 2: /// MOSTRAR SCORES
+                                    mostrarScore();
                                 break;
-                            case 3:
+                            case 3: /// CERRAR VENTANA
                                 _ventana1->close();
                                 break;
                             default:
@@ -302,7 +343,7 @@ void app::gameloop(){
         else{
         if(_bonus != NULL){_bonus->drawBonus(*_ventana1);}
 
-        _entrarMenu=jugar(*_ventana1,opc,mapa,tank1,tank2,*_bonus);
+        _entrarMenu=jugar(*_ventana1,opc,mapa,*tank1,*tank2,*_bonus);
         }
         _ventana1->display();
     }
