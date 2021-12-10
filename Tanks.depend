@@ -1354,7 +1354,7 @@
 
 1638368856 d:\prog\tanks\menu.h
 
-1639175409 source:c:\users\roman\documents\github\tanks\main.cpp
+1639177702 source:c:\users\roman\documents\github\tanks\main.cpp
 	<SFML/Graphics.hpp>
 	<iostream>
 	"app.h"
@@ -1782,11 +1782,11 @@
 
 1639172151 c:\users\roman\documents\github\tanks\tank.h
 
-1639175585 c:\users\roman\documents\github\tanks\tilemap.h
+1639177747 c:\users\roman\documents\github\tanks\tilemap.h
 	<iostream>
 	"archivos.h"
 
 1639168568 c:\users\roman\documents\github\tanks\bonus.h
 
-1639175637 c:\users\roman\documents\github\tanks\archivos.h
+1639177702 c:\users\roman\documents\github\tanks\archivos.h
 
