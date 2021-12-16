@@ -26,6 +26,31 @@ public:
     Tank(int player);
     ~Tank();
 
+    bool grabarDisco(){
+        FILE *p;
+        bool res;
+        p = fopen("scores.dat", "wb");
+        if(p == NULL) return false;
+        res = fwrite(this, sizeof *this, 1, p);
+        fclose(p);
+        return res;
+    }
+
+    bool leerDisco(int pos){
+        FILE *p;
+        bool res;
+        p = fopen("scores.dat", "rb");
+        if(p == NULL) return false;
+        fseek(p, pos * sizeof *this, 0);
+        res = fread(this, sizeof *this, 1, p);
+        fclose(p);
+        return res;
+    }
+
+    void mostrar(){
+        std::cout << "SCORE: " << points;
+    }
+
     void cmd();
     void update(sf::RenderWindow &window);
 
@@ -38,6 +63,8 @@ public:
     sf::Sprite getBulletDraw();
     Bullet getTankBullet(){return *_bullet;}
     int getPoints(){return points;}
+
+    int getLife(){return _life;}
 
     void setPlayer(int p){_player=p;}
 
@@ -58,9 +85,9 @@ Tank::Tank(int player){
 
     _player = player;
 
-    _life = 4;
 
-    points=0;
+    points = 0;
+    _life = 4;
 
         if(_player==1){
         _sprite->setPosition(145,50);
@@ -73,14 +100,14 @@ Tank::Tank(int player){
     _texture->loadFromFile("resources/400.png");
     _sprite->setTexture(*_texture);
 
-    _lifeSprite.setTexture(*_texture);
-
 
         if(player==1){
+            _lifeSprite.setPosition(10,20);
             sf::IntRect posicion(4,240,22,32);
             _sprite->setTextureRect(posicion);
         }
         else{
+            _lifeSprite.setPosition(10,600);
             sf::IntRect posicion(4,282,22,32);
             _sprite->setTextureRect(posicion);
         }
@@ -167,6 +194,8 @@ void Tank::update(sf::RenderWindow &window){
 
     ShotTime++;
 
+    window.draw(_lifeSprite);
+
     if(ShotTime == 140){
         Shot = true;
     }
@@ -175,29 +204,6 @@ void Tank::update(sf::RenderWindow &window){
         _bullet->update();
         _bullet->getDraw(window);
     }
-
-    switch(_life){
-    case 1:
-            _lifeSprite.setTextureRect(sf::IntRect(312,278,86,12));
-        break;
-    case 2:
-            _lifeSprite.setTextureRect(sf::IntRect(312,264,86,12));
-        break;
-    case 3:
-            _lifeSprite.setTextureRect(sf::IntRect(312,250,86,12));
-            _lifeSprite.setPosition(4,59);
-        break;
-    case 4:
-            _lifeSprite.setTextureRect(sf::IntRect(312,236,86,12));
-            _lifeSprite.setPosition(4,41);
-        break;
-    default:
-        break;
-    }
-
-    window.draw(_lifeSprite);
-    _lifeSprite.setColor(sf::Color::Transparent);
-
 
     _posAnt.x = _sprite->getPosition().x;
     _posAnt.y = _sprite->getPosition().y;

@@ -1,6 +1,7 @@
 #ifndef APP_H_INCLUDED
 #define APP_H_INCLUDED
 
+#include "menu.h"
 #include "bullet.h"
 #include "tank.h"
 #include "TileMap.h"
@@ -15,11 +16,23 @@ private:
 
     sf::Vector2i resolucion;
 
+    Tank * tank1;
+    Tank * tank2;
+
     sf::Texture *_texture;
     sf::Texture *_texture1;
-    sf::Sprite *_sprite;
-    sf::Sprite *_sprite1;
+    sf::Sprite *_background;
+    sf::Sprite _tank1LifeSprite;
+    sf::Sprite _tank2LifeSprite;
 
+    Bonus *_bonus;
+
+    bool check;
+
+    Menu *_menu;
+    bool _entrarMenu;
+
+    int contador;
 public:
 
     app(int resolucion_x, int resolucion_y, std::string titulo);
@@ -35,22 +48,28 @@ public:
     void checkCollisionBulletToMap();
     void checkCollisions(Tank &t1, Tank &t2, TileMap &mapa, Bonus &b);
 
-    int mostrarMenu(sf::RenderWindow &window);
     bool jugar(sf::RenderWindow &window, int nivel,TileMap &mapa,Tank &tank1,Tank &tank2,Bonus &b);
+
+    void mostrarScore();
 };
 
 void app::checkCollisions(Tank &t1, Tank &t2, TileMap &mapa, Bonus &b){
 /// CHECK COLISSION
 
         /// BONUS
+            if(_bonus!=NULL){
+                if(t1.getDraw().getGlobalBounds().intersects(b.draw().getGlobalBounds())){
+                        delete _bonus;
+                        _bonus = NULL;
+                        t1.addPoints(b.getPoints());
 
-            if(t1.getDraw().getGlobalBounds().intersects(b.draw().getGlobalBounds())){
-                    t1.addPoints(b.getPoints());
-
-                }
-            if(t2.getDraw().getGlobalBounds().intersects(b.draw().getGlobalBounds())){
-                    t2.addPoints(b.getPoints());
-                }
+                    }
+                if(t2.getDraw().getGlobalBounds().intersects(b.draw().getGlobalBounds())){
+                         delete _bonus;
+                        _bonus = NULL;
+                        t2.addPoints(b.getPoints());
+                    }
+            }
 
         /// TANQUE Y BORDES DEL MAPA
             /// ABAJO
@@ -84,18 +103,12 @@ void app::checkCollisions(Tank &t1, Tank &t2, TileMap &mapa, Bonus &b){
             }
 
             if(t1.bulletNULL()==false){
-//                if(t1.getBulletDraw().getPosition().x < 128){
-//                    t1.deleteBullet();
-//                } EL LADO IZQUIERDO ESTA CAUSANDO PROBLEMAS
                 if(t1.getBulletDraw().getPosition().x > resolucion.x - 128){
                     t1.deleteBullet();
                 }
             }
 
             if(t2.bulletNULL()==false){
-//                if(t2.getBulletDraw().getPosition().x < 128){
-//                    t2.deleteBullet();
-//                } EL LADO IZQUIERDO ESTA CAUSANDO PROBLEMAS
                 if(t2.getBulletDraw().getPosition().x > resolucion.x - 128){
                     t2.deleteBullet();
                 }
@@ -109,7 +122,7 @@ void app::checkCollisions(Tank &t1, Tank &t2, TileMap &mapa, Bonus &b){
                     t2.quieto(t2.getPosAnt().x,t2.getPosAnt().y);
                 }
 
-            /// SI COLISIONA LA BALA CON EL TANQUE ADVERSARIO
+            /// COLISION DE LA BALA CON EL TANQUE ADVERSARIO
 
                 if(t1.bulletNULL() == false){
                     if(t1.getBulletDraw().getGlobalBounds().intersects(t2.getDraw().getGlobalBounds())){
@@ -131,6 +144,7 @@ void app::checkCollisions(Tank &t1, Tank &t2, TileMap &mapa, Bonus &b){
 
                 for(int i=0; i<26; i++){
 
+                    /// BALA CON EL MAPA
                     if(t1.bulletNULL() != 1){
                         if(t1.getBulletDraw().getGlobalBounds().intersects(mapa.getMapa(x,i).getGlobalBounds())){
                             t1.deleteBullet();
@@ -142,6 +156,7 @@ void app::checkCollisions(Tank &t1, Tank &t2, TileMap &mapa, Bonus &b){
                         }
                     }
 
+                    /// TANQUES CON EL MAPA
                     if(t1.getDraw().getGlobalBounds().intersects(mapa.getMapa(x,i).getGlobalBounds())){
                         t1.quieto(t1.getPosAnt().x,t1.getPosAnt().y);
                     }
@@ -159,10 +174,20 @@ void app::checkCollisions(Tank &t1, Tank &t2, TileMap &mapa, Bonus &b){
 
 app::app(int resolucion_x, int resolucion_y, std::string titulo){
 
-    _sprite = new sf::Sprite;
+    _background = new sf::Sprite;
     _texture = new sf::Texture;
     _texture->loadFromFile("resources/background3.png");
-    _sprite->setTexture(*_texture);
+    _background->setTexture(*_texture);
+
+    /// TEXTURAS Y SPRITES DE LAS VIDAS DE LOS TANQUES
+    _texture1 = new sf::Texture;
+    _texture1->loadFromFile("resources/400.png");
+    _tank1LifeSprite.setTexture(*_texture1);
+    _tank1LifeSprite.setPosition(10,40);
+
+    _tank2LifeSprite.setTexture(*_texture1);
+    _tank2LifeSprite.setPosition(575,40);
+
 
     resolucion.x=resolucion_x;
     resolucion.y=resolucion_y;
@@ -173,6 +198,8 @@ app::app(int resolucion_x, int resolucion_y, std::string titulo){
     _ventana1->setFramerateLimit(_fps);
 
     gameloop();
+
+    contador=0;
 }
 
 bool app::jugar(sf::RenderWindow &window, int level, TileMap &mapa,Tank &tank1,Tank &tank2,Bonus &b){
@@ -183,68 +210,77 @@ bool app::jugar(sf::RenderWindow &window, int level, TileMap &mapa,Tank &tank1,T
 
     tank2.update(window);
 
-    ///std::cout << tank1.getPoints() << std::endl;
-
     window.draw(tank1.getDraw());
     window.draw(tank2.getDraw());
 
-    window.draw(*_sprite);
+    /// DIBUJA INTERFAZ DEL JUEGO
+        window.draw(*_background);
+
+    /// PONER EL DIBUJADO DE LA VIDA EN UNA FUNCION?
+    switch(tank1.getLife()){
+        case 1: _tank1LifeSprite.setTextureRect(sf::IntRect(312,44,86,12));
+            break;
+        case 2: _tank1LifeSprite.setTextureRect(sf::IntRect(312,30,86,12));
+            break;
+        case 3: _tank1LifeSprite.setTextureRect(sf::IntRect(312,16,86,12));
+            break;
+        case 4: _tank1LifeSprite.setTextureRect(sf::IntRect(312,2,86,12));
+            break;
+    }
+    switch(tank2.getLife()){
+        case 1: _tank2LifeSprite.setTextureRect(sf::IntRect(312,124,86,12));
+            break;
+        case 2: _tank2LifeSprite.setTextureRect(sf::IntRect(312,110,86,12));
+            break;
+        case 3: _tank2LifeSprite.setTextureRect(sf::IntRect(312,96,86,12));
+            break;
+        case 4: _tank2LifeSprite.setTextureRect(sf::IntRect(312,82,86,12));
+            break;
+    }
+    window.draw(_tank1LifeSprite);
+    window.draw(_tank2LifeSprite);
+
+    if(_bonus==NULL){
+        contador++;
+        if(contador>=280){
+            _bonus = new Bonus;
+            contador=0;
+        }
+    }
+
     mapa.mostrarMapa(window);
 
-    /// HACER EL GET LIFE PARA QUE SE TERMINE EL JUEGO CUANDO ALGUN TANQUE SE QUEDE SIN VIDAS
+    if(tank1.getLife() == 0 || tank2.getLife() == 0){
+        if(tank1.getPoints()>tank2.getPoints()){
+            Tank aux(4);
+            aux.addPoints(tank1.getPoints());
+            aux.grabarDisco();
+        }
+        return true;
+    }
+    return false;
 }
 
-int app::mostrarMenu(sf::RenderWindow &window){
-    int opc;
-    sf::Text _text[30];
-    sf::Font _font;
-    int width = resolucion.x;
-    int heigth = resolucion.y;
-    int _maxNumItems = 4;
-
-    _font.loadFromFile("resources/game_over.ttf");
-    _text[0].setFont(_font);
-    _text[0].setColor(sf::Color::Red);
-    _text[0].setString("Start");
-    _text[0].setPosition(sf::Vector2f(width/2, heigth/(_maxNumItems+1)*2));
-    _text[0].setCharacterSize(50);
-
-    _font.loadFromFile("resources/game_over.ttf");
-    _text[1].setFont(_font);
-    _text[1].setColor(sf::Color::Red);
-    _text[1].setString("Exit");
-    _text[1].setPosition(sf::Vector2f(width/2, 40 + heigth/(_maxNumItems+1)*2));
-    _text[1].setCharacterSize(50);
-
-
-    for(int i=0; i<_maxNumItems; i++){
-        window.draw(_text[i]);
-    }
-    window.display();
-
-    std::cin >> opc;
-    switch(opc){
-    case 1: return 1;
-        break;
-    case 2: return 2;
-        break;
-    default:    return 3;
-        break;
-
+void app::mostrarScore(){
+    Tank aux(3);
+    int pos=0;
+    while(aux.leerDisco(pos)){
+        aux.mostrar();
+        system("pause");
+        pos++;
     }
 }
 
 void app::gameloop(){
 
     int opc;
-    bool entrarMenu = true;
+    bool _entrarMenu = true;
+    int width = resolucion.x;
+    int heigth = resolucion.y;
 
-    Tank tank1(1);
-    Tank tank2(2);
+    _menu = new Menu(width,heigth);
 
-    Bonus bonus;
-
-    bonus.bonusCreate(1,524,427);
+    _bonus = new Bonus;
 
     TileMap mapa;
 
@@ -252,146 +288,65 @@ void app::gameloop(){
         sf::Event event;
         while (_ventana1->pollEvent(event))
         {
-            if (event.type == sf::Event::Closed)
+            switch(event.type)
+            {
+            case sf::Event::Closed:
                 _ventana1->close();
+                break;
+            case sf::Event::KeyReleased:
+
+                if(_entrarMenu==true){
+                    switch(event.key.code){
+                    case sf::Keyboard::Up:
+                        _menu->moveUp();
+                        std::cout << "UP";
+                        break;
+                    case sf::Keyboard::Down:
+                        _menu->moveDown();
+                        std::cout << "DOWN";
+                        break;
+                    case sf::Keyboard::Return:
+                        if(_entrarMenu==true){
+                            switch(_menu->getPressedItem()){
+                            case 0: /// JUGAR
+                                    _entrarMenu = false;
+                                    tank1 = new Tank(1);
+                                    tank2 = new Tank(2);
+                                break;
+                            case 1: /// ELECCION DE NIVEL
+                                    //mapa.setLevel(1, mapa);
+                                    opc=1;
+                                break;
+                            case 2: /// MOSTRAR SCORES
+                                    mostrarScore();
+                                break;
+                            case 3: /// CERRAR VENTANA
+                                _ventana1->close();
+                                break;
+                            default:
+                                break;
+                            }
+                        }
+
+                        break;
+                    }
+                }
+                break;
+            }
         }
 
         _ventana1->clear();
 
-        if(entrarMenu==true){
-            opc = mostrarMenu(*_ventana1);
-            entrarMenu = false;
+        if(_entrarMenu==true){
+            _menu->draw(*_ventana1);
         }
+        else{
+        if(_bonus != NULL){_bonus->drawBonus(*_ventana1);}
 
-        _ventana1->draw(bonus.draw());
-
-        entrarMenu=jugar(*_ventana1,opc,mapa,tank1,tank2,bonus);
-
+        _entrarMenu=jugar(*_ventana1,opc,mapa,*tank1,*tank2,*_bonus);
+        }
         _ventana1->display();
     }
 }
-
-//void app::gameloop(){
-//
-//    Tank t2(2);
-//    Tank t1(1);
-//
-//    TileMap mapa;
-//
-//    while(_ventana1->isOpen()){
-//        sf::Event event;
-//        while (_ventana1->pollEvent(event))
-//        {
-//            if (event.type == sf::Event::Closed)
-//                _ventana1->close();
-//        }
-//
-//        t1.cmd();
-//        t1.update();
-//
-////        t2.cmd();
-////        t2.update();
-//
-//        _ventana1->clear();
-//
-//        /// CHECK COLISSION
-//
-//            /// TANQUE Y BORDES DEL MAPA
-//
-//                if(t1.getDraw().getPosition().y > 416 - t1.getDraw().getGlobalBounds().height/2){
-//                    t1.quieto(t1.getPosAnt().x,t1.getPosAnt().y);
-//                }
-//                if(t1.getDraw().getPosition().y < 0 + t1.getDraw().getGlobalBounds().height/2){
-//                    t1.quieto(t1.getPosAnt().x,t1.getPosAnt().y);
-//                }
-//                if(t1.getDraw().getPosition().x < 0 + t1.getDraw().getGlobalBounds().width/2){
-//                    t1.quieto(t1.getPosAnt().x,t1.getPosAnt().y);
-//                }
-//                if(t1.getDraw().getPosition().x > 416 - t1.getDraw().getGlobalBounds().width/2){
-//                    t1.quieto(t1.getPosAnt().x,t1.getPosAnt().y);
-//                }
-//
-//                if(t2.getDraw().getPosition().y > 416 - t1.getDraw().getGlobalBounds().height/2){
-//                    t2.quieto(t1.getPosAnt().x,t1.getPosAnt().y);
-//                }
-//                if(t2.getDraw().getPosition().y < 0 + t1.getDraw().getGlobalBounds().height/2){
-//                    t2.quieto(t1.getPosAnt().x,t1.getPosAnt().y);
-//                }
-//                if(t2.getDraw().getPosition().x < 0 + t1.getDraw().getGlobalBounds().width/2){
-//                    t2.quieto(t1.getPosAnt().x,t1.getPosAnt().y);
-//                }
-//                if(t2.getDraw().getPosition().x > 416 - t1.getDraw().getGlobalBounds().width/2){
-//                    t2.quieto(t1.getPosAnt().x,t1.getPosAnt().y);
-//                }
-//
-//            /// ENTRE TANQUES
-//
-////                if(t1.getDraw().getGlobalBounds().intersects(t2.getDraw().getGlobalBounds())){
-////                    t1.quieto(t1.getPosAnt().x,t1.getPosAnt().y);
-////                }
-////                if(t2.getDraw().getGlobalBounds().intersects(t1.getDraw().getGlobalBounds())){
-////                    t2.quieto(t2.getPosAnt().x,t2.getPosAnt().y);
-////                }
-//
-//                checkCollisionTwoTanks(&t1,&t2);
-//                checkCollisionTwoTanks(&t2,&t1);
-//
-//
-//                /// SI COLISIONA LA BALA
-//
-//                    if(t1.bulletNULL() != 1){
-//
-////                    if(t1.getTankBullet().getDraw().getGlobalBounds().intersects(t2.getDraw().getGlobalBounds())){
-////                        t1.deleteBullet();
-////                        t2.respawn();
-////                    }
-//                    }
-//
-//
-////                    if(t2.getTankBullet().getDraw().getGlobalBounds().intersects(t1.getDraw().getGlobalBounds())){
-////                        t1.respawn();
-////                    }
-//
-//            /// CON EL MAPA
-//
-//                for(int x=0; x<26; x++){
-//
-//                    for(int i=0; i<26; i++){
-//
-//                        if(t1.bulletNULL() != 1){
-//                            if(t1.getBulletDraw().getGlobalBounds().intersects(mapa.getMapa(x,i).getGlobalBounds())){
-//
-//                            }
-//                        }
-//
-//                        if(t1.getDraw().getGlobalBounds().intersects(mapa.getMapa(x,i).getGlobalBounds())){
-//                            t1.quieto(t1.getPosAnt().x,t1.getPosAnt().y);
-//                        }
-//                        if(t2.getDraw().getGlobalBounds().intersects(mapa.getMapa(x,i).getGlobalBounds())){
-//                            t2.quieto(t2.getPosAnt().x,t2.getPosAnt().y);
-//                        }
-//                    }
-//                }
-//
-//            /// BALAS CON EL ENTORNO
-//
-//
-//        /// -------------
-//
-//        _ventana1->draw(t1.getDraw());
-//        _ventana1->draw(t2.getDraw());
-//
-//        if(t1.bulletNULL() != 1){
-//            _ventana1->draw(t1.getBulletDraw());
-//        }
-//
-////        _ventana1->draw(t2.getBulletDraw());
-//
-//        mapa.mostrarMapa(*_ventana1);
-//
-//        _ventana1->display();
-//    }
-//}
-
 
 #endif // APP_H_INCLUDED
