@@ -360,11 +360,12 @@ void app::gameloop(){
                                     tank2 = new Tank(2);
                                 break;
                             case 1: /// ELECCION DE NIVEL
-                                    //mapa.setLevel(1, mapa);
-                                     delete _menu;
-                                    opc=1;
-                                    _menu = new Menu(width,heigth, 2);
-                                    levelMenu();
+                                    ///mapa.setLevel(1);
+//                                     delete _menu;
+//                                    opc=1;
+//                                    _menu = new Menu(width,heigth, 2);
+//                                    levelMenu();
+//                                    _entrarMenu = false;
                                 break;
                             case 2: /// MOSTRAR SCORES
                                     mostrarScore();

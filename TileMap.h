@@ -177,4 +177,62 @@ void TileMap::mostrarMapa(sf::RenderWindow & window){
         }
     }
 }
+
+void TileMap::setLevel(int level){
+Levels aux;
+
+    int escala=16;
+    int pos=0;
+    while(aux.leerDisco(pos)){
+            if(aux.getLevel()==level){
+                for(int x=0;x<26;x++){
+                    for(int j=0;j<26;j++){
+                        int actual = aux.getMap(x,j);
+                        switch(actual){
+                            case 1:
+                                _sprite = new sf::Sprite(*_texture,sf::IntRect(4,4,16,16));
+
+                                _sprite->setPosition(128+j*escala,32+x*escala);
+
+                                _mapa[x][j] = _sprite;
+                                break;
+                            case 2:
+                                break;
+                            case 3:
+                                break;
+                            case 4:
+                                break;
+                            case 5:
+                                break;
+                            case 6:
+                                break;
+                            case 7:
+                                break;
+                            case 8:
+                                break;
+                            case 9:
+                                _sprite = new sf::Sprite(*_texture,sf::IntRect(207,14,16,16));
+
+
+                                _sprite->setPosition(128+j*escala,32+x*escala);
+
+                                _mapa[x][j] = _sprite;
+                                break;
+                            default:
+                                _sprite = new sf::Sprite(*_texture,sf::IntRect(0,0,0,0));
+
+                                _sprite->setPosition(j*escala,x*escala);
+
+                                _mapa[x][j] = _sprite;
+                                break;
+                        }
+                    }
+                }
+            }
+            else{
+                std::cout << std::endl << "NO SE PUDO CARGAR EL MAPA" << std::endl;
+            }
+            pos++;
+    }
+}
 #endif // TILEMAP_H_INCLUDED
