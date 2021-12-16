@@ -51,7 +51,53 @@ public:
     bool jugar(sf::RenderWindow &window, int nivel,TileMap &mapa,Tank &tank1,Tank &tank2,Bonus &b);
 
     void mostrarScore();
+
+    void levelMenu();
 };
+
+void app::levelMenu(){
+    sf::Event event;
+    switch(event.type){
+        case sf::Event::KeyReleased:
+            switch(event.key.code){
+                case sf::Keyboard::Up:
+                    _menu->moveUp();
+                    std::cout << "UP";
+                    std::cout << _menu->getPressedItem() << std::endl;
+                    break;
+                case sf::Keyboard::Down:
+                    _menu->moveDown();
+                    std::cout << "DOWN";
+                    std::cout << _menu->getPressedItem() << std::endl;
+                    break;
+                    case sf::Keyboard::Return:
+                        switch(_menu->getPressedItem()){
+                            case 0:
+                                std::cout << " asd";
+                                    Levels level;
+                                    level.getLevel();
+                                    tank1 = new Tank(1);
+                                    tank2 = new Tank(2);
+                                break;
+                            case 1:
+                                std::cout << " asd3223";
+                                break;
+                            case 2:
+                                std::cout << " asd232332";
+                                break;
+                            case 3:
+                                _ventana1->close();
+                                break;
+                            default:
+                                break;
+                        }
+
+                default:
+                    break;
+            }
+    }
+
+}
 
 void app::checkCollisions(Tank &t1, Tank &t2, TileMap &mapa, Bonus &b){
 /// CHECK COLISSION
@@ -278,7 +324,7 @@ void app::gameloop(){
     int width = resolucion.x;
     int heigth = resolucion.y;
 
-    _menu = new Menu(width,heigth);
+    _menu = new Menu(width,heigth, 1);
 
     _bonus = new Bonus;
 
@@ -315,7 +361,10 @@ void app::gameloop(){
                                 break;
                             case 1: /// ELECCION DE NIVEL
                                     //mapa.setLevel(1, mapa);
+                                     delete _menu;
                                     opc=1;
+                                    _menu = new Menu(width,heigth, 2);
+                                    levelMenu();
                                 break;
                             case 2: /// MOSTRAR SCORES
                                     mostrarScore();

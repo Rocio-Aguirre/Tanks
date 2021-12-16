@@ -7,16 +7,6 @@ private:
     int top;
 public:
 
-    bool grabarDisco(){
-        FILE *p;
-        bool res;
-        p = fopen("resources/Scores.dir", "ab");
-        if(p == NULL) return false;
-        res = fwrite(this, sizeof *this, 1, p);
-        fclose(p);
-        return res;
-    }
-
     void cargarScore(){
     }
 
@@ -30,6 +20,16 @@ public:
         if(p == NULL) return false;
         fseek(p, pos * sizeof *this, 0);
         res = fread(this, sizeof *this, 1, p);
+        fclose(p);
+        return res;
+    }
+
+     bool grabarDisco(){
+        FILE *p;
+        bool res;
+        p = fopen("resources/Scores.dir", "ab");
+        if(p == NULL) return false;
+        res = fwrite(this, sizeof *this, 1, p);
         fclose(p);
         return res;
     }
