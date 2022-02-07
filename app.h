@@ -30,6 +30,8 @@ private:
     bool check;
 
     Menu *_menu;
+    Menu *_menuLevels;
+    Menu *_menuScores;
     bool _entrarMenu;
 
     int contador;
@@ -326,6 +328,7 @@ void app::gameloop(){
 
     _menu = new Menu(width,heigth, 1);
 
+
     _bonus = new Bonus;
 
     TileMap mapa;
@@ -361,6 +364,20 @@ void app::gameloop(){
                                 break;
                             case 1: /// ELECCION DE NIVEL
                                     ///mapa.setLevel(1);
+                                    delete _menu;
+                                    _menuLevels = new Menu(width, heigth, 2);
+
+                                        switch(_menuLevels->getPressedItem()){
+                                        case 0:
+                                            std::cout << "hola soy mapa 1" <<std::endl;
+                                            break;
+                                        case 1:
+                                            std::cout << "hola soy mapa 2" << std::endl;
+                                            break;
+                                        default:
+                                            break;
+                                        }
+
 //                                     delete _menu;
 //                                    opc=1;
 //                                    _menu = new Menu(width,heigth, 2);
@@ -368,7 +385,9 @@ void app::gameloop(){
 //                                    _entrarMenu = false;
                                 break;
                             case 2: /// MOSTRAR SCORES
-                                    mostrarScore();
+                                    delete _menu;
+                                    _menuScores = new Menu(width, heigth, 3);
+
                                 break;
                             case 3: /// CERRAR VENTANA
                                 _ventana1->close();
