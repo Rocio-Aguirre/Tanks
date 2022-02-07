@@ -103,6 +103,7 @@ public:
     sf::Sprite &getMapaB(){return  **_mapa[26];}
 
     void mostrarMapa(sf::RenderWindow & window);
+    void setLevel(int level);
 };
 
 TileMap::TileMap(){

@@ -22,6 +22,8 @@ public:
 
     void drawBonus(sf::RenderWindow & window);
 
+    void respawn();
+
 };
 
 Bonus::Bonus(){
@@ -34,10 +36,29 @@ Bonus::Bonus(){
     _sprite->setOrigin(_sprite->getLocalBounds().width/2-5,_sprite->getLocalBounds().height/2);
 
     /// GENERAR EL BONUS EN UNA POS RANDOM
-
-    _sprite->setPosition(144,428);
+    respawn();
+    //_sprite->setPosition(144,428);
 
     _points = 10;
+}
+
+void Bonus::respawn(){
+    int pos = rand() % 4;
+
+        switch(pos){
+            case 0:
+                    _sprite->setPosition(145,50);
+                break;
+            case 1:
+                    _sprite->setPosition(525,50);
+                break;
+            case 2:
+                    _sprite->setPosition(524,427);
+                break;
+            case 3:
+                    _sprite->setPosition(144,428);
+            break;
+        }
 }
 
 void Bonus::bonusCreate(){

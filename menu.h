@@ -18,7 +18,7 @@ public:
     int getPressedItem(){return _selectedItem;}
     void mainMenu();
     void levelMenu();
-
+    void scoreMenu();
 };
 
 Menu::Menu(float width, float heigth, int type){
@@ -31,10 +31,32 @@ Menu::Menu(float width, float heigth, int type){
         case 2:
             levelMenu();
             break;
+        case 3:
+            scoreMenu();
+            break;
         default:
             return;
             break;
     }
+}
+
+void Menu::scoreMenu(){
+    _maxNumItems=2;
+
+    _font.loadFromFile("resources/game_over.ttf");
+    _text[0].setFont(_font);
+    _text[0].setColor(sf::Color::Red);
+    _text[0].setString("Último puntaje: ");
+    _text[0].setPosition(sf::Vector2f((_width-(_text[0].getString().getSize()*_text[0].getCharacterSize())/2)/2, _heigth/(_maxNumItems+1)));
+    _text[0].setCharacterSize(50);
+
+    _font.loadFromFile("resources/game_over.ttf");
+    _text[1].setFont(_font);
+    _text[1].setColor(sf::Color::White);
+    _text[1].setString(">- Volver ");
+    _text[1].setPosition(sf::Vector2f((_width-((_text[1].getString().getSize()-3)*_text[1].getCharacterSize())/2)/2, 40 + _heigth/(_maxNumItems+1)));
+    _text[1].setCharacterSize(50);
+
 }
 
 void Menu::levelMenu(){
