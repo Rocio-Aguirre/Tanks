@@ -15,6 +15,7 @@ public:
     void draw(sf::RenderWindow &window);
     void moveUp();
     void moveDown();
+    void setSelectedItem(int num){_selectedItem=num;}
     int getPressedItem(){return _selectedItem;}
     void mainMenu();
     void levelMenu();
@@ -60,7 +61,7 @@ void Menu::scoreMenu(){
 }
 
 void Menu::levelMenu(){
-    _maxNumItems=2;
+    _maxNumItems=3;
 
     _font.loadFromFile("resources/game_over.ttf");
     _text[0].setFont(_font);
@@ -75,6 +76,13 @@ void Menu::levelMenu(){
     _text[1].setString("Level 2");
     _text[1].setPosition(sf::Vector2f((_width-((_text[1].getString().getSize()-3)*_text[1].getCharacterSize())/2)/2, 40 + _heigth/(_maxNumItems+1)));
     _text[1].setCharacterSize(50);
+
+    _font.loadFromFile("resources/game_over.ttf");
+    _text[2].setFont(_font);
+    _text[2].setColor(sf::Color::White);
+    _text[2].setString(">- Volver");
+    _text[2].setPosition(sf::Vector2f((_width-((_text[2].getString().getSize()-6)*_text[2].getCharacterSize())/2)/2, 80 + _heigth/(_maxNumItems+1)));
+    _text[2].setCharacterSize(50);
 
 }
 
@@ -123,21 +131,22 @@ void Menu::draw(sf::RenderWindow &window){
 
 void Menu::moveUp()
 {
+
     if(_selectedItem - 1 >= 0){
-        std::cout << " | arriba " <<  _selectedItem;
+//        std::cout << _selectedItem;
         _text[_selectedItem].setColor(sf::Color::White);
         _selectedItem--;
-        std::cout << " | arriba " <<  _selectedItem;
+        std::cout << _selectedItem << std::endl;
         _text[_selectedItem].setColor(sf::Color::Red);
     }
 }
 
 void Menu::moveDown(){
     if(_selectedItem + 1 < _maxNumItems){
-            std::cout << _selectedItem;
+//            std::cout << _selectedItem;
         _text[_selectedItem].setColor(sf::Color::White);
-        std::cout << _selectedItem;
         _selectedItem++;
+        std::cout << _selectedItem << std::endl;
         _text[_selectedItem].setColor(sf::Color::Red);
     }
 }
