@@ -1354,9 +1354,10 @@
 
 1638368856 d:\prog\tanks\menu.h
 
-1644534966 source:c:\users\roman\documents\github\tanks\main.cpp
+1645057097 source:c:\users\roman\documents\github\tanks\main.cpp
 	<SFML/Graphics.hpp>
 	<iostream>
+	<cstring>
 	"app.h"
 	"archivos.h"
 
@@ -1769,26 +1770,26 @@
 	<SFML/Graphics/Drawable.hpp>
 	<SFML/Window/GlResource.hpp>
 
-1644543239 c:\users\roman\documents\github\tanks\app.h
+1645108000 c:\users\roman\documents\github\tanks\app.h
 	"menu.h"
 	"bullet.h"
 	"tank.h"
 	"TileMap.h"
 	"bonus.h"
 
-1644277964 c:\users\roman\documents\github\tanks\menu.h
+1645108926 c:\users\roman\documents\github\tanks\menu.h
 
 1644271191 c:\users\roman\documents\github\tanks\bullet.h
 
-1644271191 c:\users\roman\documents\github\tanks\tank.h
+1645054568 c:\users\roman\documents\github\tanks\tank.h
 
 1644271191 c:\users\roman\documents\github\tanks\tilemap.h
 	<iostream>
 	"archivos.h"
 
-1644271191 c:\users\roman\documents\github\tanks\bonus.h
+1645058616 c:\users\roman\documents\github\tanks\bonus.h
 
-1644534966 c:\users\roman\documents\github\tanks\archivos.h
+1645058389 c:\users\roman\documents\github\tanks\archivos.h
 
 1639159932 source:c:\desktop\tanks-roc-o\main.cpp
 	<SFML/Graphics.hpp>

@@ -37,7 +37,6 @@ Bonus::Bonus(){
 
     /// GENERAR EL BONUS EN UNA POS RANDOM
     respawn();
-    //_sprite->setPosition(144,428);
 
     _points = 10;
 }

@@ -11,6 +11,7 @@ private:
     float _heigth;
     Menu *_submenu;
 public:
+    Menu(float width, float heigth, const char * aux, int num);
     Menu(float width, float heigth, int tipo);
     void draw(sf::RenderWindow &window);
     void moveUp();
@@ -20,6 +21,7 @@ public:
     void mainMenu();
     void levelMenu();
     void scoreMenu();
+    void namesMenu(const char aux[20], int num);
 };
 
 Menu::Menu(float width, float heigth, int type){
@@ -39,6 +41,33 @@ Menu::Menu(float width, float heigth, int type){
             return;
             break;
     }
+}
+
+Menu::Menu(float width, float heigth, const char * aux, int num){
+    _width = width;
+    _heigth = heigth;
+
+    namesMenu(aux,num);
+}
+
+void Menu::namesMenu(const char aux[20], int num){
+    _maxNumItems=2;
+
+    _font.loadFromFile("resources/game_over.ttf");
+    _text[0].setFont(_font);
+    _text[0].setColor(sf::Color::Red);
+    if(num==1){_text[0].setString("Nombre Jugador 1");}
+    if(num==2){_text[0].setString("Nombre Jugador 2");}
+    _text[0].setPosition(sf::Vector2f((_width-(_text[0].getString().getSize()*_text[0].getCharacterSize())/2)/2, _heigth/(_maxNumItems+1)));
+    _text[0].setCharacterSize(50);
+
+    _font.loadFromFile("resources/game_over.ttf");
+    _text[1].setFont(_font);
+    _text[1].setColor(sf::Color::White);
+    _text[1].setString(aux);
+    _text[1].setPosition(sf::Vector2f((_width/2-_text[1].getString().getSize()*_text[1].getCharacterSize()/2), 40 + _heigth/(_maxNumItems+1)));
+    //_text[1].setPosition(sf::Vector2f((_width-((_text[1].getString().getSize())*_text[1].getCharacterSize())/2)/2, 40 + _heigth/(_maxNumItems+1)));
+    _text[1].setCharacterSize(50);
 }
 
 void Menu::scoreMenu(){

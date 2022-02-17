@@ -32,6 +32,7 @@ private:
     Menu *_menu;
     Menu *_menuLevels;
     Menu *_menuScores;
+    Menu *_menuNombres;
     bool _entrarMenu;
 
     int contador;
@@ -57,7 +58,93 @@ public:
     void levelMenu();
 
     void MenuNiveles(int width, int heigth, sf::Event event, TileMap mapa);
+
+    bool SetNombres(sf::Event event);
+
+    bool nickPlayer_1(sf::Event event);
+    bool nickPlayer_2(sf::Event event);
 };
+bool app::nickPlayer_1(sf::Event event){
+    char aux[20]= "";
+    int cont=0;
+    while(_ventana1->isOpen())
+    {
+        while(_ventana1->pollEvent(event))
+        {
+                if (event.type == sf::Event::TextEntered)
+                {
+                    if (event.text.unicode < 128)
+                    {
+                        aux[cont]=static_cast<char>(event.text.unicode);
+                        cont++;
+                        _menuNombres->namesMenu(aux,1);
+
+                    }
+                }
+                if(event.key.code == sf::Keyboard::Return)
+                {
+                    std::cout << "SALIO DE PLAYER 1 NICK " << std::endl;
+                    tank1->setNickPlayer(aux);
+                    _ventana1->pollEvent(event);
+                    return true;
+                }
+        }
+        _ventana1->clear();
+        _menuNombres->draw(*_ventana1);
+        _ventana1->display();
+    }
+};
+
+
+bool app::nickPlayer_2(sf::Event event){
+    char aux[20]= "";
+    int cont=0;
+    _menuNombres->namesMenu(aux,2);
+    while(_ventana1->isOpen())
+    {
+        while(_ventana1->pollEvent(event))
+        {
+                if (event.type == sf::Event::TextEntered)
+                {
+                    if (event.text.unicode < 128)
+                    {
+                        aux[cont]=static_cast<char>(event.text.unicode);
+                        cont++;
+                        _menuNombres->namesMenu(aux,2);
+                    }
+                }
+                if(event.key.code == sf::Keyboard::Return && cont>0)
+                {
+                    std::cout << "SALIO DE PLAYER 2 NICK " << std::endl;
+                    tank2->setNickPlayer(aux);
+                    return true;
+                }
+            }
+        _ventana1->clear();
+        _menuNombres->draw(*_ventana1);
+        _ventana1->display();
+        }
+};
+
+
+bool app::SetNombres(sf::Event event){
+    char aux[20]= "";
+    int cont=0;
+    bool next=true;
+    while(_ventana1->isOpen())
+    {
+        while(_ventana1->pollEvent(event))
+        {
+            nickPlayer_1(event);
+            if(nickPlayer_2(event)==true){return false;}
+        }
+
+        _ventana1->clear();
+        _menuNombres->draw(*_ventana1);
+        _ventana1->display();
+    }
+    return true;
+}
 
 void app::MenuNiveles(int width, int heigth, sf::Event event, TileMap mapa){
 
@@ -388,27 +475,15 @@ void app::gameloop(){
     _menu = new Menu(width,heigth, 1);
     _menuLevels = new Menu(width,heigth, 2);
     _menuScores = new Menu(width,heigth, 3);
+    _menuNombres = new Menu(width,heigth, "", 1);
 
     _bonus = new Bonus;
 
     TileMap mapa;
 
     while(_ventana1->isOpen()){
+
         sf::Event event;
-//        while (_ventana1->pollEvent(event))
-//        {
-//            switch(event.type)
-//            {
-//            case sf::Event::Closed:
-//                _ventana1->close();
-//                break;
-//            case sf::Event::KeyPressed:
-//                if(_entrarMenu==true){
-//                    _entrarMenu=MenuPrincipal(resolucion.x,resolucion.y,event,_entrarMenu);
-//                }
-//                break;
-//            }
-//        }
 
         while(_ventana1->pollEvent(event))
         {
@@ -434,7 +509,7 @@ void app::gameloop(){
                                     std::cout << " Iniciar juego " << std::endl;
                                     tank1 = new Tank(1);
                                     tank2 = new Tank(2);
-                                    _entrarMenu = false;
+                                    _entrarMenu = SetNombres(event);
                                 break;
                             case 1: // elejir nivel
                                     std::cout << " Elejir nivel" << std::endl;

@@ -13,6 +13,8 @@ private:
 
     int _player;
 
+    char _nickPlayer[20];
+
     int _life;
     sf::Sprite _lifeSprite;
 
@@ -66,6 +68,10 @@ public:
 
     int getLife(){return _life;}
 
+    char * getNickPlayer(){return _nickPlayer;}
+
+    void setNickPlayer(const char aux[20]){std::strcpy(_nickPlayer,aux);}
+
     void setPlayer(int p){_player=p;}
 
     void addPoints(int p){points += p;}
@@ -84,7 +90,6 @@ Tank::Tank(int player){
     _sprite = new sf::Sprite;
 
     _player = player;
-
 
     points = 0;
     _life = 4;
