@@ -318,6 +318,7 @@ void app::checkCollisions(Tank &t1, Tank &t2, TileMap &mapa, Bonus &b){
                     if(t1.getBulletDraw().getGlobalBounds().intersects(t2.getDraw().getGlobalBounds())){
                         t1.deleteBullet();
                         t2.respawn();
+                        t1.addPoints(200);
                     }
                 }
 
@@ -325,6 +326,7 @@ void app::checkCollisions(Tank &t1, Tank &t2, TileMap &mapa, Bonus &b){
                     if(t2.getBulletDraw().getGlobalBounds().intersects(t1.getDraw().getGlobalBounds())){
                         t2.deleteBullet();
                         t1.respawn();
+                        t2.addPoints(200);
                     }
                 }
 
@@ -442,12 +444,18 @@ bool app::jugar(sf::RenderWindow &window, TileMap &mapa,Tank &tank1,Tank &tank2,
     }
 
     mapa.mostrarMapa(window);
+    std::cout << tank1.getPoints() << std::endl;
+    std::cout << tank2.getPoints() << std::endl;
 
     if(tank1.getLife() == 0 || tank2.getLife() == 0){
+        Scores SAux;
         if(tank1.getPoints()>tank2.getPoints()){
-            Tank aux(4);
-            aux.addPoints(tank1.getPoints());
-            aux.grabarDisco();
+            //aux.addPoints(tank1.getPoints());
+            SAux.cargarScore(tank1.getPoints());
+            //aux.grabarDisco();
+        }
+        else if(tank1.getPoints()<tank2.getPoints()){
+            SAux.cargarScore(tank2.getPoints());
         }
         return true;
     }
@@ -517,6 +525,8 @@ void app::gameloop(){
                                 break;
                             case 2: // scores
                                 std::cout << " Scores " << std::endl;
+                                Scores aux;
+                                aux.mostrar();
                                 break;
                             case 3: _ventana1->close();
                                 break;
