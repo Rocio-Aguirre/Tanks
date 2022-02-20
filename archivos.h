@@ -15,16 +15,6 @@ public:
             std::cout << _scores[i] << std::endl;
         }
     }
-//    void setScores(int * v,int tam)
-//    {
-//        delete _scores;
-//        _scores = new int[tam];
-//        for(int i=0;i<tam;i++){
-//            _scores[i]=v[i];
-//            std::cout << _scores[i] << std::endl;
-//        }
-//    }
-
 
     bool listo(int *v,int tam){
         bool aux=true;
@@ -54,53 +44,26 @@ public:
     }
 
     void cargarScore(int p){
-//        Scores aux;
-//
-//        while(aux.leerDisco(0)){
-//
-//            int auxTam;
-//
-//            auxTam = aux.getTam()+1;
-//
-//            int * vAux;
-//            vAux = new int[auxTam];
-//
-//            for(int i=0;i<auxTam-1;i++){
-//                vAux[i]=aux.getScore(i);
-//            }
-//
-//            vAux[auxTam]=p;
-//
-//            aux.setTam(auxTam);
-//            aux.setScores(vAux,auxTam);
-//            aux.grabarDisco();
-//            std::cout << " Puntaje: " << p << std::endl;
-//            std::cout << " TAMAÑO: " << auxTam << std::endl;
-//
-//            return;
-//        }
-//        std::cout << " Puntaje: " << p << std::endl;
-//        _tam=1;
-//        aux.setTam(_tam);
-//        _scores=new int[_tam];
-//        _scores[0]=p;
-//        std::cout << " Puntaje vector: " << _scores[0] << std::endl;
-//        aux.setScores(_scores, 1);
-//        aux.grabarDisco();
         Scores aux;
-
-        while(aux.leerDisco(0)){
-
-            if(p>aux.getScore(4)){
-
-                aux.setScore(p,4);
-                ordenar(_scores, 5);
-                aux.setScores(_scores, 5);
-                aux.grabarDisco();
-
-                return;
+        int pos =0;
+        while(aux.leerDisco(pos++)){
+            std::cout << "Entré a leer disco" << std::endl;
+            bool bandera = false;
+            for(int i=0; i<5;i++){
+                if(aux.getScore(i) == -1 && bandera == false){
+                        bandera = true;
+                        aux.setScore(p,i);
+                        aux.grabarDisco();
+                }
             }
+            if(!bandera){
+                //chequear si puntaje actual es mayor a alguno de los 5
+//                aux.compararScore();
+            }
+
+            return;
         }
+        std::cout << "Grabé en disco por primera vez" << std::endl;
         for(int i=0;i<5;i++){
             _scores[i]=-1;
         }

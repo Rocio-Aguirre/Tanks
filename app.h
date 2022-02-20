@@ -93,7 +93,7 @@ bool app::nickPlayer_1(sf::Event event){
         _menuNombres->draw(*_ventana1);
         _ventana1->display();
     }
-};
+}
 
 
 bool app::nickPlayer_2(sf::Event event){
@@ -124,7 +124,7 @@ bool app::nickPlayer_2(sf::Event event){
         _menuNombres->draw(*_ventana1);
         _ventana1->display();
         }
-};
+}
 
 
 bool app::SetNombres(sf::Event event){
