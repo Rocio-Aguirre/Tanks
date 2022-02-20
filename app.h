@@ -59,6 +59,8 @@ public:
 
     void MenuNiveles(int width, int heigth, sf::Event event, TileMap mapa);
 
+    void menuPuntajes(sf::Event event);
+
     bool SetNombres(sf::Event event);
 
     bool nickPlayer_1(sf::Event event);
@@ -195,6 +197,38 @@ void app::MenuNiveles(int width, int heigth, sf::Event event, TileMap mapa){
         }
         _ventana1->clear();
         _menuLevels->draw(*_ventana1);
+        _ventana1->display();
+    }
+}
+
+void app::menuPuntajes(sf::Event event){
+    std::cout << "Entré a menu puntajes" << std::endl;
+    while(_ventana1->isOpen())
+    {
+        while(_ventana1->pollEvent(event))
+        {
+            switch(event.type)
+            {
+            case sf::Event::KeyReleased:
+                switch(event.key.code)
+                {
+                    case sf::Keyboard::Return:
+                        if(_menuScores->getPressedItem()){
+                             std::cout << " REGRESAR " << std::endl;
+                             return;
+                        }
+                        break;
+
+                }
+                break;
+                case sf::Event::Closed:
+                    _ventana1->close();
+                    break;
+            }
+
+        }
+        _ventana1->clear();
+        _menuScores->draw(*_ventana1);
         _ventana1->display();
     }
 }
@@ -451,11 +485,11 @@ bool app::jugar(sf::RenderWindow &window, TileMap &mapa,Tank &tank1,Tank &tank2,
         Scores SAux;
         if(tank1.getPoints()>tank2.getPoints()){
             //aux.addPoints(tank1.getPoints());
-            SAux.cargarScore(tank1.getPoints());
+            SAux.cargarScore(tank1.getPoints(), tank1.getNickPlayer());
             //aux.grabarDisco();
         }
         else if(tank1.getPoints()<tank2.getPoints()){
-            SAux.cargarScore(tank2.getPoints());
+            SAux.cargarScore(tank2.getPoints(), tank2.getNickPlayer());
         }
         return true;
     }
@@ -527,6 +561,7 @@ void app::gameloop(){
                                 std::cout << " Scores " << std::endl;
                                 Scores aux;
                                 aux.mostrar();
+                                menuPuntajes(event);
                                 break;
                             case 3: _ventana1->close();
                                 break;

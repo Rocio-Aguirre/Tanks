@@ -3079,14 +3079,15 @@
 	<SFML/Graphics/Drawable.hpp>
 	<SFML/Window/GlResource.hpp>
 
-1645377039 c:\desktop\tanks\app.h
+1645394233 c:\desktop\tanks\app.h
 	"menu.h"
 	"bullet.h"
 	"tank.h"
 	"TileMap.h"
 	"bonus.h"
 
-1645307217 c:\desktop\tanks\menu.h
+1645395492 c:\desktop\tanks\menu.h
+	"archivos.h"
 
 1643847512 c:\desktop\tanks\bullet.h
 
@@ -3096,7 +3097,7 @@
 	<iostream>
 	"archivos.h"
 
-1645379295 c:\desktop\tanks\archivos.h
+1645386290 c:\desktop\tanks\archivos.h
 
 1645376466 c:\desktop\tanks\bonus.h
 
