@@ -1,6 +1,8 @@
 #ifndef MENU_H_INCLUDED
 #define MENU_H_INCLUDED
 
+#include "archivos.h"
+
 class Menu{
 private:
     sf::Font _font;
@@ -71,21 +73,72 @@ void Menu::namesMenu(const char aux[20], int num){
 }
 
 void Menu::scoreMenu(){
-    _maxNumItems=2;
 
-    _font.loadFromFile("resources/game_over.ttf");
-    _text[0].setFont(_font);
-    _text[0].setColor(sf::Color::Red);
-    _text[0].setString("Último puntaje: ");
-    _text[0].setPosition(sf::Vector2f((_width-(_text[0].getString().getSize()*_text[0].getCharacterSize())/2)/2, _heigth/(_maxNumItems+1)));
-    _text[0].setCharacterSize(50);
+    _maxNumItems=6;
 
-    _font.loadFromFile("resources/game_over.ttf");
-    _text[1].setFont(_font);
-    _text[1].setColor(sf::Color::White);
-    _text[1].setString(">- Volver ");
-    _text[1].setPosition(sf::Vector2f((_width-((_text[1].getString().getSize()-3)*_text[1].getCharacterSize())/2)/2, 40 + _heigth/(_maxNumItems+1)));
-    _text[1].setCharacterSize(50);
+    Scores scores;
+    int pos = 0;
+
+    while(scores.leerDisco(pos++)){
+
+//    std::string str = std::string(scores.getName(0));
+//        char name[20];
+//        strcpy(name, scores.getName(0));
+//        std::string tmp_string(name);
+
+        _font.loadFromFile("resources/game_over.ttf");
+        _text[0].setFont(_font);
+        _text[0].setColor(sf::Color::White);
+        _text[0].setString("Records");
+        _text[0].setFont(_font);
+        _text[0].setPosition(sf::Vector2f((_width-(_text[0].getString().getSize()*_text[0].getCharacterSize())/2)/2, _heigth/(_maxNumItems+1)));
+        _text[0].setCharacterSize(50);
+
+    }
+
+
+
+//    _font.loadFromFile("resources/game_over.ttf");
+//    _text[1].setFont(_font);
+//    _text[1].setColor(sf::Color::White);
+//    _text[1].setString("Nombre 1");
+//    _text[1].setPosition(sf::Vector2f((_width-((_text[1].getString().getSize()-3)*_text[1].getCharacterSize())/2)/2, 40 + _heigth/(_maxNumItems+1)));
+//    _text[1].setCharacterSize(50);
+//
+//    _font.loadFromFile("resources/game_over.ttf");
+//    _text[2].setFont(_font);
+//    _text[2].setColor(sf::Color::White);
+//    _text[2].setString(">- Back");
+//     _text[5].setPosition(sf::Vector2f((_width-((_text[2].getString().getSize()-6)*_text[2].getCharacterSize())/2)/2, 80 + _heigth/(_maxNumItems+1)));
+//    _text[2].setCharacterSize(50);
+//
+//    _font.loadFromFile("resources/game_over.ttf");
+//    _text[3].setFont(_font);
+//    _text[3].setColor(sf::Color::White);
+//    _text[3].setString("Highest Scores");
+//    _text[3].setPosition(sf::Vector2f((_width-(_text[0].getString().getSize()*_text[0].getCharacterSize())/2)/2, _heigth/(_maxNumItems+1)));
+//    _text[3].setCharacterSize(50);
+//
+//    _font.loadFromFile("resources/game_over.ttf");
+//    _text[3].setFont(_font);
+//    _text[3].setColor(sf::Color::White);
+//    _text[3].setString("Highest Scores");
+//    _text[3].setPosition(sf::Vector2f((_width-(_text[0].getString().getSize()*_text[0].getCharacterSize())/2)/2, _heigth/(_maxNumItems+1)));
+//    _text[3].setCharacterSize(50);
+//
+//    _font.loadFromFile("resources/game_over.ttf");
+//    _text[4].setFont(_font);
+//    _text[4].setColor(sf::Color::White);
+//    _text[4].setString("Highest Scores");
+//    _text[4].setPosition(sf::Vector2f((_width-(_text[0].getString().getSize()*_text[0].getCharacterSize())/2)/2, _heigth/(_maxNumItems+1)));
+//    _text[4].setCharacterSize(50);
+//
+//    _font.loadFromFile("resources/game_over.ttf");
+//    _text[5].setFont(_font);
+//    _text[5].setColor(sf::Color::Red);
+//    _text[5].setString("Puntaje ");
+//     _text[5].setPosition(sf::Vector2f((_width-((_text[2].getString().getSize()-6)*_text[2].getCharacterSize())/2)/2, 80 + _heigth/(_maxNumItems+1)));
+//    _text[5].setCharacterSize(50);
 
 }
 
@@ -109,7 +162,7 @@ void Menu::levelMenu(){
     _font.loadFromFile("resources/game_over.ttf");
     _text[2].setFont(_font);
     _text[2].setColor(sf::Color::White);
-    _text[2].setString(">- Volver");
+    _text[2].setString(">- Back");
     _text[2].setPosition(sf::Vector2f((_width-((_text[2].getString().getSize()-6)*_text[2].getCharacterSize())/2)/2, 80 + _heigth/(_maxNumItems+1)));
     _text[2].setCharacterSize(50);
 
@@ -132,15 +185,15 @@ void Menu::mainMenu(){
     _font.loadFromFile("resources/game_over.ttf");
     _text[1].setFont(_font);
     _text[1].setColor(sf::Color::White);
-    _text[1].setString("Choose level");
+    _text[1].setString("Select Level");
     _text[1].setPosition(sf::Vector2f((_width-((_text[1].getString().getSize()-3)*_text[1].getCharacterSize())/2)/2, 40 + _heigth/(_maxNumItems+1)));
     _text[1].setCharacterSize(50);
 
     _font.loadFromFile("resources/game_over.ttf");
     _text[2].setFont(_font);
     _text[2].setColor(sf::Color::White);
-    _text[2].setString("View last score");
-    _text[2].setPosition(sf::Vector2f((_width-((_text[2].getString().getSize()-4)*_text[2].getCharacterSize())/2)/2, 80 + _heigth/(_maxNumItems+1)));
+    _text[2].setString("Records");
+    _text[2].setPosition(sf::Vector2f((_width-((_text[2].getString().getSize())*_text[2].getCharacterSize())/2)/2, 80 + _heigth/(_maxNumItems+1)));
     _text[2].setCharacterSize(50);
 
     _font.loadFromFile("resources/game_over.ttf");
