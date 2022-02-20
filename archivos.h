@@ -86,6 +86,7 @@ public:
                         aux.grabarDisco();
                 }
             }
+
             if(!bandera){
                 //chequear si puntaje actual es mayor a alguno de los 5
                 aux.compararScore(p);
