@@ -43,6 +43,36 @@ public:
         }
     }
 
+    int buscarPosMin(int *vScores){
+        Scores aux;
+        int minimo = vScores[0];
+        int posMinimo = 0;
+        for(int i=1; i<5; i++){
+            if(vScores[i] < minimo){
+                minimo = vScores[i];
+                posMinimo = i;
+            }
+        }
+        return posMinimo;
+    }
+
+    void compararScore(int p){
+        Scores aux;
+        int pos = 0;
+        int scoresGuardados[5];
+        while(aux.leerDisco(pos++)){
+            for(int i=0; i<5; i++){
+                scoresGuardados[i] = aux.getScore(i);
+            }
+        }
+
+        int posMinimo = buscarPosMin(scoresGuardados);
+        if(p > scoresGuardados[posMinimo]){
+            aux.setScore(p, posMinimo);
+            aux.grabarDisco();
+        }
+    }
+
     void cargarScore(int p){
         Scores aux;
         int pos =0;
@@ -58,7 +88,7 @@ public:
             }
             if(!bandera){
                 //chequear si puntaje actual es mayor a alguno de los 5
-//                aux.compararScore();
+                aux.compararScore(p);
             }
 
             return;
