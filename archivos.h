@@ -4,10 +4,19 @@
 class Scores{
 private:
     int _scores[5];
+    char _names[5][20];
 public:
     int getScore(int pos){return _scores[pos];}
 
     void setScore(int p, int pos){_scores[pos]=p;}
+
+    void setName(char * name, int pos){std::strcpy(_names[pos], name);}
+
+    void getName(int pos){
+        for(int i=0; i<3; i++){
+            std::cout << _names[pos][i];
+        }
+    }
 
     void setScores(int * v, int tam){
         for(int i=0;i<tam;i++){
@@ -56,7 +65,7 @@ public:
         return posMinimo;
     }
 
-    void compararScore(int p){
+    void compararScore(int p, char * name){
         Scores aux;
         int pos = 0;
         int scoresGuardados[5];
@@ -69,27 +78,46 @@ public:
         int posMinimo = buscarPosMin(scoresGuardados);
         if(p > scoresGuardados[posMinimo]){
             aux.setScore(p, posMinimo);
+            aux.setName(name, posMinimo);
             aux.grabarDisco();
         }
     }
 
-    void cargarScore(int p){
+    void cargarScore(int p, char * name){
+        std::cout << "Nombre del player ganador: " << name << std::endl;
         Scores aux;
         int pos =0;
         while(aux.leerDisco(pos++)){
             std::cout << "Entré a leer disco" << std::endl;
+
             bool bandera = false;
             for(int i=0; i<5;i++){
                 if(aux.getScore(i) == -1 && bandera == false){
                         bandera = true;
                         aux.setScore(p,i);
+                        aux.setName(name, i);
                         aux.grabarDisco();
+                        std::cout << "Nombre de ganador anterior: ";
+                        aux.getName(i-1);
+                        std::cout << "" << std::endl;
+                         std::cout << "Nombres de todos los ganadores: " << std::endl;
+                        for(int j=0; j<=i; j++){
+                            aux.getName(j);
+                            std::cout << "" << std::endl;
+                        }
                 }
             }
 
+
+
             if(!bandera){
                 //chequear si puntaje actual es mayor a alguno de los 5
-                aux.compararScore(p);
+                aux.compararScore(p, name);
+                std::cout << "Nombres de todos los ganadores: " << std::endl;
+                for(int j=0; j<5; j++){
+                    aux.getName(j);
+                    std::cout << "" << std::endl;
+                }
             }
 
             return;
@@ -101,6 +129,7 @@ public:
         _scores[0]=p;
 
         aux.setScores(_scores, 5);
+        aux.setName(name, 0);
         aux.grabarDisco();
 
     }
