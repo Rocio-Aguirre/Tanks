@@ -33,6 +33,7 @@ const int LVL_1[] =
         0,0,0,0,0,0,0,0,0,0,0,1,9,9,1,0,0,0,0,0,0,0,0,0,0,0,
 
 };
+
 const int LVLs[2][676] =
     {
         {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -96,7 +97,7 @@ private:
     sf::Sprite  *_mapa[26][26];
 public:
 
-    TileMap();
+    TileMap(int level);
     ~TileMap();
 
     sf::Sprite getMapa(int x, int i){return  *_mapa[x][i];}
@@ -106,7 +107,7 @@ public:
     void setLevel(int level);
 };
 
-TileMap::TileMap(){
+TileMap::TileMap(int level=1){
     _texture = new sf::Texture();
     _texture->loadFromFile("resources/400.png");
 
@@ -115,7 +116,7 @@ TileMap::TileMap(){
     int escala=16;
     int pos=0;
     while(aux.leerDisco(pos)){
-            if(aux.getLevel()==1){
+            if(aux.getLevel()==level){
                 for(int x=0;x<26;x++){
                     for(int j=0;j<26;j++){
                         int actual = aux.getMap(x,j);
@@ -180,13 +181,19 @@ void TileMap::mostrarMapa(sf::RenderWindow & window){
 }
 
 void TileMap::setLevel(int level){
-Levels aux;
+    delete _texture;
+    _texture = new sf::Texture();
+    _texture->loadFromFile("resources/400.png");
+
+    Levels aux;
 
     int escala=16;
     int pos=0;
     while(aux.leerDisco(pos)){
             if(aux.getLevel()==level){
+                    std::cout << "encontro el lvl " << level << std::endl;
                 for(int x=0;x<26;x++){
+                        std::cout << " fila: " << x;
                     for(int j=0;j<26;j++){
                         int actual = aux.getMap(x,j);
                         switch(actual){
@@ -227,11 +234,10 @@ Levels aux;
                                 _mapa[x][j] = _sprite;
                                 break;
                         }
+                        std::cout << " " << actual;
                     }
+                    std::cout << std::endl;
                 }
-            }
-            else{
-                std::cout << std::endl << "NO SE PUDO CARGAR EL MAPA" << std::endl;
             }
             pos++;
     }

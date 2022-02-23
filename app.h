@@ -478,8 +478,8 @@ bool app::jugar(sf::RenderWindow &window, TileMap &mapa,Tank &tank1,Tank &tank2,
     }
 
     mapa.mostrarMapa(window);
-    std::cout << tank1.getPoints() << std::endl;
-    std::cout << tank2.getPoints() << std::endl;
+//    std::cout << tank1.getPoints() << std::endl;
+//    std::cout << tank2.getPoints() << std::endl;
 
     if(tank1.getLife() == 0 || tank2.getLife() == 0){
         Scores SAux;
@@ -549,6 +549,7 @@ void app::gameloop(){
                             {
                             case 0: // iniciar
                                     std::cout << " Iniciar juego " << std::endl;
+                                    mapa.setLevel(1);
                                     tank1 = new Tank(1);
                                     tank2 = new Tank(2);
                                     _entrarMenu = SetNombres(event);
