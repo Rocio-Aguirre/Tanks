@@ -13,10 +13,13 @@ public:
     void setName(char * name, int pos){std::strcpy(_names[pos], name);}
 
     void getName(int pos){
-        for(int i=0; i<3; i++){
+        for(int i=0; i<4; i++){
             std::cout << _names[pos][i];
+
         }
     }
+
+    char * getName__(int pos){return _names[pos];}
 
     void setScores(int * v, int tam){
         for(int i=0;i<tam;i++){
@@ -140,7 +143,10 @@ public:
         while(aux.leerDisco(p++)){
             for(int i=0;i<5;i++){
                 std::cout << " for pos "<< i << std::endl;
-                if(aux.getScore(i)>0){std::cout << aux.getScore(i) << std::endl;}
+                if(aux.getScore(i)>0){
+                        aux.getName(i);
+                        std::cout << ": " << aux.getScore(i)  << std::endl;
+                }
             }
         }
     }

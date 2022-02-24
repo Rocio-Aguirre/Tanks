@@ -1,6 +1,8 @@
 #ifndef MENU_H_INCLUDED
 #define MENU_H_INCLUDED
 
+#include <string>
+#include <sstream>
 #include "archivos.h"
 
 class Menu{
@@ -79,12 +81,14 @@ void Menu::scoreMenu(){
     Scores scores;
     int pos = 0;
 
+    char aux[30];
+
     while(scores.leerDisco(pos++)){
 
-//    std::string str = std::string(scores.getName(0));
-//        char name[20];
-//        strcpy(name, scores.getName(0));
-//        std::string tmp_string(name);
+////    std::string str = std::string(scores.getName(0));
+////        char name[20];
+////        strcpy(name, scores.getName(0));
+////        std::string tmp_string(name);
 
         _font.loadFromFile("resources/game_over.ttf");
         _text[0].setFont(_font);
@@ -93,6 +97,42 @@ void Menu::scoreMenu(){
         _text[0].setFont(_font);
         _text[0].setPosition(sf::Vector2f((_width-(_text[0].getString().getSize()*_text[0].getCharacterSize())/2)/2, _heigth/(_maxNumItems+1)));
         _text[0].setCharacterSize(50);
+
+            char * AuxString = strcat(strcat(scores.getName__(0), " : "),itoa(scores.getScore(0),aux,10));
+
+        _text[1].setFont(_font);
+        _text[1].setColor(sf::Color::White);
+        _text[1].setString(AuxString);
+        _text[1].setFont(_font);
+        _text[1].setPosition(sf::Vector2f((_width-(_text[1].getString().getSize()*_text[1].getCharacterSize())/2)/2, 40 + _heigth/(_maxNumItems+1)));
+        _text[1].setCharacterSize(50);
+
+            AuxString = strcat(strcat(scores.getName__(1), " : "),itoa(scores.getScore(1),aux,10));
+
+        _text[2].setFont(_font);
+        _text[2].setColor(sf::Color::White);
+        _text[2].setString(AuxString);
+        _text[2].setFont(_font);
+        _text[2].setPosition(sf::Vector2f((_width-(_text[2].getString().getSize()*_text[2].getCharacterSize())/2)/2, 80 + _heigth/(_maxNumItems+1)));
+        _text[2].setCharacterSize(50);
+
+            AuxString = strcat(strcat(scores.getName__(2), " : "),itoa(scores.getScore(2),aux,10));
+
+        _text[3].setFont(_font);
+        _text[3].setColor(sf::Color::White);
+        _text[3].setString(AuxString);
+        _text[3].setFont(_font);
+        _text[3].setPosition(sf::Vector2f((_width-(_text[3].getString().getSize()*_text[3].getCharacterSize())/2)/2, 120 + _heigth/(_maxNumItems+1)));
+        _text[3].setCharacterSize(50);
+
+           AuxString = strcat(strcat(scores.getName__(3), " : "),itoa(scores.getScore(3),aux,10));
+
+        _text[4].setFont(_font);
+        _text[4].setColor(sf::Color::White);
+        _text[4].setString(AuxString);
+        _text[4].setFont(_font);
+        _text[4].setPosition(sf::Vector2f((_width-(_text[4].getString().getSize()*_text[4].getCharacterSize())/2)/2, 160 + _heigth/(_maxNumItems+1)));
+        _text[4].setCharacterSize(50);
 
     }
 

@@ -57,7 +57,7 @@ public:
 
     void levelMenu();
 
-    void MenuNiveles(int width, int heigth, sf::Event event, TileMap mapa);
+    bool MenuNiveles(int width, int heigth, sf::Event event, TileMap &mapa);
 
     void menuPuntajes(sf::Event event);
 
@@ -148,7 +148,7 @@ bool app::SetNombres(sf::Event event){
     return true;
 }
 
-void app::MenuNiveles(int width, int heigth, sf::Event event, TileMap mapa){
+bool app::MenuNiveles(int width, int heigth, sf::Event event, TileMap &mapa){
 
     while(_ventana1->isOpen())
     {
@@ -173,16 +173,16 @@ void app::MenuNiveles(int width, int heigth, sf::Event event, TileMap mapa){
                         case 0: // lvl 1
                                 std::cout << " LEVEL 1 CARGADO " << std::endl;
                                 mapa.setLevel(1);
-                                return;
+                                return true;
                             break;
                         case 1: // elegir nivel
                                 std::cout << " LEVEL 2 CARGADO " << std::endl;
-                                mapa.setLevel(2);
-                                return;
+                                mapa.setLevel(3);
+                                return true;
                             break;
                         case 2: // atras
                                 std::cout << " ATRAS " << std::endl;
-                                return;
+                                return true;
                             break;
                         }
                         break;
@@ -549,19 +549,18 @@ void app::gameloop(){
                             {
                             case 0: // iniciar
                                     std::cout << " Iniciar juego " << std::endl;
-                                    mapa.setLevel(1);
                                     tank1 = new Tank(1);
                                     tank2 = new Tank(2);
                                     _entrarMenu = SetNombres(event);
                                 break;
                             case 1: // elejir nivel
                                     std::cout << " Elejir nivel" << std::endl;
-                                    MenuNiveles(resolucion.x,resolucion.y,event,mapa);
+                                    _entrarMenu = MenuNiveles(resolucion.x,resolucion.y,event,mapa);
                                 break;
                             case 2: // scores
                                 std::cout << " Scores " << std::endl;
-                                Scores aux;
-                                aux.mostrar();
+                                Scores s;
+                                s.mostrar();
                                 menuPuntajes(event);
                                 break;
                             case 3: _ventana1->close();

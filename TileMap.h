@@ -116,7 +116,7 @@ TileMap::TileMap(int level=1){
     int escala=16;
     int pos=0;
     while(aux.leerDisco(pos)){
-            if(aux.getLevel()==level){
+            if(aux.getLevel()==1){
                 for(int x=0;x<26;x++){
                     for(int j=0;j<26;j++){
                         int actual = aux.getMap(x,j);
