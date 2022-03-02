@@ -26,6 +26,8 @@ public:
     void levelMenu();
     void scoreMenu();
     void namesMenu(const char aux[20], int num);
+    void ganador(Tank &ganador);
+    void interfazScore(int p1, int p2);
 };
 
 Menu::Menu(float width, float heigth, int type){
@@ -54,6 +56,30 @@ Menu::Menu(float width, float heigth, const char * aux, int num){
     namesMenu(aux,num);
 }
 
+void Menu::interfazScore(int p1, int p2){
+    char aux[30];
+
+    char * score_1 = itoa(p1,aux,10);
+    char * score_2 = itoa(p2,aux,10);
+
+    _maxNumItems=2;
+
+    _font.loadFromFile("resources/game_over.ttf");
+    _text[0].setFont(_font);
+    _text[0].setColor(sf::Color::White);
+    _text[0].setString(score_1);
+    _text[0].setFont(_font);
+    _text[0].setPosition(10,40);
+    _text[0].setCharacterSize(50);
+
+    _text[1].setFont(_font);
+    _text[1].setColor(sf::Color::White);
+    _text[1].setString(score_2);
+    _text[1].setFont(_font);
+    _text[1].setPosition(575,40);
+    _text[1].setCharacterSize(50);
+}
+
 void Menu::namesMenu(const char aux[20], int num){
     _maxNumItems=2;
 
@@ -70,8 +96,41 @@ void Menu::namesMenu(const char aux[20], int num){
     _text[1].setColor(sf::Color::White);
     _text[1].setString(aux);
     _text[1].setPosition(sf::Vector2f((_width/2-_text[1].getString().getSize()*_text[1].getCharacterSize()/2), 40 + _heigth/(_maxNumItems+1)));
-    //_text[1].setPosition(sf::Vector2f((_width-((_text[1].getString().getSize())*_text[1].getCharacterSize())/2)/2, 40 + _heigth/(_maxNumItems+1)));
     _text[1].setCharacterSize(50);
+}
+
+void Menu::ganador(Tank &ganador){
+
+    char aux[30];
+
+    _maxNumItems=3;
+
+    _font.loadFromFile("resources/game_over.ttf");
+    _text[0].setFont(_font);
+    _text[0].setColor(sf::Color::White);
+    _text[0].setString("Ganador");
+    _text[0].setFont(_font);
+    _text[0].setPosition(sf::Vector2f((_width-(_text[0].getString().getSize()*_text[0].getCharacterSize())/2)/2, _heigth/(_maxNumItems+1)));
+    _text[0].setCharacterSize(50);
+
+    char * AuxString = strcat(strcat(ganador.getNickPlayer(), " : "),itoa(ganador.getPoints(),aux,10));
+
+    _font.loadFromFile("resources/game_over.ttf");
+    _text[1].setFont(_font);
+    _text[1].setColor(sf::Color::White);
+    _text[1].setString(AuxString);
+    _text[1].setFont(_font);
+    _text[1].setPosition(sf::Vector2f((_width-(_text[1].getString().getSize()*_text[1].getCharacterSize())/2)/2, 40 + _heigth/(_maxNumItems+1)));
+    _text[1].setCharacterSize(50);
+
+    _font.loadFromFile("resources/game_over.ttf");
+    _text[2].setFont(_font);
+    _text[2].setColor(sf::Color::Red);
+    _text[2].setString("- Press Enter -");
+    _text[2].setFont(_font);
+    _text[2].setPosition(sf::Vector2f((_width-(_text[2].getString().getSize()*_text[2].getCharacterSize())/2)/2, 80 + _heigth/(_maxNumItems+1)));
+    _text[2].setCharacterSize(50);
+
 }
 
 void Menu::scoreMenu(){
@@ -84,11 +143,6 @@ void Menu::scoreMenu(){
     char aux[30];
 
     while(scores.leerDisco(pos++)){
-
-////    std::string str = std::string(scores.getName(0));
-////        char name[20];
-////        strcpy(name, scores.getName(0));
-////        std::string tmp_string(name);
 
         _font.loadFromFile("resources/game_over.ttf");
         _text[0].setFont(_font);
@@ -135,55 +189,10 @@ void Menu::scoreMenu(){
         _text[4].setCharacterSize(50);
 
     }
-
-
-
-//    _font.loadFromFile("resources/game_over.ttf");
-//    _text[1].setFont(_font);
-//    _text[1].setColor(sf::Color::White);
-//    _text[1].setString("Nombre 1");
-//    _text[1].setPosition(sf::Vector2f((_width-((_text[1].getString().getSize()-3)*_text[1].getCharacterSize())/2)/2, 40 + _heigth/(_maxNumItems+1)));
-//    _text[1].setCharacterSize(50);
-//
-//    _font.loadFromFile("resources/game_over.ttf");
-//    _text[2].setFont(_font);
-//    _text[2].setColor(sf::Color::White);
-//    _text[2].setString(">- Back");
-//     _text[5].setPosition(sf::Vector2f((_width-((_text[2].getString().getSize()-6)*_text[2].getCharacterSize())/2)/2, 80 + _heigth/(_maxNumItems+1)));
-//    _text[2].setCharacterSize(50);
-//
-//    _font.loadFromFile("resources/game_over.ttf");
-//    _text[3].setFont(_font);
-//    _text[3].setColor(sf::Color::White);
-//    _text[3].setString("Highest Scores");
-//    _text[3].setPosition(sf::Vector2f((_width-(_text[0].getString().getSize()*_text[0].getCharacterSize())/2)/2, _heigth/(_maxNumItems+1)));
-//    _text[3].setCharacterSize(50);
-//
-//    _font.loadFromFile("resources/game_over.ttf");
-//    _text[3].setFont(_font);
-//    _text[3].setColor(sf::Color::White);
-//    _text[3].setString("Highest Scores");
-//    _text[3].setPosition(sf::Vector2f((_width-(_text[0].getString().getSize()*_text[0].getCharacterSize())/2)/2, _heigth/(_maxNumItems+1)));
-//    _text[3].setCharacterSize(50);
-//
-//    _font.loadFromFile("resources/game_over.ttf");
-//    _text[4].setFont(_font);
-//    _text[4].setColor(sf::Color::White);
-//    _text[4].setString("Highest Scores");
-//    _text[4].setPosition(sf::Vector2f((_width-(_text[0].getString().getSize()*_text[0].getCharacterSize())/2)/2, _heigth/(_maxNumItems+1)));
-//    _text[4].setCharacterSize(50);
-//
-//    _font.loadFromFile("resources/game_over.ttf");
-//    _text[5].setFont(_font);
-//    _text[5].setColor(sf::Color::Red);
-//    _text[5].setString("Puntaje ");
-//     _text[5].setPosition(sf::Vector2f((_width-((_text[2].getString().getSize()-6)*_text[2].getCharacterSize())/2)/2, 80 + _heigth/(_maxNumItems+1)));
-//    _text[5].setCharacterSize(50);
-
 }
 
 void Menu::levelMenu(){
-    _maxNumItems=3;
+    _maxNumItems=5;
 
     _font.loadFromFile("resources/game_over.ttf");
     _text[0].setFont(_font);
@@ -196,24 +205,34 @@ void Menu::levelMenu(){
     _text[1].setFont(_font);
     _text[1].setColor(sf::Color::White);
     _text[1].setString("Level 2");
-    _text[1].setPosition(sf::Vector2f((_width-((_text[1].getString().getSize()-3)*_text[1].getCharacterSize())/2)/2, 40 + _heigth/(_maxNumItems+1)));
+    _text[1].setPosition(sf::Vector2f((_width-(_text[1].getString().getSize()*_text[1].getCharacterSize())/2)/2, 40 + _heigth/(_maxNumItems+1)));
     _text[1].setCharacterSize(50);
 
     _font.loadFromFile("resources/game_over.ttf");
     _text[2].setFont(_font);
     _text[2].setColor(sf::Color::White);
-    _text[2].setString(">- Back");
-    _text[2].setPosition(sf::Vector2f((_width-((_text[2].getString().getSize()-6)*_text[2].getCharacterSize())/2)/2, 80 + _heigth/(_maxNumItems+1)));
+    _text[2].setString("Level 3");
+    _text[2].setPosition(sf::Vector2f((_width-(_text[2].getString().getSize()*_text[2].getCharacterSize())/2)/2, 80 + _heigth/(_maxNumItems+1)));
     _text[2].setCharacterSize(50);
 
+    _font.loadFromFile("resources/game_over.ttf");
+    _text[3].setFont(_font);
+    _text[3].setColor(sf::Color::White);
+    _text[3].setString("Level 4");
+    _text[3].setPosition(sf::Vector2f((_width-(_text[3].getString().getSize()*_text[3].getCharacterSize())/2)/2, 120 + _heigth/(_maxNumItems+1)));
+    _text[3].setCharacterSize(50);
+
+    _font.loadFromFile("resources/game_over.ttf");
+    _text[4].setFont(_font);
+    _text[4].setColor(sf::Color::White);
+    _text[4].setString(">- Back");
+    _text[4].setPosition(sf::Vector2f((_width-(_text[4].getString().getSize()*_text[4].getCharacterSize())/2)/2, 160 + _heigth/(_maxNumItems+1)));
+    _text[4].setCharacterSize(50);
 }
 
 void Menu::mainMenu(){
 
     _maxNumItems=4;
-
-    /// ANTERIOR SetPosition
-    //_text[3].setPosition(sf::Vector2f(width/2, 120 +heigth/(_maxNumItems+1)));
 
     _font.loadFromFile("resources/game_over.ttf");
     _text[0].setFont(_font);
@@ -255,20 +274,16 @@ void Menu::moveUp()
 {
 
     if(_selectedItem - 1 >= 0){
-//        std::cout << _selectedItem;
         _text[_selectedItem].setColor(sf::Color::White);
         _selectedItem--;
-        std::cout << _selectedItem << std::endl;
         _text[_selectedItem].setColor(sf::Color::Red);
     }
 }
 
 void Menu::moveDown(){
     if(_selectedItem + 1 < _maxNumItems){
-//            std::cout << _selectedItem;
         _text[_selectedItem].setColor(sf::Color::White);
         _selectedItem++;
-        std::cout << _selectedItem << std::endl;
         _text[_selectedItem].setColor(sf::Color::Red);
     }
 }

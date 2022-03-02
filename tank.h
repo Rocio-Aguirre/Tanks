@@ -49,10 +49,6 @@ public:
         return res;
     }
 
-    void mostrar(){
-        std::cout << "SCORE: " << points;
-    }
-
     void cmd();
     void update(sf::RenderWindow &window);
 

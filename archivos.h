@@ -8,6 +8,8 @@ private:
 public:
     int getScore(int pos){return _scores[pos];}
 
+    int *getVecScore(){return _scores;}
+
     void setScore(int p, int pos){_scores[pos]=p;}
 
     void setName(char * name, int pos){std::strcpy(_names[pos], name);}
@@ -141,6 +143,7 @@ public:
         Scores aux;
         int p=0;
         while(aux.leerDisco(p++)){
+                ///aux.ordenar(aux.getVecScore(),5);
             for(int i=0;i<5;i++){
                 std::cout << " for pos "<< i << std::endl;
                 if(aux.getScore(i)>0){

@@ -1,9 +1,9 @@
 #ifndef APP_H_INCLUDED
 #define APP_H_INCLUDED
 
-#include "menu.h"
 #include "bullet.h"
 #include "tank.h"
+#include "menu.h"
 #include "TileMap.h"
 #include "bonus.h"
 
@@ -33,6 +33,8 @@ private:
     Menu *_menuLevels;
     Menu *_menuScores;
     Menu *_menuNombres;
+    Menu *_menuGanador;
+    Menu * _interfazScores;
     bool _entrarMenu;
 
     int contador;
@@ -65,7 +67,41 @@ public:
 
     bool nickPlayer_1(sf::Event event);
     bool nickPlayer_2(sf::Event event);
+
+    bool mostrarGanador(Tank &ganador);
 };
+
+bool app::mostrarGanador(Tank &ganador){
+    _menuGanador = new Menu(672,480, 10);
+    _menuGanador->ganador(ganador);
+    sf::Event event;
+
+    while(_ventana1->isOpen())
+    {
+        while(_ventana1->pollEvent(event))
+        {
+            switch(event.type)
+            {
+            case sf::Event::KeyReleased:
+                switch(event.key.code)
+                {
+                    case sf::Keyboard::Return:
+                            return true;
+                        break;
+                }
+                break;
+                case sf::Event::Closed:
+                    _ventana1->close();
+                    break;
+            }
+
+        }
+        _ventana1->clear();
+        _menuGanador->draw(*_ventana1);
+        _ventana1->display();
+    }
+}
+
 bool app::nickPlayer_1(sf::Event event){
     char aux[20]= "";
     int cont=0;
@@ -97,7 +133,6 @@ bool app::nickPlayer_1(sf::Event event){
     }
 }
 
-
 bool app::nickPlayer_2(sf::Event event){
     char aux[20]= "";
     int cont=0;
@@ -127,7 +162,6 @@ bool app::nickPlayer_2(sf::Event event){
         _ventana1->display();
         }
 }
-
 
 bool app::SetNombres(sf::Event event){
     char aux[20]= "";
@@ -171,18 +205,23 @@ bool app::MenuNiveles(int width, int heigth, sf::Event event, TileMap &mapa){
                         switch(_menuLevels->getPressedItem())
                         {
                         case 0: // lvl 1
-                                std::cout << " LEVEL 1 CARGADO " << std::endl;
                                 mapa.setLevel(1);
                                 return true;
                             break;
-                        case 1: // elegir nivel
-                                std::cout << " LEVEL 2 CARGADO " << std::endl;
+                        case 1: // lvl 2
+                                mapa.setLevel(2);
+                                return true;
+                            break;
+                        case 2: // lvl 3
                                 mapa.setLevel(3);
                                 return true;
                             break;
-                        case 2: // atras
-                                std::cout << " ATRAS " << std::endl;
+                        case 3: // lvl 4
+                                mapa.setLevel(4);
                                 return true;
+                            break;
+                        case 4: // atras
+                                return false;
                             break;
                         }
                         break;
@@ -468,6 +507,9 @@ bool app::jugar(sf::RenderWindow &window, TileMap &mapa,Tank &tank1,Tank &tank2,
 
     window.draw(_tank1LifeSprite);
     window.draw(_tank2LifeSprite);
+    _interfazScores->draw(window);
+
+    _interfazScores->interfazScore(tank1.getPoints(),tank2.getPoints());
 
     if(_bonus==NULL){
         contador++;
@@ -478,33 +520,21 @@ bool app::jugar(sf::RenderWindow &window, TileMap &mapa,Tank &tank1,Tank &tank2,
     }
 
     mapa.mostrarMapa(window);
-//    std::cout << tank1.getPoints() << std::endl;
-//    std::cout << tank2.getPoints() << std::endl;
 
     if(tank1.getLife() == 0 || tank2.getLife() == 0){
         Scores SAux;
         if(tank1.getPoints()>tank2.getPoints()){
-            //aux.addPoints(tank1.getPoints());
             SAux.cargarScore(tank1.getPoints(), tank1.getNickPlayer());
-            //aux.grabarDisco();
+            mostrarGanador(tank1);
         }
         else if(tank1.getPoints()<tank2.getPoints()){
             SAux.cargarScore(tank2.getPoints(), tank2.getNickPlayer());
+            mostrarGanador(tank2);
         }
         return true;
     }
     return false;
 
-}
-
-void app::mostrarScore(){
-    Tank aux(3);
-    int pos=0;
-    while(aux.leerDisco(pos)){
-        aux.mostrar();
-        system("pause");
-        pos++;
-    }
 }
 
 void app::gameloop(){
@@ -518,6 +548,7 @@ void app::gameloop(){
     _menuLevels = new Menu(width,heigth, 2);
     _menuScores = new Menu(width,heigth, 3);
     _menuNombres = new Menu(width,heigth, "", 1);
+    _interfazScores = new Menu(width,heigth,4);
 
     _bonus = new Bonus;
 
@@ -548,20 +579,17 @@ void app::gameloop(){
                             switch(_menu->getPressedItem())
                             {
                             case 0: // iniciar
-                                    std::cout << " Iniciar juego " << std::endl;
                                     tank1 = new Tank(1);
                                     tank2 = new Tank(2);
                                     _entrarMenu = SetNombres(event);
                                 break;
                             case 1: // elejir nivel
-                                    std::cout << " Elejir nivel" << std::endl;
                                     _entrarMenu = MenuNiveles(resolucion.x,resolucion.y,event,mapa);
                                 break;
                             case 2: // scores
-                                std::cout << " Scores " << std::endl;
-                                Scores s;
-                                s.mostrar();
-                                menuPuntajes(event);
+                                    Scores s;
+                                    s.mostrar();
+                                    menuPuntajes(event);
                                 break;
                             case 3: _ventana1->close();
                                 break;
