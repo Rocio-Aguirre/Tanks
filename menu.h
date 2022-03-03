@@ -5,6 +5,7 @@
 #include <sstream>
 #include "archivos.h"
 
+
 class Menu{
 private:
     sf::Font _font;
@@ -58,9 +59,10 @@ Menu::Menu(float width, float heigth, const char * aux, int num){
 
 void Menu::interfazScore(int p1, int p2){
     char aux[30];
+    char aux2[30];
 
     char * score_1 = itoa(p1,aux,10);
-    char * score_2 = itoa(p2,aux,10);
+    char * score_2 = itoa(p2,aux2,10);
 
     _maxNumItems=2;
 
@@ -146,13 +148,17 @@ void Menu::scoreMenu(){
 
         _font.loadFromFile("resources/game_over.ttf");
         _text[0].setFont(_font);
-        _text[0].setColor(sf::Color::White);
+        _text[0].setColor(sf::Color::Red);
         _text[0].setString("Records");
         _text[0].setFont(_font);
         _text[0].setPosition(sf::Vector2f((_width-(_text[0].getString().getSize()*_text[0].getCharacterSize())/2)/2, _heigth/(_maxNumItems+1)));
         _text[0].setCharacterSize(50);
 
-            char * AuxString = strcat(strcat(scores.getName__(0), " : "),itoa(scores.getScore(0),aux,10));
+        char * AuxString;
+
+        if(scores.contarScores() >= 1){
+
+            AuxString = strcat(strcat(scores.getName__(0), " : "),itoa(scores.getScore(0),aux,10));
 
         _text[1].setFont(_font);
         _text[1].setColor(sf::Color::White);
@@ -160,6 +166,10 @@ void Menu::scoreMenu(){
         _text[1].setFont(_font);
         _text[1].setPosition(sf::Vector2f((_width-(_text[1].getString().getSize()*_text[1].getCharacterSize())/2)/2, 40 + _heigth/(_maxNumItems+1)));
         _text[1].setCharacterSize(50);
+        }
+
+        if(scores.contarScores()>=2){
+
 
             AuxString = strcat(strcat(scores.getName__(1), " : "),itoa(scores.getScore(1),aux,10));
 
@@ -170,6 +180,11 @@ void Menu::scoreMenu(){
         _text[2].setPosition(sf::Vector2f((_width-(_text[2].getString().getSize()*_text[2].getCharacterSize())/2)/2, 80 + _heigth/(_maxNumItems+1)));
         _text[2].setCharacterSize(50);
 
+        }
+
+
+        if(scores.contarScores()>=3){
+
             AuxString = strcat(strcat(scores.getName__(2), " : "),itoa(scores.getScore(2),aux,10));
 
         _text[3].setFont(_font);
@@ -179,6 +194,10 @@ void Menu::scoreMenu(){
         _text[3].setPosition(sf::Vector2f((_width-(_text[3].getString().getSize()*_text[3].getCharacterSize())/2)/2, 120 + _heigth/(_maxNumItems+1)));
         _text[3].setCharacterSize(50);
 
+        }
+
+        if(scores.contarScores()>=4){
+
            AuxString = strcat(strcat(scores.getName__(3), " : "),itoa(scores.getScore(3),aux,10));
 
         _text[4].setFont(_font);
@@ -187,8 +206,9 @@ void Menu::scoreMenu(){
         _text[4].setFont(_font);
         _text[4].setPosition(sf::Vector2f((_width-(_text[4].getString().getSize()*_text[4].getCharacterSize())/2)/2, 160 + _heigth/(_maxNumItems+1)));
         _text[4].setCharacterSize(50);
-
+        }
     }
+
 }
 
 void Menu::levelMenu(){

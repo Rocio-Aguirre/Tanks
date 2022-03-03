@@ -191,9 +191,7 @@ void TileMap::setLevel(int level){
     int pos=0;
     while(aux.leerDisco(pos)){
             if(aux.getLevel()==level){
-                    std::cout << "encontro el lvl " << level << std::endl;
                 for(int x=0;x<26;x++){
-                        std::cout << " fila: " << x;
                     for(int j=0;j<26;j++){
                         int actual = aux.getMap(x,j);
                         switch(actual){
@@ -234,9 +232,7 @@ void TileMap::setLevel(int level){
                                 _mapa[x][j] = _sprite;
                                 break;
                         }
-                        std::cout << " " << actual;
                     }
-                    std::cout << std::endl;
                 }
             }
             pos++;

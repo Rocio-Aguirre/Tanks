@@ -57,8 +57,6 @@ public:
 
     void mostrarScore();
 
-    void levelMenu();
-
     bool MenuNiveles(int width, int heigth, sf::Event event, TileMap &mapa);
 
     void menuPuntajes(sf::Event event);
@@ -121,7 +119,6 @@ bool app::nickPlayer_1(sf::Event event){
                 }
                 if(event.key.code == sf::Keyboard::Return)
                 {
-                    std::cout << "SALIO DE PLAYER 1 NICK " << std::endl;
                     tank1->setNickPlayer(aux);
                     _ventana1->pollEvent(event);
                     return true;
@@ -152,7 +149,6 @@ bool app::nickPlayer_2(sf::Event event){
                 }
                 if(event.key.code == sf::Keyboard::Return && cont>0)
                 {
-                    std::cout << "SALIO DE PLAYER 2 NICK " << std::endl;
                     tank2->setNickPlayer(aux);
                     return true;
                 }
@@ -241,7 +237,8 @@ bool app::MenuNiveles(int width, int heigth, sf::Event event, TileMap &mapa){
 }
 
 void app::menuPuntajes(sf::Event event){
-    std::cout << "Entré a menu puntajes" << std::endl;
+    _menuScores = new Menu(672,480, 3);
+
     while(_ventana1->isOpen())
     {
         while(_ventana1->pollEvent(event))
@@ -252,10 +249,9 @@ void app::menuPuntajes(sf::Event event){
                 switch(event.key.code)
                 {
                     case sf::Keyboard::Return:
-                        if(_menuScores->getPressedItem()){
-                             std::cout << " REGRESAR " << std::endl;
+
                              return;
-                        }
+
                         break;
 
                 }
@@ -270,50 +266,6 @@ void app::menuPuntajes(sf::Event event){
         _menuScores->draw(*_ventana1);
         _ventana1->display();
     }
-}
-
-void app::levelMenu(){
-    sf::Event event;
-    switch(event.type){
-        case sf::Event::KeyReleased:
-            switch(event.key.code){
-                case sf::Keyboard::Up:
-                    _menu->moveUp();
-                    std::cout << "UP";
-                    std::cout << _menu->getPressedItem() << std::endl;
-                    break;
-                case sf::Keyboard::Down:
-                    _menu->moveDown();
-                    std::cout << "DOWN";
-                    std::cout << _menu->getPressedItem() << std::endl;
-                    break;
-                    case sf::Keyboard::Return:
-                        switch(_menu->getPressedItem()){
-                            case 0:
-                                std::cout << " asd";
-                                    Levels level;
-                                    level.getLevel();
-                                    tank1 = new Tank(1);
-                                    tank2 = new Tank(2);
-                                break;
-                            case 1:
-                                std::cout << " asd3223";
-                                break;
-                            case 2:
-                                std::cout << " asd232332";
-                                break;
-                            case 3:
-                                _ventana1->close();
-                                break;
-                            default:
-                                break;
-                        }
-
-                default:
-                    break;
-            }
-    }
-
 }
 
 void app::checkCollisions(Tank &t1, Tank &t2, TileMap &mapa, Bonus &b){
@@ -511,6 +463,7 @@ bool app::jugar(sf::RenderWindow &window, TileMap &mapa,Tank &tank1,Tank &tank2,
 
     _interfazScores->interfazScore(tank1.getPoints(),tank2.getPoints());
 
+
     if(_bonus==NULL){
         contador++;
         if(contador>=280){
@@ -531,6 +484,8 @@ bool app::jugar(sf::RenderWindow &window, TileMap &mapa,Tank &tank1,Tank &tank2,
             SAux.cargarScore(tank2.getPoints(), tank2.getNickPlayer());
             mostrarGanador(tank2);
         }
+        SAux.mostrar();
+
         return true;
     }
     return false;
@@ -546,7 +501,6 @@ void app::gameloop(){
 
     _menu = new Menu(width,heigth, 1);
     _menuLevels = new Menu(width,heigth, 2);
-    _menuScores = new Menu(width,heigth, 3);
     _menuNombres = new Menu(width,heigth, "", 1);
     _interfazScores = new Menu(width,heigth,4);
 
@@ -583,12 +537,10 @@ void app::gameloop(){
                                     tank2 = new Tank(2);
                                     _entrarMenu = SetNombres(event);
                                 break;
-                            case 1: // elejir nivel
+                            case 1: // elegir nivel
                                     _entrarMenu = MenuNiveles(resolucion.x,resolucion.y,event,mapa);
                                 break;
                             case 2: // scores
-                                    Scores s;
-                                    s.mostrar();
                                     menuPuntajes(event);
                                 break;
                             case 3: _ventana1->close();

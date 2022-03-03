@@ -14,11 +14,8 @@ public:
 
     void setName(char * name, int pos){std::strcpy(_names[pos], name);}
 
-    void getName(int pos){
-        for(int i=0; i<4; i++){
-            std::cout << _names[pos][i];
-
-        }
+    char *getName(int pos){
+       return _names[pos];
     }
 
     char * getName__(int pos){return _names[pos];}
@@ -26,8 +23,22 @@ public:
     void setScores(int * v, int tam){
         for(int i=0;i<tam;i++){
             _scores[i]=v[i];
-            std::cout << _scores[i] << std::endl;
         }
+    }
+
+    int contarScores(){
+        Scores aux;
+        int pos=0;
+        int c=0;
+        while(aux.leerDisco(pos++)){
+            for(int i=0; i<5; i++){
+                if(aux.getScore(i)!= -1){
+
+                    c++;
+                }
+            }
+        }
+        return c;
     }
 
     bool listo(int *v,int tam){
@@ -38,9 +49,10 @@ public:
             return aux;
     }
 
-    void ordenar(int *v, int tam)
+    void ordenar(int *v, int tam, char m[5][20])
     {
         int i, j, posmin, aux;
+        char auxName[20];
         while(listo(v,tam)==false){
             for(i=0;i<tam-1;i++){
                 posmin=i;
@@ -49,8 +61,13 @@ public:
 
                         posmin=j;
                         aux=v[i];
+                        strcpy(auxName, m[i]);
+
                         v[i]=v[posmin];
                         v[posmin]=aux;
+                        strcpy(m[i], m[posmin]);
+                        strcpy(m[posmin], auxName);
+
                     }
                 }
             }
@@ -89,11 +106,9 @@ public:
     }
 
     void cargarScore(int p, char * name){
-        std::cout << "Nombre del player ganador: " << name << std::endl;
         Scores aux;
         int pos =0;
         while(aux.leerDisco(pos++)){
-            std::cout << "Entré a leer disco" << std::endl;
 
             bool bandera = false;
             for(int i=0; i<5;i++){
@@ -102,13 +117,12 @@ public:
                         aux.setScore(p,i);
                         aux.setName(name, i);
                         aux.grabarDisco();
-                        std::cout << "Nombre de ganador anterior: ";
+
                         aux.getName(i-1);
-                        std::cout << "" << std::endl;
-                         std::cout << "Nombres de todos los ganadores: " << std::endl;
+
                         for(int j=0; j<=i; j++){
                             aux.getName(j);
-                            std::cout << "" << std::endl;
+
                         }
                 }
             }
@@ -118,16 +132,14 @@ public:
             if(!bandera){
                 //chequear si puntaje actual es mayor a alguno de los 5
                 aux.compararScore(p, name);
-                std::cout << "Nombres de todos los ganadores: " << std::endl;
                 for(int j=0; j<5; j++){
                     aux.getName(j);
-                    std::cout << "" << std::endl;
                 }
             }
 
             return;
         }
-        std::cout << "Grabé en disco por primera vez" << std::endl;
+
         for(int i=0;i<5;i++){
             _scores[i]=-1;
         }
@@ -142,16 +154,22 @@ public:
     void mostrar(){
         Scores aux;
         int p=0;
+        int v[5];
+        char m[5][20];
         while(aux.leerDisco(p++)){
-                ///aux.ordenar(aux.getVecScore(),5);
             for(int i=0;i<5;i++){
-                std::cout << " for pos "<< i << std::endl;
-                if(aux.getScore(i)>0){
-                        aux.getName(i);
-                        std::cout << ": " << aux.getScore(i)  << std::endl;
-                }
+                v[i]= aux.getScore(i);
+                 strcpy(m[i], aux.getName(i));
             }
         }
+        ordenar(v, 5, m);
+
+        for(int i=0; i<5; i++){
+            aux.setName(m[i], i);
+            aux.setScore(v[i], i);
+        }
+        aux.grabarDisco();
+
     }
 
     bool leerDisco(int pos){
@@ -166,7 +184,6 @@ public:
     }
 
      bool grabarDisco(){
-         std::cout << " grabar disco"<< std::endl;
         FILE *p;
         bool res;
         p = fopen("resources/Scores.dir", "wb");
@@ -310,24 +327,11 @@ public:
     void ingresarMapa(){
         _Level=4;
         int ind=0;
-        std::cout << "NIVEL: " << _Level << std::endl <<  std::endl;
         for(int x=0;x<26;x++){
             for(int y=0;y<26;y++){
                 _Map[x][y]=NIVELES[_Level-1][ind];
-                std::cout << NIVELES[_Level-1][ind] << ", ";
                 ind++;
             }
-        }
-    }
-
-    void mostrar(){
-        std::cout << "NIVEL: " << _Level << std::endl <<  std::endl;
-
-        for(int line=0;line<26;line++){
-            for(int column=0;column<26;column++){
-                std::cout << _Map[line][column] << ", ";
-            }
-            std::cout << std::endl;
         }
     }
 

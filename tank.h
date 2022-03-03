@@ -94,7 +94,7 @@ Tank::Tank(int player){
         _sprite->setPosition(145,50);
         }
         else{
-            _sprite->setPosition(208,352);
+            _sprite->setPosition(333,380);
         }
 
     _estado = QUIETO;
